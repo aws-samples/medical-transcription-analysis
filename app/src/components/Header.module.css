@@ -1,0 +1,118 @@
+.base {
+  height: 80px;
+  padding: 0 30px;
+  position: relative;
+  z-index: 5;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #fff;
+  transition: opacity 100ms 400ms linear, transform 500ms ease;
+  opacity: 0;
+  transform: translateY(-100px);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0ms;
+}
+
+.left, .right {
+  flex: 1 1 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.logo {
+  height: 50px;
+  margin-left: 20px;
+}
+
+.behindLogo {
+  height: 50px;
+  position: absolute;
+  left: 20px;
+  top: 15px;
+  z-index: 4;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.base h1 {
+  font-weight: 300;
+}
+
+.headings {
+  flex: 0;
+  position: relative;
+  height: 100%;
+}
+
+.headings * {
+  white-space: nowrap;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transition: transform 1000ms ease, opacity 1000ms linear;
+  opacity: 1;
+}
+
+.headings > :first-child {
+  transform: translateX(1em);
+}
+
+.headings > :last-child {
+  transform: translateX(-100%) translateX(-1em);
+}
+
+.collapse {
+  opacity: 0 !important;
+  transform: translateX(-50%) !important;
+}
+
+.collapse + * {
+  transform: translateX(-50%) !important;
+}
+
+.left button {
+  position: relative;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  padding-left: .4em;
+  margin-left: .5em;
+}
+
+.left button span {
+  position: absolute;
+  top: -3px;
+  right: 100%;
+  margin-right: -1px;
+  bottom: -3px;
+  width: 22px;
+  overflow: hidden;
+  background: #fff;
+}
+
+.left button span:before {
+  position: absolute;
+  left: 0;
+  top: 0;
+  content: '';
+  width: 1.85em;
+  height: 1.85em;
+  transform: translate(8px, 5.7px) rotate(45deg);
+  border-radius: 8px 5px;
+  background: #ff9900;
+  box-shadow: 1.4px 1.4px 3px 0 rgba(0,0,0,0.2);
+}
+
+@media print {
+  .base {
+    display: none;
+  }
+}

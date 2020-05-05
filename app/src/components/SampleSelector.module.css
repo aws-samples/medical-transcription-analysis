@@ -1,0 +1,47 @@
+.base {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding-top: 350px;
+  transition: opacity 400ms linear;
+  opacity: 1;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+}
+
+.presets {
+  margin-top: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.presets div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 1em;
+}
+
+.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sampleButton {
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+  border-radius: 30px;
+  background-image: url(../img/icon_play_big_01.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+}

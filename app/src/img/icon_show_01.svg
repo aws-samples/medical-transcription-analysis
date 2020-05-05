@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_show_01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_show_01" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-4-Copy-8" transform="translate(1.000000, 4.000000)" stroke="#0094FF">
+            <circle id="Oval" fill-opacity="0.5" fill="#0094FF" cx="9" cy="6" r="3.5"></circle>
+            <path d="M9,0.5 C7.32783764,0.5 4.87049221,1.29758412 3.00910578,2.53850841 C1.60875888,3.47207301 0.5,4.66071326 0.5,6 C0.5,7.33928674 1.60875888,8.52792699 3.00910578,9.46149159 C4.87049221,10.7024159 7.32783764,11.5 9,11.5 C10.6721624,11.5 13.1295078,10.7024159 14.9908942,9.46149159 C16.3912411,8.52792699 17.5,7.33928674 17.5,6 C17.5,4.66071326 16.3912411,3.47207301 14.9908942,2.53850841 C13.1295078,1.29758412 10.6721624,0.5 9,0.5 Z" id="Oval-Copy"></path>
+        </g>
+    </g>
+</svg>

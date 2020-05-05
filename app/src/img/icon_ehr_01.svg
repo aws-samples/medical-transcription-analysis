@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="50px" viewBox="0 0 40 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_ehr_01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_ehr_01" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-10" transform="translate(0.000000, 1.000000)">
+            <g id="Group-7" stroke="#000000">
+                <rect id="Rectangle" x="6.5" y="6.5" width="4" height="4" rx="2"></rect>
+                <rect id="Rectangle" stroke-width="2" x="1" y="1" width="30" height="38" rx="3"></rect>
+                <line x1="13.5" y1="7.5" x2="23.5" y2="7.5" id="Line" stroke-linecap="square"></line>
+                <line x1="13.5" y1="9.5" x2="18.5" y2="9.5" id="Line" stroke-linecap="square"></line>
+                <line x1="2.5" y1="15.5" x2="29.5" y2="15.5" id="Line" stroke-linecap="square"></line>
+                <line x1="6.5" y1="21.5" x2="25.5" y2="21.5" id="Line" stroke-linecap="square"></line>
+                <line x1="6.5" y1="24.5" x2="25.5" y2="24.5" id="Line" stroke-linecap="square"></line>
+                <line x1="6.5" y1="27.5" x2="25.5" y2="27.5" id="Line" stroke-linecap="square"></line>
+                <line x1="6.5" y1="30.5" x2="21.5" y2="30.5" id="Line" stroke-linecap="square"></line>
+            </g>
+            <g id="Group-8" transform="translate(23.000000, 31.000000)">
+                <circle id="Oval" fill="#0094FF" cx="8" cy="8" r="8"></circle>
+                <path d="M9.53194726,5.27662271 L11.2680527,6.72337729 C12.1141239,7.42843654 12.112277,8.57310247 11.2680527,9.27662271 L9.53194726,10.7233773 C8.68587615,11.4284365 8,11.1132936 8,10.0018986 L8,8.99999768 L4.00292933,9 C3.47824192,9 3.06320329,8.61395981 3.00658903,8.11662113 L3,8 L3.00674744,7.88266744 C3.06468176,7.38272018 3.48859123,7 4.00292933,7 L4.00292933,7 L8,6.99999768 L8,5.99810135 C8,4.89458045 8.68772297,4.57310247 9.53194726,5.27662271 Z" id="Combined-Shape-Copy-5" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>

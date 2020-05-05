@@ -1,0 +1,122 @@
+.base {
+  --line-weight: 4px;
+  font-size: var(--line-weight);
+  --mic-size: 4em;
+  position: relative;
+  height: calc(3 * var(--mic-size) + 3 * var(--line-weight));
+  width: calc(3 * var(--mic-size));
+  transition: all 500ms ease-in-out;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: calc(50% - 450px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.big {
+  --line-weight: 15px;
+  top: calc(50% - var(--mic-size) * 2);
+  left: 50%;
+}
+
+.levels {
+  position: absolute;
+  top: calc(0.5 * var(--mic-size));
+  left: var(--mic-size);
+  right: var(--mic-size);
+  bottom: var(--mic-size);
+  border-radius: var(--mic-size) / 2;
+}
+
+.levels:after {
+  position: absolute;
+  content: '';
+  top: -1em;
+  left: -1em;
+  right: -1em;
+  bottom: -1em;
+  border-radius: calc(var(--mic-size) / 2 + 1em);
+  border: 1em solid black;
+  box-shadow: 0 0 0 1em #fff, inset 0 0 0 .5em #fff;
+}
+
+.levels:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -3em;
+  right: -3em;
+  bottom: -3em;
+  border: 1em solid black;
+  border-top: none;
+  border-bottom-left-radius: calc(var(--mic-size) / 2 + 3em);
+  border-bottom-right-radius: calc(var(--mic-size) / 2 + 3em);
+}
+
+.meter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #f90;
+}
+
+.base:before {
+  content: '';
+  background: black;
+  left: 50%;
+  width: 1em;
+  margin-left: -.5em;
+  bottom: -1em;
+  height: calc(var(--mic-size) - 2em);
+  position: absolute;
+}
+
+.base:after {
+  content: '';
+  background: black;
+  left: 50%;
+  height: 1em;
+  width: calc(var(--mic-size) * 1);
+  margin-left: calc(var(--mic-size) * -0.5);
+  bottom: -1em;
+  position: absolute;
+}
+
+.stopButton {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background: url(../img/icon_stop_01.svg);
+  top: 50%;
+  left: calc(50% - 520px);
+  transform: translateY(-50%);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 500ms ease-in-out;
+  cursor: pointer;
+}
+
+
+
+.visible {
+  opacity: 1;
+  pointer-events: all;
+  z-index: 4;
+}
+
+.stopButton.visible {
+  opacity: 0.6;
+  transition-delay: 1000ms;
+}
+
+.stopButton.visible:hover {
+  opacity: 8;
+  transition: none;
+}
+
+.stopButton.visible:active {
+  opacity: 1;
+  transition: none;
+}
