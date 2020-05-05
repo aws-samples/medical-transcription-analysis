@@ -1,0 +1,24 @@
+.base {
+  position: relative;
+  overflow: hidden;
+}
+
+.inner {
+  position: relative;
+}
+
+.transitioning {
+  transition: height 250ms ease;
+}
+
+.transitioning .inner {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+}
+
+.transitioningInner .inner {
+  position: absolute;
+  width: 100%;
+  top: 0;
+}

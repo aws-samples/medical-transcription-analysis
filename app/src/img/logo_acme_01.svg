@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="70px" viewBox="0 0 200 70" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>logo_acme_01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="logo_acme_01" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-5" transform="translate(0.000000, 2.000000)">
+            <path d="M32.5,1.73205081 L5.85417438,17.1160254 L5.85417438,47.8839746 L32.5,63.2679492 L59.1458256,47.8839746 L59.1458256,17.1160254 L32.5,1.73205081 Z" id="Polygon" stroke="#000000" stroke-width="3" fill="#D8D8D8"></path>
+            <text id="ACME-Medical" font-family="AmazonEmber-Bold, Amazon Ember" font-size="18" font-weight="bold" fill="#000000">
+                <tspan x="74" y="40">ACME </tspan>
+                <tspan x="127.712" y="40" font-family="AmazonEmber-Light, Amazon Ember" font-weight="300">Medical</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

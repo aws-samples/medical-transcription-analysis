@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="50px" viewBox="0 0 40 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_csv_01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_csv_01" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-12" transform="translate(0.000000, 1.000000)">
+            <g id="Group-6" stroke="#000000">
+                <rect id="Rectangle" stroke-width="2" x="1" y="1" width="30" height="38" rx="3"></rect>
+                <line x1="1.5" y1="7.5" x2="30.5" y2="7.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="11.5" x2="30.5" y2="11.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="15.5" x2="30.5" y2="15.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="19.5" x2="30.5" y2="19.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="23.5" x2="30.5" y2="23.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="27.5" x2="30.5" y2="27.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="31.5" x2="30.5" y2="31.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="1.5" y1="35.5" x2="30.5" y2="35.5" id="Line-2" stroke-linecap="square"></line>
+                <line x1="11.5" y1="8.5" x2="11.5" y2="38.5" id="Line-3" stroke-linecap="square"></line>
+                <line x1="21.5" y1="8.5" x2="21.5" y2="38.5" id="Line-3" stroke-linecap="square"></line>
+            </g>
+            <g id="Group-8-Copy" transform="translate(23.000000, 31.000000)">
+                <circle id="Oval" fill="#2FCF8F" cx="8" cy="8" r="8"></circle>
+                <path d="M9.57967383,5.22626299 L11.3157793,6.67301756 C12.1618504,7.37807682 12.1600036,8.52274275 11.3157793,9.22626299 L9.57967383,10.6730176 C8.73360272,11.3780768 8.04772657,11.0629339 8.04772657,9.95153892 L8.04672657,8.94963796 L5.03850454,8.94964028 C4.53725909,8.94964028 4.1126048,8.56360009 4.05449727,8.0662614 L4.04772657,7.94964028 L4.05439226,7.83230772 C4.11162466,7.33236046 4.53039809,6.94964028 5.03850454,6.94964028 L5.03850454,6.94964028 L8.04672657,6.94963796 L8.04772657,5.94774163 C8.04772657,4.84422072 8.73544954,4.52274275 9.57967383,5.22626299 Z" id="Combined-Shape-Copy-5" fill="#FFFFFF" transform="translate(7.998683, 7.950957) rotate(-270.000000) translate(-7.998683, -7.950957) "></path>
+            </g>
+        </g>
+    </g>
+</svg>

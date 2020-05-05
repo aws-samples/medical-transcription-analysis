@@ -1,0 +1,18 @@
+.base {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 30px;
+  border: 2px dashed rgba(255,255,255,0.3);
+}
+
+.base > * {
+  margin: .5em;
+}
+
+.base input {
+  position: absolute;
+  left: -9999px;
+}

@@ -1,0 +1,46 @@
+.zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 300;
+  margin: 0 !important;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  transition: opacity 200ms;
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.dragging {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.zone:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: '';
+  margin: 10px;
+  border-radius: 20px;
+  border: 3px dashed white;
+}
+
+.message {
+  color: white !important;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.input {
+  display: none;
+}

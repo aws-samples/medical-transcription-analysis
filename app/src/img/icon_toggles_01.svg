@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>icon_toggles_01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="icon_toggles_01" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <circle id="Oval" fill-opacity="0.3" fill="#000000" cx="16" cy="16" r="16"></circle>
+            <g id="Group-8" transform="translate(7.000000, 5.000000)">
+                <g id="Group-7" fill="#FFFFFF">
+                    <path d="M13,0 C15.7614237,-5.07265313e-16 18,2.23857625 18,5 C18,7.76142375 15.7614237,10 13,10 L5,10 C2.23857625,10 3.38176876e-16,7.76142375 0,5 C-3.38176876e-16,2.23857625 2.23857625,5.07265313e-16 5,0 L13,0 Z M13,2 C11.3431458,2 10,3.34314575 10,5 C10,6.65685425 11.3431458,8 13,8 C14.6568542,8 16,6.65685425 16,5 C16,3.34314575 14.6568542,2 13,2 Z" id="Combined-Shape"></path>
+                </g>
+                <g id="Group-6" transform="translate(0.000000, 12.000000)">
+                    <rect id="Rectangle-Copy-3" stroke="#FFFFFF" x="0.5" y="0.5" width="17" height="9" rx="4.5"></rect>
+                    <circle id="Oval-Copy" fill="#FFFFFF" cx="5" cy="5" r="3"></circle>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

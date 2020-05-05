@@ -1,0 +1,15 @@
+.base {
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin: 1em 0;
+  transition: margin 300ms ease;
+}
+
+.base span {
+  /* display: inline-block; */
+  line-height: 1.4;
+}
+
+.entering {
+  margin-bottom: -2.6em;
+}

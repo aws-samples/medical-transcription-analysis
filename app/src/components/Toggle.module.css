@@ -1,0 +1,51 @@
+.toggle {
+	 display: inline;
+}
+ .toggle input {
+	 display: none;
+}
+ .toggle input ~ .target {
+	 touch-action: manipulation;
+	 display: inline-block;
+	 vertical-align: middle;
+	 position: relative;
+	 padding: 0;
+	 width: 3.2em;
+	 height: 2em;
+	 background: #fff;
+	 box-shadow: inset 0 0 0 0.1em #ddd;
+	 border-radius: 1em;
+	 cursor: pointer;
+	 transition: box-shadow 400ms ease;
+}
+ .toggle input ~ .target:after {
+	 position: absolute;
+	 width: 1.8em;
+	 height: 1.8em;
+	 top: 0.1em;
+	 left: 0.1em;
+	 border-radius: .9em;
+	 background: white;
+	 content: '';
+	 transition: width 200ms ease, left 200ms ease;
+	 box-shadow: 0 0.1em 0.2em 0.1em rgba(0,0,0,0.2);
+}
+ .toggle input ~ .target:active {
+	 box-shadow: inset 0 0 0 2em #ddd;
+}
+ .toggle input ~ .target:active:after {
+	 width: 2.2em;
+}
+ .toggle input:checked ~ .target {
+	 box-shadow: inset 0 0 0 0.1em #0095ff;
+	 background: #0095ff;
+}
+ .toggle input:checked ~ .target:after {
+	 left: 1.3em;
+}
+ .toggle input:checked ~ .target:active {
+	 box-shadow: inset 0 0 0 2em #0095ff;
+}
+ .toggle input:checked ~ .target:active:after {
+	 left: 0.9em;
+}

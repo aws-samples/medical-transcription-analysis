@@ -1,0 +1,150 @@
+.base {
+  font-size: 16px;
+  overflow: auto;
+  display: flex;
+  flex: 0 0 0px;
+  overflow: auto;
+  flex-direction: column;
+  position: relative;
+  transition: flex-grow 1000ms ease;
+  box-sizing: border-box;
+  background: #eee;
+}
+
+.visible {
+  flex-grow: 1;
+}
+
+.base h3 {
+  margin-top: 2em;
+  margin-bottom: .25em;
+}
+
+.base dl {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 0;
+  flex: 1;
+  align-items: baseline;
+}
+
+.base dt, .base dd {
+  flex: 0 0 30%;
+  margin: 0;
+  padding: .25em 0;
+  box-sizing: border-box;
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.08); */
+}
+
+.base dt {
+  font-weight: bold;
+  text-align: right;
+  padding-right: 1em;
+  font-size: 0.75em;
+  /* padding-top: .6em; */
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.base dd {
+  flex: 0 0 70%;
+}
+
+.resultTable {
+  margin: 0 3em;
+  width: 40vw;
+}
+
+.resultTable:first-child {
+  margin-top: 3em;
+}
+
+.resultTable:last-child {
+  margin-bottom: 3em;
+}
+
+.resultTable h3 {
+  cursor: pointer;
+  margin: 0;
+  padding: 1em 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #eee;
+}
+
+.resultTable h3:before {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  margin-right: .25em;
+  font-size: 0.8em;
+}
+
+.expanded:before {
+  content: '▼';
+}
+
+.contracted:before {
+  content: '▶';
+}
+
+.result {
+  display: flex;
+  flex-direction: row;
+  padding: .5em;
+  align-items: center;
+}
+
+.result.excluded {
+  color: rgba(0, 0, 0, 0.3)
+}
+
+.result:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.result:last-child {
+  margin-bottom: 2em;
+}
+
+.result h4 {
+  flex: 0 0 25%;
+  margin: 0;
+  padding: 0;
+  padding-left: 1em;
+}
+
+.toggleLink {
+  color: #0095ff;
+  cursor: pointer;
+}
+
+.toggleLink:before {
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  margin-right: .25em;
+  font-size: 0.8em;
+}
+
+.removeButton {
+  cursor: pointer;
+  background: url(../img/icon_show_01.svg);
+  width: 20px;
+  height: 20px;
+}
+
+.excluded .removeButton {
+  background: url(../img/icon_hide_01.svg);
+}
+
+@media print {
+  .base {
+    display: none;
+  }
+}

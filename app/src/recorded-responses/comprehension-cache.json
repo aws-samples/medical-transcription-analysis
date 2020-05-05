@@ -1,0 +1,2686 @@
+{
+  "1804d0694a0fa29f7e96fa640d563650": [
+    {
+      "Id": 4,
+      "BeginOffset": 17,
+      "EndOffset": 19,
+      "Score": 0.9999816417694092,
+      "Text": "49",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "AGE",
+      "Traits": []
+    },
+    {
+      "Id": 6,
+      "BeginOffset": 38,
+      "EndOffset": 46,
+      "Score": 0.9999998807907104,
+      "Text": "recently",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.8866471648216248,
+          "RelationshipScore": 0.8380461931228638,
+          "Id": 2,
+          "BeginOffset": 59,
+          "EndOffset": 75,
+          "Text": "traumatic injury",
+          "Traits": [
+            {
+              "Name": "DIAGNOSIS",
+              "Score": 0.9066224098205566
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 88,
+      "EndOffset": 93,
+      "Score": 0.9965452551841736,
+      "Text": "thigh",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 5,
+      "BeginOffset": 182,
+      "EndOffset": 189,
+      "Score": 0.971814751625061,
+      "Text": "surgery",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "PROCEDURE_NAME",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 59,
+      "EndOffset": 75,
+      "Score": 0.8866471648216248,
+      "Text": "traumatic injury",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.9066224098205566
+        }
+      ],
+      "Attributes": [
+        {
+          "Type": "DIRECTION",
+          "Score": 0.9979090690612793,
+          "RelationshipScore": 0.9999701976776123,
+          "Id": 1,
+          "BeginOffset": 83,
+          "EndOffset": 87,
+          "Text": "left",
+          "Traits": []
+        },
+        {
+          "Type": "SYSTEM_ORGAN_SITE",
+          "Score": 0.9965452551841736,
+          "RelationshipScore": 0.9987698197364807,
+          "Id": 2,
+          "BeginOffset": 88,
+          "EndOffset": 93,
+          "Text": "thigh",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other injury of unspecified body region",
+          "Code": "T14.8",
+          "Score": 0.32183119654655457
+        },
+        {
+          "Description": "Injury, unspecified",
+          "Code": "T14.90",
+          "Score": 0.226362407207489
+        },
+        {
+          "Description": "Contusion of left lower leg",
+          "Code": "S80.12",
+          "Score": 0.1481737196445465
+        },
+        {
+          "Description": "Other intraoperative complications of digestive system",
+          "Code": "K91.81",
+          "Score": 0.1211709976196289
+        },
+        {
+          "Description": "Pain in right hand",
+          "Code": "M79.641",
+          "Score": 0.10780058056116104
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 103,
+      "EndOffset": 119,
+      "Score": 0.6243867874145508,
+      "Text": "boating accident",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.8767880201339722
+        }
+      ],
+      "Attributes": [
+        {
+          "Type": "DIRECTION",
+          "Score": 0.9979090690612793,
+          "RelationshipScore": 0.7708743214607239,
+          "Id": 1,
+          "BeginOffset": 83,
+          "EndOffset": 87,
+          "Text": "left",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Encounter for examination and observation following work accident",
+          "Code": "Z04.2",
+          "Score": 0.5605383515357971
+        },
+        {
+          "Description": "Person injured in unspecified motor-vehicle accident, nontraffic",
+          "Code": "V89.0",
+          "Score": 0.34281882643699646
+        },
+        {
+          "Description": "Personal history of other (healed) physical injury and trauma",
+          "Code": "Z87.828",
+          "Score": 0.25802624225616455
+        },
+        {
+          "Description": "Motor- or nonmotor-vehicle accident, type of vehicle unspecified",
+          "Code": "V89",
+          "Score": 0.2528107762336731
+        },
+        {
+          "Description": "Unspecified injury of left lower leg",
+          "Code": "S89.92",
+          "Score": 0.17154158651828766
+        }
+      ]
+    }
+  ],
+  "fea1a380c149b8e9665119bda2869dbe": [
+    {
+      "Id": 1,
+      "BeginOffset": 21,
+      "EndOffset": 26,
+      "Score": 0.9999995231628418,
+      "Text": "today",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.515590488910675,
+          "RelationshipScore": 0.8250532746315002,
+          "Id": 0,
+          "BeginOffset": 38,
+          "EndOffset": 64,
+          "Text": "non healing surgical wound",
+          "Traits": [
+            {
+              "Name": "DIAGNOSIS",
+              "Score": 0.8905432224273682
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 38,
+      "EndOffset": 64,
+      "Score": 0.515590488910675,
+      "Text": "non healing surgical wound",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.8905432224273682
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Chronic venous hypertension (idiopathic) with ulcer and inflammation of bilateral lower extremity",
+          "Code": "I87.333",
+          "Score": 0.45613405108451843
+        },
+        {
+          "Description": "Other injury of unspecified body region",
+          "Code": "T14.8",
+          "Score": 0.2952791154384613
+        },
+        {
+          "Description": "Disruption of external operation (surgical) wound, not elsewhere classified",
+          "Code": "T81.31",
+          "Score": 0.20512047410011292
+        },
+        {
+          "Description": "Dislocation of metacarpophalangeal joint of left index finger",
+          "Code": "S63.261",
+          "Score": 0.15155074000358582
+        },
+        {
+          "Description": "Toxic effect of unspecified spider venom, accidental (unintentional)",
+          "Code": "T63.301",
+          "Score": 0.10850988328456879
+        }
+      ]
+    }
+  ],
+  "e5e25df818310b79bdafeda84bf28cb8": [
+    {
+      "Id": 7,
+      "BeginOffset": 17,
+      "EndOffset": 34,
+      "Score": 0.8183175325393677,
+      "Text": "external fixation",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "PROCEDURE_NAME",
+      "Traits": []
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 74,
+      "EndOffset": 77,
+      "Score": 0.9941118359565735,
+      "Text": "leg",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 4,
+      "BeginOffset": 152,
+      "EndOffset": 162,
+      "Score": 0.956480860710144,
+      "Text": "graft site",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 57,
+      "EndOffset": 66,
+      "Score": 0.9790266752243042,
+      "Text": "fractures",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.877926766872406
+        }
+      ],
+      "Attributes": [
+        {
+          "Type": "DIRECTION",
+          "Score": 0.7998325824737549,
+          "RelationshipScore": 0.5352119207382202,
+          "Id": 0,
+          "BeginOffset": 17,
+          "EndOffset": 25,
+          "Text": "external",
+          "Traits": []
+        },
+        {
+          "Type": "SYSTEM_ORGAN_SITE",
+          "Score": 0.9941118359565735,
+          "RelationshipScore": 0.9969921112060547,
+          "Id": 2,
+          "BeginOffset": 74,
+          "EndOffset": 77,
+          "Text": "leg",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other injury of unspecified body region",
+          "Code": "T14.8",
+          "Score": 0.4909524619579315
+        },
+        {
+          "Description": "Unspecified fracture of lower end of right humerus",
+          "Code": "S42.401",
+          "Score": 0.1344560831785202
+        },
+        {
+          "Description": "Unspecified fracture of right wrist and hand",
+          "Code": "S62.91",
+          "Score": 0.12793011963367462
+        },
+        {
+          "Description": "Unspecified fracture of left wrist and hand",
+          "Code": "S62.92",
+          "Score": 0.12591181695461273
+        },
+        {
+          "Description": "Injury, unspecified",
+          "Code": "T14.90",
+          "Score": 0.10989467799663544
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 112,
+      "EndOffset": 135,
+      "Score": 0.3926200866699219,
+      "Text": "hypergranulation tissue",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DIRECTION",
+          "Score": 0.9131894111633301,
+          "RelationshipScore": 0.999982476234436,
+          "Id": 4,
+          "BeginOffset": 136,
+          "EndOffset": 141,
+          "Text": "right",
+          "Traits": []
+        },
+        {
+          "Type": "DIRECTION",
+          "Score": 0.33873534202575684,
+          "RelationshipScore": 0.9999985694885254,
+          "Id": 5,
+          "BeginOffset": 142,
+          "EndOffset": 147,
+          "Text": "along",
+          "Traits": []
+        },
+        {
+          "Type": "SYSTEM_ORGAN_SITE",
+          "Score": 0.956480860710144,
+          "RelationshipScore": 0.9882774949073792,
+          "Id": 6,
+          "BeginOffset": 152,
+          "EndOffset": 162,
+          "Text": "graft site",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other specified soft tissue disorders",
+          "Code": "M79.89",
+          "Score": 0.4672990143299103
+        },
+        {
+          "Description": "Benign neoplasm of connective and other soft tissue, unspecified",
+          "Code": "D21.9",
+          "Score": 0.372785747051239
+        },
+        {
+          "Description": "Follicular cyst of the skin and subcutaneous tissue, unspecified",
+          "Code": "L72.9",
+          "Score": 0.25194424390792847
+        },
+        {
+          "Description": "Soft tissue disorder, unspecified",
+          "Code": "M79.9",
+          "Score": 0.22587473690509796
+        },
+        {
+          "Description": "Local infection of the skin and subcutaneous tissue, unspecified",
+          "Code": "L08.9",
+          "Score": 0.21048866212368011
+        }
+      ]
+    }
+  ],
+  "e6c19f39f51eba13e2b4b2630b1a19bd": [
+    {
+      "Id": 0,
+      "BeginOffset": 8,
+      "EndOffset": 16,
+      "Score": 0.8449902534484863,
+      "Text": "drainage",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SIGN",
+          "Score": 0.4630528688430786
+        },
+        {
+          "Name": "NEGATION",
+          "Score": 0.7464088201522827
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Postnasal drip",
+          "Code": "R09.82",
+          "Score": 0.5508918166160583
+        },
+        {
+          "Description": "Other complications of procedures, not elsewhere classified",
+          "Code": "T81.89",
+          "Score": 0.45292145013809204
+        },
+        {
+          "Description": "Other and unspecified infectious diseases",
+          "Code": "B99",
+          "Score": 0.18800997734069824
+        },
+        {
+          "Description": "Pyoderma",
+          "Code": "L08.0",
+          "Score": 0.18610945343971252
+        },
+        {
+          "Description": "Otorrhea, right ear",
+          "Code": "H92.11",
+          "Score": 0.15579959750175476
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 69,
+      "EndOffset": 78,
+      "Score": 0.9836167097091675,
+      "Text": "infection",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "NEGATION",
+          "Score": 0.9615013599395752
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Local infection of the skin and subcutaneous tissue, unspecified",
+          "Code": "L08.9",
+          "Score": 0.7885642647743225
+        },
+        {
+          "Description": "Unspecified infectious disease",
+          "Code": "B99.9",
+          "Score": 0.5369873642921448
+        },
+        {
+          "Description": "Urinary tract infection, site not specified",
+          "Code": "N39.0",
+          "Score": 0.20172496140003204
+        },
+        {
+          "Description": "Infectious gastroenteritis and colitis, unspecified",
+          "Code": "A09",
+          "Score": 0.18082700669765472
+        },
+        {
+          "Description": "Encephalitis and encephalomyelitis, unspecified",
+          "Code": "G04.90",
+          "Score": 0.12109283357858658
+        }
+      ]
+    }
+  ],
+  "8ee0ec24663a8202626906d61691d2cc": [
+    {
+      "Id": 2,
+      "BeginOffset": 9,
+      "EndOffset": 20,
+      "Score": 0.931434154510498,
+      "Text": "temperature",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9971222281455994,
+          "RelationshipScore": 1,
+          "Id": 3,
+          "BeginOffset": 24,
+          "EndOffset": 28,
+          "Text": "98.2",
+          "Traits": []
+        },
+        {
+          "Type": "TEST_UNIT",
+          "Score": 0.7745041251182556,
+          "RelationshipScore": 1,
+          "Id": 4,
+          "BeginOffset": 29,
+          "EndOffset": 47,
+          "Text": "degrees Fahrenheit",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 84,
+      "EndOffset": 89,
+      "Score": 0.9635995030403137,
+      "Text": "Cipro",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Cipro",
+          "Code": "203563",
+          "Score": 0.9407052397727966
+        },
+        {
+          "Description": "200 ML Ciprofloxacin 2 MG/ML Injection [Cipro]",
+          "Code": "1665214",
+          "Score": 0.6416308879852295
+        },
+        {
+          "Description": "24 HR Ciprofloxacin 1000 MG Extended Release Oral Tablet [Cipro]",
+          "Code": "847488",
+          "Score": 0.44568943977355957
+        },
+        {
+          "Description": "24 HR Ciprofloxacin 500 MG Extended Release Oral Tablet [Cipro]",
+          "Code": "899122",
+          "Score": 0.31075021624565125
+        },
+        {
+          "Description": "Ciprofloxacin 500 MG Oral Tablet [Cipro]",
+          "Code": "205770",
+          "Score": 0.2235233038663864
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 94,
+      "EndOffset": 100,
+      "Score": 0.9998682737350464,
+      "Text": "Flagyl",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Flagyl",
+          "Code": "202866",
+          "Score": 0.9505000710487366
+        },
+        {
+          "Description": "Metronidazole 250 MG Oral Tablet [Flagyl]",
+          "Code": "207287",
+          "Score": 0.5620211958885193
+        },
+        {
+          "Description": "24 HR Metronidazole 750 MG Extended Release Oral Tablet [Flagyl]",
+          "Code": "687204",
+          "Score": 0.4115830063819885
+        },
+        {
+          "Description": "Metronidazole 375 MG Oral Capsule [Flagyl]",
+          "Code": "687211",
+          "Score": 0.2915973663330078
+        },
+        {
+          "Description": "Metronidazole 500 MG Oral Tablet [Flagyl]",
+          "Code": "207290",
+          "Score": 0.2688538134098053
+        }
+      ]
+    }
+  ],
+  "a93d05ac5cb3134298019537afb637ad": [],
+  "4f2b9bcc754ad45f85b4b1018395b422": [
+    {
+      "Id": 0,
+      "BeginOffset": 84,
+      "EndOffset": 90,
+      "Score": 0.9261927008628845,
+      "Text": "wounds",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.8145294189453125
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other injury of unspecified body region",
+          "Code": "T14.8",
+          "Score": 0.16837333142757416
+        },
+        {
+          "Description": "Chronic venous hypertension (idiopathic) with ulcer and inflammation of bilateral lower extremity",
+          "Code": "I87.333",
+          "Score": 0.13046526908874512
+        },
+        {
+          "Description": "Toxic effect of unspecified spider venom, accidental (unintentional)",
+          "Code": "T63.301",
+          "Score": 0.10467521101236343
+        },
+        {
+          "Description": "Disruption of external operation (surgical) wound, not elsewhere classified",
+          "Code": "T81.31",
+          "Score": 0.09925124794244766
+        },
+        {
+          "Description": "Injury, unspecified",
+          "Code": "T14.90",
+          "Score": 0.0926055833697319
+        }
+      ]
+    }
+  ],
+  "d0595791bcea2d73294d9eadf521080c": [
+    {
+      "Id": 2,
+      "BeginOffset": 17,
+      "EndOffset": 19,
+      "Score": 0.9999620914459229,
+      "Text": "78",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "AGE",
+      "Traits": []
+    },
+    {
+      "Id": 6,
+      "BeginOffset": 89,
+      "EndOffset": 101,
+      "Score": 0.9999958276748657,
+      "Text": "At this time",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.9949546456336975,
+          "RelationshipScore": 0.8410359025001526,
+          "Id": 1,
+          "BeginOffset": 144,
+          "EndOffset": 150,
+          "Text": "anemia",
+          "Traits": [
+            {
+              "Name": "DIAGNOSIS",
+              "Score": 0.9617506861686707
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 156,
+      "EndOffset": 173,
+      "Score": 0.8457683324813843,
+      "Text": "hemoglobin values",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9802058935165405,
+          "RelationshipScore": 0.9999995231628418,
+          "Id": 4,
+          "BeginOffset": 177,
+          "EndOffset": 180,
+          "Text": "7.1",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "BeginOffset": 201,
+      "EndOffset": 212,
+      "Score": 0.5616698265075684,
+      "Text": "transfusion",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TREATMENT_NAME",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 79,
+      "EndOffset": 87,
+      "Score": 0.9846551418304443,
+      "Text": "diabetes",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.936882495880127
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Type 2 diabetes mellitus without complications",
+          "Code": "E11.9",
+          "Score": 0.7304917573928833
+        },
+        {
+          "Description": "Type 2 diabetes mellitus with diabetic chronic kidney disease",
+          "Code": "E11.22",
+          "Score": 0.31990963220596313
+        },
+        {
+          "Description": "Gestational diabetes mellitus in pregnancy, unspecified control",
+          "Code": "O24.419",
+          "Score": 0.1348649561405182
+        },
+        {
+          "Description": "Type 2 diabetes mellitus with diabetic neuropathy, unspecified",
+          "Code": "E11.40",
+          "Score": 0.12731178104877472
+        },
+        {
+          "Description": "Type 2 diabetes mellitus with hyperglycemia",
+          "Code": "E11.65",
+          "Score": 0.11711881309747696
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 144,
+      "EndOffset": 150,
+      "Score": 0.9949546456336975,
+      "Text": "anemia",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.9617506861686707
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Anemia, unspecified",
+          "Code": "D64.9",
+          "Score": 0.6703247427940369
+        },
+        {
+          "Description": "End stage renal disease",
+          "Code": "N18.6",
+          "Score": 0.2547396719455719
+        },
+        {
+          "Description": "Anemia in other chronic diseases classified elsewhere",
+          "Code": "D63.8",
+          "Score": 0.13572636246681213
+        },
+        {
+          "Description": "Chronic kidney disease, unspecified",
+          "Code": "N18.9",
+          "Score": 0.13324770331382751
+        },
+        {
+          "Description": "Nutritional anemia, unspecified",
+          "Code": "D53.9",
+          "Score": 0.10646212100982666
+        }
+      ]
+    }
+  ],
+  "eb3bb8e59a5ddaf5020f1961bf9181b8": [],
+  "d8caf7522a45ef585d448395fdc49643": [
+    {
+      "Id": 0,
+      "BeginOffset": 19,
+      "EndOffset": 23,
+      "Score": 0.9818222522735596,
+      "Text": "B 12",
+      "Category": "MEDICATION",
+      "Type": "GENERIC_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "ROUTE_OR_MODE",
+          "Score": 0.990347146987915,
+          "RelationshipScore": 0.9879178404808044,
+          "Id": 1,
+          "BeginOffset": 24,
+          "EndOffset": 28,
+          "Text": "oral",
+          "Traits": []
+        }
+      ],
+      "RxNormConcepts": [
+        {
+          "Description": "Vitamin B 12",
+          "Code": "11248",
+          "Score": 0.9544244408607483
+        },
+        {
+          "Description": "Vitamin B 12 0.5 MG Oral Tablet",
+          "Code": "313896",
+          "Score": 0.8347737193107605
+        },
+        {
+          "Description": "Vitamin B 12 0.1 MG Oral Tablet",
+          "Code": "309595",
+          "Score": 0.7451415061950684
+        },
+        {
+          "Description": "Vitamin B 12 2 MG Extended Release Oral Tablet",
+          "Code": "237777",
+          "Score": 0.5316904187202454
+        },
+        {
+          "Description": "Vitamin B 12 1 MG Extended Release Oral Tablet",
+          "Code": "237776",
+          "Score": 0.49537694454193115
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 29,
+      "EndOffset": 33,
+      "Score": 0.9948321580886841,
+      "Text": "iron",
+      "Category": "MEDICATION",
+      "Type": "GENERIC_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "ROUTE_OR_MODE",
+          "Score": 0.990347146987915,
+          "RelationshipScore": 0.9987298846244812,
+          "Id": 1,
+          "BeginOffset": 24,
+          "EndOffset": 28,
+          "Text": "oral",
+          "Traits": []
+        }
+      ],
+      "RxNormConcepts": [
+        {
+          "Description": "Iron",
+          "Code": "90176",
+          "Score": 0.9701935648918152
+        },
+        {
+          "Description": "iron fumarate",
+          "Code": "486120",
+          "Score": 0.6562871932983398
+        },
+        {
+          "Description": "Iron Carbonyl",
+          "Code": "262150",
+          "Score": 0.2256186455488205
+        },
+        {
+          "Description": "Iron Carbonyl 45 MG Oral Tablet",
+          "Code": "809403",
+          "Score": 0.1581207811832428
+        },
+        {
+          "Description": "IRON BILE SALTS",
+          "Code": "235376",
+          "Score": 0.15661081671714783
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 38,
+      "EndOffset": 44,
+      "Score": 0.7984344363212585,
+      "Text": "Epogen",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "ROUTE_OR_MODE",
+          "Score": 0.990347146987915,
+          "RelationshipScore": 0.9744808673858643,
+          "Id": 1,
+          "BeginOffset": 24,
+          "EndOffset": 28,
+          "Text": "oral",
+          "Traits": []
+        }
+      ],
+      "RxNormConcepts": [
+        {
+          "Description": "Epogen",
+          "Code": "203281",
+          "Score": 0.9184492230415344
+        },
+        {
+          "Description": "Epipen",
+          "Code": "727341",
+          "Score": 0.6542207598686218
+        },
+        {
+          "Description": "Epoetin Alfa 10000 UNT/ML Injectable Solution [Epogen]",
+          "Code": "205912",
+          "Score": 0.6028714776039124
+        },
+        {
+          "Description": "1 ML Epoetin Alfa 10000 UNT/ML Injection [Epogen]",
+          "Code": "1721685",
+          "Score": 0.5553814172744751
+        },
+        {
+          "Description": "Neupogen",
+          "Code": "227304",
+          "Score": 0.5357629656791687
+        }
+      ]
+    }
+  ],
+  "182d8551d90a65a67e55541ff4ec50b9": [
+    {
+      "Id": 0,
+      "BeginOffset": 85,
+      "EndOffset": 91,
+      "Score": 0.993980884552002,
+      "Text": "anemia",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.940060555934906
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Anemia, unspecified",
+          "Code": "D64.9",
+          "Score": 0.7714601755142212
+        },
+        {
+          "Description": "Chronic kidney disease, unspecified",
+          "Code": "N18.9",
+          "Score": 0.2902860641479492
+        },
+        {
+          "Description": "Anemia in other chronic diseases classified elsewhere",
+          "Code": "D63.8",
+          "Score": 0.2686961591243744
+        },
+        {
+          "Description": "Vitamin B12 deficiency anemia, unspecified",
+          "Code": "D51.9",
+          "Score": 0.2068215161561966
+        },
+        {
+          "Description": "Iron deficiency anemia, unspecified",
+          "Code": "D50.9",
+          "Score": 0.13638564944267273
+        }
+      ]
+    }
+  ],
+  "2226a985a17a1602270cc087e0e98ecd": [
+    {
+      "Id": 0,
+      "BeginOffset": 20,
+      "EndOffset": 34,
+      "Score": 0.3184164762496948,
+      "Text": "constitutional",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 70,
+      "EndOffset": 74,
+      "Score": 0.9706481099128723,
+      "Text": "bone",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 51,
+      "EndOffset": 58,
+      "Score": 0.9970478415489197,
+      "Text": "fatigue",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.876001238822937
+        },
+        {
+          "Name": "NEGATION",
+          "Score": 0.45235440135002136
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other fatigue",
+          "Code": "R53.83",
+          "Score": 0.8212438821792603
+        },
+        {
+          "Description": "Chronic fatigue, unspecified",
+          "Code": "R53.82",
+          "Score": 0.13700369000434875
+        },
+        {
+          "Description": "Fatigue fracture of vertebra, site unspecified",
+          "Code": "M48.40",
+          "Score": 0.12416451424360275
+        },
+        {
+          "Description": "Heat fatigue, transient",
+          "Code": "T67.6",
+          "Score": 0.12274687737226486
+        },
+        {
+          "Description": "Heat exhaustion, unspecified",
+          "Code": "T67.5",
+          "Score": 0.08580777794122696
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 70,
+      "EndOffset": 79,
+      "Score": 0.8930268287658691,
+      "Text": "bone pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.8071402907371521
+        },
+        {
+          "Name": "NEGATION",
+          "Score": 0.4459455907344818
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other specified disorders of bone, unspecified site",
+          "Code": "M89.8X9",
+          "Score": 0.6933751702308655
+        },
+        {
+          "Description": "Other specified disorders of bone, ankle and foot",
+          "Code": "M89.8X7",
+          "Score": 0.5012827515602112
+        },
+        {
+          "Description": "Myalgia, unspecified site",
+          "Code": "M79.10",
+          "Score": 0.2715913951396942
+        },
+        {
+          "Description": "Other specified disorders of bone, hand",
+          "Code": "M89.8X4",
+          "Score": 0.26324450969696045
+        },
+        {
+          "Description": "Other specified disorders of bone density and structure, unspecified site",
+          "Code": "M85.80",
+          "Score": 0.18411284685134888
+        }
+      ]
+    }
+  ],
+  "cefb3c73a5b4ada229a33b1077752bb3": [
+    {
+      "Id": 1,
+      "BeginOffset": 49,
+      "EndOffset": 65,
+      "Score": 0.7625678777694702,
+      "Text": "creatinine level",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9858967661857605,
+          "RelationshipScore": 0.9990360736846924,
+          "Id": 2,
+          "BeginOffset": 72,
+          "EndOffset": 75,
+          "Text": "1.5",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 29,
+      "EndOffset": 39,
+      "Score": 0.9334759712219238,
+      "Text": "blood loss",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.4810425639152527
+        },
+        {
+          "Name": "NEGATION",
+          "Score": 0.9696856737136841
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Hemorrhage, not elsewhere classified",
+          "Code": "R58",
+          "Score": 0.3972056210041046
+        },
+        {
+          "Description": "Epistaxis",
+          "Code": "R04.0",
+          "Score": 0.22559916973114014
+        },
+        {
+          "Description": "Gastrointestinal hemorrhage, unspecified",
+          "Code": "K92.2",
+          "Score": 0.17261649668216705
+        },
+        {
+          "Description": "Nontraumatic intracranial hemorrhage, unspecified",
+          "Code": "I62.9",
+          "Score": 0.13791047036647797
+        },
+        {
+          "Description": "Chronic or unspecified gastric ulcer with hemorrhage",
+          "Code": "K25.4",
+          "Score": 0.13551661372184753
+        }
+      ]
+    }
+  ],
+  "6b2db40ead04ba94a8ee857f78bce78a": [
+    {
+      "Id": 3,
+      "BeginOffset": 14,
+      "EndOffset": 26,
+      "Score": 0.9999985694885254,
+      "Text": "at this time",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.8777210116386414,
+          "RelationshipScore": 0.547767698764801,
+          "Id": 1,
+          "BeginOffset": 69,
+          "EndOffset": 88,
+          "Text": "dysplastic syndrome",
+          "Traits": [
+            {
+              "Name": "DIAGNOSIS",
+              "Score": 0.943778395652771
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 92,
+      "EndOffset": 103,
+      "Score": 0.9421787858009338,
+      "Text": "bone marrow",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 69,
+      "EndOffset": 88,
+      "Score": 0.8777209520339966,
+      "Text": "dysplastic syndrome",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.943778395652771
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Postlaminectomy syndrome, not elsewhere classified",
+          "Code": "M96.1",
+          "Score": 0.4792264699935913
+        },
+        {
+          "Description": "Metabolic syndrome",
+          "Code": "E88.81",
+          "Score": 0.30975332856178284
+        },
+        {
+          "Description": "Sick sinus syndrome",
+          "Code": "I49.5",
+          "Score": 0.14715765416622162
+        },
+        {
+          "Description": "Chronic pain syndrome",
+          "Code": "G89.4",
+          "Score": 0.13936449587345123
+        },
+        {
+          "Description": "Postgastric surgery syndromes",
+          "Code": "K91.1",
+          "Score": 0.09746759384870529
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 92,
+      "EndOffset": 111,
+      "Score": 0.9393303394317627,
+      "Text": "bone marrow failure",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.9391223192214966
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Disorder of bone, unspecified",
+          "Code": "M89.9",
+          "Score": 0.5230646729469299
+        },
+        {
+          "Description": "Acute on chronic diastolic (congestive) heart failure",
+          "Code": "I50.33",
+          "Score": 0.15962842106819153
+        },
+        {
+          "Description": "Chronic diastolic (congestive) heart failure",
+          "Code": "I50.32",
+          "Score": 0.11482913047075272
+        },
+        {
+          "Description": "Hypertensive heart disease with heart failure",
+          "Code": "I11.0",
+          "Score": 0.10552045702934265
+        },
+        {
+          "Description": "Heart failure, unspecified",
+          "Code": "I50.9",
+          "Score": 0.09991439431905746
+        }
+      ]
+    }
+  ],
+  "c9cef43f3daf5b14009a4b9d17f98016": [
+    {
+      "Id": 1,
+      "BeginOffset": 17,
+      "EndOffset": 19,
+      "Score": 0.999953031539917,
+      "Text": "32",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "AGE",
+      "Traits": []
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 68,
+      "EndOffset": 82,
+      "Score": 0.992009162902832,
+      "Text": "emergency room",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "ADDRESS",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 122,
+      "EndOffset": 145,
+      "Score": 0.9342246651649475,
+      "Text": "motor vehicle collision",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.8749913573265076
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Person injured in unspecified vehicle accident",
+          "Code": "V89.9",
+          "Score": 0.7354329228401184
+        },
+        {
+          "Description": "Person injured in unspecified motor-vehicle accident, traffic",
+          "Code": "V89.2",
+          "Score": 0.5997487902641296
+        },
+        {
+          "Description": "Intentional collision of motor vehicle with other motor vehicle",
+          "Code": "X82.0",
+          "Score": 0.3956790566444397
+        },
+        {
+          "Description": "Car occupant (driver) (passenger) injured in unspecified traffic accident",
+          "Code": "V49.9",
+          "Score": 0.3403577506542206
+        },
+        {
+          "Description": "Abnormal reflex",
+          "Code": "R29.2",
+          "Score": 0.3173214793205261
+        }
+      ]
+    }
+  ],
+  "428b74d003bf0a3d29d8c129a840d275": [
+    {
+      "Id": 1,
+      "BeginOffset": 46,
+      "EndOffset": 50,
+      "Score": 0.9902800917625427,
+      "Text": "neck",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 78,
+      "EndOffset": 85,
+      "Score": 0.988686203956604,
+      "Text": "abdomen",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 8,
+      "BeginOffset": 150,
+      "EndOffset": 164,
+      "Score": 0.7783836722373962,
+      "Text": "emergency room",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "ADDRESS",
+      "Traits": []
+    },
+    {
+      "Id": 9,
+      "BeginOffset": 193,
+      "EndOffset": 204,
+      "Score": 0.963371217250824,
+      "Text": "temperature",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9995015859603882,
+          "RelationshipScore": 0.9999998807907104,
+          "Id": 10,
+          "BeginOffset": 208,
+          "EndOffset": 212,
+          "Text": "98.2",
+          "Traits": []
+        },
+        {
+          "Type": "TEST_UNIT",
+          "Score": 0.8893733024597168,
+          "RelationshipScore": 1,
+          "Id": 11,
+          "BeginOffset": 213,
+          "EndOffset": 223,
+          "Text": "Fahrenheit",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 12,
+      "BeginOffset": 225,
+      "EndOffset": 239,
+      "Score": 0.994950532913208,
+      "Text": "Blood pressure",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.8302940130233765,
+          "RelationshipScore": 0.9999462366104126,
+          "Id": 13,
+          "BeginOffset": 243,
+          "EndOffset": 247,
+          "Text": "1 29",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 15,
+      "BeginOffset": 256,
+      "EndOffset": 264,
+      "Score": 0.9392707943916321,
+      "Text": "CT scans",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9952770471572876,
+          "RelationshipScore": 0.9996196031570435,
+          "Id": 14,
+          "BeginOffset": 253,
+          "EndOffset": 255,
+          "Text": "84",
+          "Traits": []
+        },
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.3477110266685486,
+          "RelationshipScore": 0.9999996423721313,
+          "Id": 16,
+          "BeginOffset": 279,
+          "EndOffset": 289,
+          "Text": "not normal",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 130,
+      "EndOffset": 137,
+      "Score": 0.996632993221283,
+      "Text": "Tylenol",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DOSAGE",
+          "Score": 0.9822511076927185,
+          "RelationshipScore": 0.9999997615814209,
+          "Id": 0,
+          "BeginOffset": 119,
+          "EndOffset": 126,
+          "Text": "1000 mg",
+          "Traits": []
+        }
+      ],
+      "RxNormConcepts": [
+        {
+          "Description": "Tylenol",
+          "Code": "202433",
+          "Score": 0.7482035160064697
+        },
+        {
+          "Description": "8 HR Acetaminophen 650 MG Extended Release Oral Tablet [Tylenol]",
+          "Code": "1243440",
+          "Score": 0.06279204040765762
+        },
+        {
+          "Description": "Acetaminophen 500 MG Oral Tablet [Tylenol]",
+          "Code": "209459",
+          "Score": 0.046119119971990585
+        },
+        {
+          "Description": "Acetaminophen 325 MG Oral Capsule [Tylenol]",
+          "Code": "1738139",
+          "Score": 0.021420547738671303
+        },
+        {
+          "Description": "Tylenol PM",
+          "Code": "220581",
+          "Score": 0.017281055450439453
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 17,
+      "EndOffset": 21,
+      "Score": 0.9912719130516052,
+      "Text": "pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.7186627388000488
+        }
+      ],
+      "Attributes": [
+        {
+          "Type": "DIRECTION",
+          "Score": 0.7504748106002808,
+          "RelationshipScore": 0.9996899366378784,
+          "Id": 1,
+          "BeginOffset": 29,
+          "EndOffset": 38,
+          "Text": "left side",
+          "Traits": []
+        },
+        {
+          "Type": "SYSTEM_ORGAN_SITE",
+          "Score": 0.9902800917625427,
+          "RelationshipScore": 0.9645127058029175,
+          "Id": 2,
+          "BeginOffset": 46,
+          "EndOffset": 50,
+          "Text": "neck",
+          "Traits": []
+        },
+        {
+          "Type": "DIRECTION",
+          "Score": 0.9598554968833923,
+          "RelationshipScore": 0.9989942908287048,
+          "Id": 3,
+          "BeginOffset": 72,
+          "EndOffset": 77,
+          "Text": "lower",
+          "Traits": []
+        },
+        {
+          "Type": "SYSTEM_ORGAN_SITE",
+          "Score": 0.988686203956604,
+          "RelationshipScore": 0.9729088544845581,
+          "Id": 4,
+          "BeginOffset": 78,
+          "EndOffset": 85,
+          "Text": "abdomen",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Lower abdominal pain, unspecified",
+          "Code": "R10.30",
+          "Score": 0.5507485866546631
+        },
+        {
+          "Description": "Pain, unspecified",
+          "Code": "R52",
+          "Score": 0.19027197360992432
+        },
+        {
+          "Description": "Unspecified abdominal pain",
+          "Code": "R10.9",
+          "Score": 0.18787744641304016
+        },
+        {
+          "Description": "Pelvic and perineal pain",
+          "Code": "R10.2",
+          "Score": 0.10946308076381683
+        },
+        {
+          "Description": "Generalized abdominal pain",
+          "Code": "R10.84",
+          "Score": 0.10248623043298721
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "BeginOffset": 178,
+      "EndOffset": 182,
+      "Score": 0.9932153224945068,
+      "Text": "pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.6591548919677734
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Pain, unspecified",
+          "Code": "R52",
+          "Score": 0.2842458486557007
+        },
+        {
+          "Description": "Unspecified abdominal pain",
+          "Code": "R10.9",
+          "Score": 0.08813515305519104
+        },
+        {
+          "Description": "Generalized abdominal pain",
+          "Code": "R10.84",
+          "Score": 0.08398257941007614
+        },
+        {
+          "Description": "Lower abdominal pain, unspecified",
+          "Code": "R10.30",
+          "Score": 0.08065260946750641
+        },
+        {
+          "Description": "Headache",
+          "Code": "R51",
+          "Score": 0.07879720628261566
+        }
+      ]
+    }
+  ],
+  "a20c8c15a8eef129a99c8d1e85e2f048": [
+    {
+      "Id": 9,
+      "BeginOffset": 35,
+      "EndOffset": 47,
+      "Score": 0.999998927116394,
+      "Text": "at discharge",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.7760955691337585,
+          "RelationshipScore": 0.8794072866439819,
+          "Id": 2,
+          "BeginOffset": 18,
+          "EndOffset": 34,
+          "Text": "stable condition",
+          "Traits": [
+            {
+              "Name": "SIGN",
+              "Score": 0.7870113253593445
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 8,
+      "BeginOffset": 78,
+      "EndOffset": 92,
+      "Score": 0.9805096387863159,
+      "Text": "emergency room",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "ADDRESS",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "Text": "Vicodin",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Score": 0.9990386962890625,
+      "BeginOffset": 216,
+      "EndOffset": 223,
+      "Attributes": [],
+      "Traits": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Vicodin",
+          "Code": "128793",
+          "Score": 0.9398422241210938
+        },
+        {
+          "Description": "Acetaminophen 300 MG / Hydrocodone Bitartrate 7.5 MG Oral Tablet [Vicodin]",
+          "Code": "1310212",
+          "Score": 0.456792950630188
+        },
+        {
+          "Description": "Acetaminophen 300 MG / Hydrocodone Bitartrate 5 MG Oral Tablet [Vicodin]",
+          "Code": "1310202",
+          "Score": 0.4366387724876404
+        },
+        {
+          "Description": "Acetaminophen 300 MG / Hydrocodone Bitartrate 10 MG Oral Tablet [Vicodin]",
+          "Code": "1310270",
+          "Score": 0.23866958916187286
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "Text": "Flexeril",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Score": 0.9863929152488708,
+      "BeginOffset": 228,
+      "EndOffset": 236,
+      "Attributes": [],
+      "Traits": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Flexeril",
+          "Code": "224954",
+          "Score": 0.945509135723114
+        },
+        {
+          "Description": "Cyclobenzaprine hydrochloride 10 MG Oral Tablet [Flexeril]",
+          "Code": "828350",
+          "Score": 0.8785147666931152
+        },
+        {
+          "Description": "Cyclobenzaprine hydrochloride 5 MG Oral Tablet [Flexeril]",
+          "Code": "828322",
+          "Score": 0.36645984649658203
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 18,
+      "EndOffset": 34,
+      "Score": 0.7760955691337585,
+      "Text": "stable condition",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SIGN",
+          "Score": 0.7870113253593445
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Mental disorder, not otherwise specified",
+          "Code": "F99",
+          "Score": 0.28761157393455505
+        },
+        {
+          "Description": "Other specified pleural conditions",
+          "Code": "J94.8",
+          "Score": 0.11411415040493011
+        },
+        {
+          "Description": "Respiratory conditions due to smoke inhalation",
+          "Code": "J70.5",
+          "Score": 0.11185772716999054
+        },
+        {
+          "Description": "Personal history of other specified conditions",
+          "Code": "Z87.898",
+          "Score": 0.0983937680721283
+        },
+        {
+          "Description": "Personality change due to known physiological condition",
+          "Code": "F07.0",
+          "Score": 0.09580768644809723
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 102,
+      "EndOffset": 106,
+      "Score": 0.8585845232009888,
+      "Text": "pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.539717972278595
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Unspecified abdominal pain",
+          "Code": "R10.9",
+          "Score": 0.32192331552505493
+        },
+        {
+          "Description": "Pain, unspecified",
+          "Code": "R52",
+          "Score": 0.23327100276947021
+        },
+        {
+          "Description": "Headache",
+          "Code": "R51",
+          "Score": 0.09790190309286118
+        },
+        {
+          "Description": "Lower abdominal pain, unspecified",
+          "Code": "R10.30",
+          "Score": 0.09682459384202957
+        },
+        {
+          "Description": "Generalized abdominal pain",
+          "Code": "R10.84",
+          "Score": 0.08969324082136154
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 139,
+      "EndOffset": 153,
+      "Score": 0.9446970224380493,
+      "Text": "abdominal pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.9230360388755798
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Unspecified abdominal pain",
+          "Code": "R10.9",
+          "Score": 0.6170153021812439
+        },
+        {
+          "Description": "Generalized abdominal pain",
+          "Code": "R10.84",
+          "Score": 0.13325859606266022
+        },
+        {
+          "Description": "Other abdominal pain",
+          "Code": "R10.8",
+          "Score": 0.10246775299310684
+        },
+        {
+          "Description": "Left lower quadrant pain",
+          "Code": "R10.32",
+          "Score": 0.10010060667991638
+        },
+        {
+          "Description": "Abdominal tenderness, unspecified site",
+          "Code": "R10.819",
+          "Score": 0.09506380558013916
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 155,
+      "EndOffset": 161,
+      "Score": 0.9986572265625,
+      "Text": "nausea",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.8934757709503174
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Nausea",
+          "Code": "R11.0",
+          "Score": 0.5378562808036804
+        },
+        {
+          "Description": "Nausea with vomiting, unspecified",
+          "Code": "R11.2",
+          "Score": 0.5373027324676514
+        },
+        {
+          "Description": "Vomiting, unspecified",
+          "Code": "R11.10",
+          "Score": 0.13379395008087158
+        },
+        {
+          "Description": "Late vomiting of pregnancy",
+          "Code": "O21.2",
+          "Score": 0.09453871101140976
+        },
+        {
+          "Description": "Vomiting without nausea",
+          "Code": "R11.11",
+          "Score": 0.09353175759315491
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "BeginOffset": 165,
+      "EndOffset": 173,
+      "Score": 0.9985583424568176,
+      "Text": "vomiting",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.7659220695495605
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Vomiting, unspecified",
+          "Code": "R11.10",
+          "Score": 0.6099544763565063
+        },
+        {
+          "Description": "Nausea with vomiting, unspecified",
+          "Code": "R11.2",
+          "Score": 0.218930184841156
+        },
+        {
+          "Description": "Vomiting",
+          "Code": "R11.1",
+          "Score": 0.182418555021286
+        },
+        {
+          "Description": "Nausea",
+          "Code": "R11.0",
+          "Score": 0.16364514827728271
+        },
+        {
+          "Description": "Nausea and vomiting",
+          "Code": "R11",
+          "Score": 0.1522989124059677
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "BeginOffset": 252,
+      "EndOffset": 265,
+      "Score": 0.8738340139389038,
+      "Text": "muscular pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.7116526365280151
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Pain, unspecified",
+          "Code": "R52",
+          "Score": 0.10019154101610184
+        },
+        {
+          "Description": "Myalgia",
+          "Code": "M79.1",
+          "Score": 0.09302778542041779
+        },
+        {
+          "Description": "Headache",
+          "Code": "R51",
+          "Score": 0.09265560656785965
+        },
+        {
+          "Description": "Epigastric pain",
+          "Code": "R10.13",
+          "Score": 0.08908693492412567
+        },
+        {
+          "Description": "Pelvic and perineal pain",
+          "Code": "R10.2",
+          "Score": 0.08320175111293793
+        }
+      ]
+    }
+  ],
+  "26fc8dfe0e9f316b45747948730e64f4": [
+    {
+      "Id": 1,
+      "BeginOffset": 64,
+      "EndOffset": 78,
+      "Score": 0.9907229542732239,
+      "Text": "emergency room",
+      "Category": "PROTECTED_HEALTH_INFORMATION",
+      "Type": "ADDRESS",
+      "Traits": []
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 106,
+      "EndOffset": 119,
+      "Score": 0.917187511920929,
+      "Text": "asthma attack",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.949416995048523
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Unspecified asthma, uncomplicated",
+          "Code": "J45.909",
+          "Score": 0.7130839228630066
+        },
+        {
+          "Description": "Unspecified asthma with (acute) exacerbation",
+          "Code": "J45.901",
+          "Score": 0.5272539854049683
+        },
+        {
+          "Description": "Family history of asthma and other chronic lower respiratory diseases",
+          "Code": "Z82.5",
+          "Score": 0.4421035051345825
+        },
+        {
+          "Description": "Mild persistent asthma, uncomplicated",
+          "Code": "J45.30",
+          "Score": 0.2207392305135727
+        },
+        {
+          "Description": "Chronic obstructive pulmonary disease with (acute) exacerbation",
+          "Code": "J44.1",
+          "Score": 0.20696179568767548
+        }
+      ]
+    }
+  ],
+  "3d3240bd316941365d0048c4c2c570c4": [
+    {
+      "Id": 5,
+      "BeginOffset": 61,
+      "EndOffset": 72,
+      "Score": 0.9995096921920776,
+      "Text": "25 days ago",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.9783163666725159,
+          "RelationshipScore": 0.6023917198181152,
+          "Id": 0,
+          "BeginOffset": 81,
+          "EndOffset": 89,
+          "Text": "coughing",
+          "Traits": [
+            {
+              "Name": "SYMPTOM",
+              "Score": 0.7792280316352844
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 5,
+      "BeginOffset": 61,
+      "EndOffset": 72,
+      "Score": 0.9995096921920776,
+      "Text": "25 days ago",
+      "Category": "TIME_EXPRESSION",
+      "Type": "TIME_TO_DX_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "DX_NAME",
+          "Score": 0.9975082874298096,
+          "RelationshipScore": 0.6282037496566772,
+          "Id": 1,
+          "BeginOffset": 94,
+          "EndOffset": 102,
+          "Text": "wheezing",
+          "Traits": [
+            {
+              "Name": "SYMPTOM",
+              "Score": 0.7889545559883118
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Id": 0,
+      "BeginOffset": 81,
+      "EndOffset": 89,
+      "Score": 0.9783163666725159,
+      "Text": "coughing",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.7792279720306396
+        }
+      ],
+      "Attributes": [
+        {
+          "Type": "ACUITY",
+          "Score": 0.679958701133728,
+          "RelationshipScore": 0.8082532286643982,
+          "Id": 2,
+          "BeginOffset": 159,
+          "EndOffset": 169,
+          "Text": "persistent",
+          "Traits": []
+        }
+      ],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Cough",
+          "Code": "R05",
+          "Score": 0.7729590535163879
+        },
+        {
+          "Description": "Cough variant asthma",
+          "Code": "J45.991",
+          "Score": 0.09189234673976898
+        },
+        {
+          "Description": "Whooping cough, unspecified species without pneumonia",
+          "Code": "A37.90",
+          "Score": 0.0865204930305481
+        },
+        {
+          "Description": "Abnormalities of breathing",
+          "Code": "R06",
+          "Score": 0.08434796333312988
+        },
+        {
+          "Description": "Whooping cough, unspecified species with pneumonia",
+          "Code": "A37.91",
+          "Score": 0.08297765254974365
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 94,
+      "EndOffset": 102,
+      "Score": 0.9975082874298096,
+      "Text": "wheezing",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.7889545559883118
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Wheezing",
+          "Code": "R06.2",
+          "Score": 0.8420731425285339
+        },
+        {
+          "Description": "Shortness of breath",
+          "Code": "R06.02",
+          "Score": 0.46941083669662476
+        },
+        {
+          "Description": "Dyspnea, unspecified",
+          "Code": "R06.00",
+          "Score": 0.14794506132602692
+        },
+        {
+          "Description": "Other forms of dyspnea",
+          "Code": "R06.09",
+          "Score": 0.08401376754045486
+        },
+        {
+          "Description": "Orthopnea",
+          "Code": "R06.01",
+          "Score": 0.08025427907705307
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 201,
+      "EndOffset": 215,
+      "Score": 0.9592689871788025,
+      "Text": "abdominal pain",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.8772450685501099
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Unspecified abdominal pain",
+          "Code": "R10.9",
+          "Score": 0.6238411068916321
+        },
+        {
+          "Description": "Generalized abdominal pain",
+          "Code": "R10.84",
+          "Score": 0.2139972448348999
+        },
+        {
+          "Description": "Lower abdominal pain, unspecified",
+          "Code": "R10.30",
+          "Score": 0.14261633157730103
+        },
+        {
+          "Description": "Left lower quadrant pain",
+          "Code": "R10.32",
+          "Score": 0.13140274584293365
+        },
+        {
+          "Description": "Upper abdominal pain, unspecified",
+          "Code": "R10.10",
+          "Score": 0.12095492333173752
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "BeginOffset": 227,
+      "EndOffset": 235,
+      "Score": 0.9853339195251465,
+      "Text": "vomiting",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SYMPTOM",
+          "Score": 0.799707293510437
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Nausea with vomiting, unspecified",
+          "Code": "R11.2",
+          "Score": 0.7096726298332214
+        },
+        {
+          "Description": "Vomiting, unspecified",
+          "Code": "R11.10",
+          "Score": 0.6739323735237122
+        },
+        {
+          "Description": "Vomiting",
+          "Code": "R11.1",
+          "Score": 0.20481960475444794
+        },
+        {
+          "Description": "Cyclical vomiting, not intractable",
+          "Code": "G43.A0",
+          "Score": 0.11275891214609146
+        },
+        {
+          "Description": "Late vomiting of pregnancy",
+          "Code": "O21.2",
+          "Score": 0.11133991926908493
+        }
+      ]
+    }
+  ],
+  "68d0d48f5c867a53a70d14364b9657d3": [
+    {
+      "Id": 0,
+      "BeginOffset": 40,
+      "EndOffset": 49,
+      "Score": 0.5610962510108948,
+      "Text": "Zithromax",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Zithromax",
+          "Code": "196474",
+          "Score": 0.9390019774436951
+        },
+        {
+          "Description": "Azithromycin 250 MG Oral Tablet [Zithromax]",
+          "Code": "212446",
+          "Score": 0.5648642182350159
+        },
+        {
+          "Description": "Azithromycin 500 MG Oral Tablet [Zithromax]",
+          "Code": "226827",
+          "Score": 0.5117942690849304
+        },
+        {
+          "Description": "Azithromycin 600 MG Oral Tablet [Zithromax]",
+          "Code": "211511",
+          "Score": 0.5100630521774292
+        },
+        {
+          "Description": "Azithromycin 1000 MG Powder for Oral Suspension [Zithromax]",
+          "Code": "861417",
+          "Score": 0.422660768032074
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 50,
+      "EndOffset": 55,
+      "Score": 0.9719335436820984,
+      "Text": "Zicam",
+      "Category": "MEDICATION",
+      "Type": "BRAND_NAME",
+      "Traits": [],
+      "Attributes": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Ziac",
+          "Code": "75038",
+          "Score": 0.4347129166126251
+        },
+        {
+          "Description": "Dextromethorphan 2.2 MG/ACTUAT Oral Spray [Zicam Cough]",
+          "Code": "749397",
+          "Score": 0.35348859429359436
+        },
+        {
+          "Description": "Dextromethorphan Hydrobromide 6 MG/ACTUAT Oral Spray [Zicam Cough]",
+          "Code": "1596947",
+          "Score": 0.3525649607181549
+        },
+        {
+          "Description": "Dextromethorphan 3.3 MG/ACTUAT Oral Spray [Zicam Cough]",
+          "Code": "702445",
+          "Score": 0.26924583315849304
+        },
+        {
+          "Description": "Oxymetazoline hydrochloride 0.5 MG/ML Nasal Spray [Zicam Sinus Relief]",
+          "Code": "1001084",
+          "Score": 0.05247443541884422
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 75,
+      "EndOffset": 85,
+      "Score": 0.999704897403717,
+      "Text": "prednisone",
+      "Category": "MEDICATION",
+      "Type": "GENERIC_NAME",
+      "Traits": [],
+      "Attributes": [],
+      "RxNormConcepts": [
+        {
+          "Description": "Prednisone",
+          "Code": "8640",
+          "Score": 0.9378847479820251
+        },
+        {
+          "Description": "Prednisone 20 MG Oral Tablet",
+          "Code": "312615",
+          "Score": 0.8070976138114929
+        },
+        {
+          "Description": "Prednisone 5 MG Oral Tablet",
+          "Code": "312617",
+          "Score": 0.7949886322021484
+        },
+        {
+          "Description": "Prednisone 10 MG Oral Tablet",
+          "Code": "198145",
+          "Score": 0.5116631388664246
+        },
+        {
+          "Description": "Prednisone 2 MG Delayed Release Oral Tablet [Rayos]",
+          "Code": "1303134",
+          "Score": 0.08355531096458435
+        }
+      ]
+    }
+  ],
+  "6548ced2f92b77330c25ca0c2583eb8b": [
+    {
+      "Id": 0,
+      "BeginOffset": 55,
+      "EndOffset": 66,
+      "Score": 0.974624514579773,
+      "Text": "temperature",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9981410503387451,
+          "RelationshipScore": 0.9999899864196777,
+          "Id": 1,
+          "BeginOffset": 70,
+          "EndOffset": 74,
+          "Text": "99.7",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 75,
+      "EndOffset": 80,
+      "Score": 0.9940876960754395,
+      "Text": "pulse",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9941850304603577,
+          "RelationshipScore": 0.9999542236328125,
+          "Id": 3,
+          "BeginOffset": 84,
+          "EndOffset": 87,
+          "Text": "105",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 4,
+      "BeginOffset": 94,
+      "EndOffset": 108,
+      "Score": 0.9959281086921692,
+      "Text": "blood pressure",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.9186347723007202,
+          "RelationshipScore": 1,
+          "Id": 5,
+          "BeginOffset": 112,
+          "EndOffset": 123,
+          "Text": "112 over 65",
+          "Traits": []
+        }
+      ]
+    }
+  ],
+  "c808bd53ccd54183c4f7882e7fdba13c": [
+    {
+      "Id": 0,
+      "BeginOffset": 0,
+      "EndOffset": 5,
+      "Score": 0.9576228857040405,
+      "Text": "Chest",
+      "Category": "ANATOMY",
+      "Type": "SYSTEM_ORGAN_SITE",
+      "Traits": []
+    },
+    {
+      "Id": 4,
+      "BeginOffset": 0,
+      "EndOffset": 11,
+      "Score": 0.5449961423873901,
+      "Text": "Chest X ray",
+      "Category": "TEST_TREATMENT_PROCEDURE",
+      "Type": "TEST_NAME",
+      "Traits": [],
+      "Attributes": [
+        {
+          "Type": "TEST_VALUE",
+          "Score": 0.5296070575714111,
+          "RelationshipScore": 0.9839009642601013,
+          "Id": 5,
+          "BeginOffset": 37,
+          "EndOffset": 57,
+          "Text": "bronchial thickening",
+          "Traits": []
+        }
+      ]
+    },
+    {
+      "Id": 1,
+      "BeginOffset": 37,
+      "EndOffset": 57,
+      "Score": 0.9176864624023438,
+      "Text": "bronchial thickening",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "SIGN",
+          "Score": 0.47927331924438477
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Other diseases of bronchus, not elsewhere classified",
+          "Code": "J98.09",
+          "Score": 0.4073854386806488
+        },
+        {
+          "Description": "Other skin changes",
+          "Code": "R23.8",
+          "Score": 0.2586555480957031
+        },
+        {
+          "Description": "Bronchopneumonia, unspecified organism",
+          "Code": "J18.0",
+          "Score": 0.21003398299217224
+        },
+        {
+          "Description": "Other specified diseases of intestine",
+          "Code": "K63.89",
+          "Score": 0.13437747955322266
+        },
+        {
+          "Description": "Changes in skin texture",
+          "Code": "R23.4",
+          "Score": 0.1144992858171463
+        }
+      ]
+    },
+    {
+      "Id": 2,
+      "BeginOffset": 122,
+      "EndOffset": 142,
+      "Score": 0.910099446773529,
+      "Text": "respiratory distress",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.4630293548107147
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Acute respiratory distress",
+          "Code": "R06.03",
+          "Score": 0.8391603231430054
+        },
+        {
+          "Description": "Respiratory arrest",
+          "Code": "R09.2",
+          "Score": 0.15000106394290924
+        },
+        {
+          "Description": "Acute upper respiratory infection, unspecified",
+          "Code": "J06.9",
+          "Score": 0.14139676094055176
+        },
+        {
+          "Description": "Respiratory disorder, unspecified",
+          "Code": "J98.9",
+          "Score": 0.12656420469284058
+        },
+        {
+          "Description": "Functional dyspepsia",
+          "Code": "K30",
+          "Score": 0.11276005208492279
+        }
+      ]
+    },
+    {
+      "Id": 3,
+      "BeginOffset": 147,
+      "EndOffset": 153,
+      "Score": 0.9971122741699219,
+      "Text": "asthma",
+      "Category": "MEDICAL_CONDITION",
+      "Type": "DX_NAME",
+      "Traits": [
+        {
+          "Name": "DIAGNOSIS",
+          "Score": 0.8918280601501465
+        }
+      ],
+      "Attributes": [],
+      "ICD10CMConcepts": [
+        {
+          "Description": "Unspecified asthma, uncomplicated",
+          "Code": "J45.909",
+          "Score": 0.7499667406082153
+        },
+        {
+          "Description": "Unspecified asthma with (acute) exacerbation",
+          "Code": "J45.901",
+          "Score": 0.26345911622047424
+        },
+        {
+          "Description": "Unspecified asthma",
+          "Code": "J45.90",
+          "Score": 0.24646975100040436
+        },
+        {
+          "Description": "Chronic obstructive pulmonary disease with (acute) exacerbation",
+          "Code": "J44.1",
+          "Score": 0.10600541532039642
+        },
+        {
+          "Description": "Chronic obstructive pulmonary disease, unspecified",
+          "Code": "J44.9",
+          "Score": 0.08845935761928558
+        }
+      ]
+    }
+  ]
+}
