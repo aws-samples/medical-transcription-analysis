@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
-import { Button, Form} from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { Auth } from "aws-amplify";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import "./Login.module.css";
 import Loading from "./components/Loading/Loading";
 import FormInput from "./components/FormInput/FormInput";
-
+import Button from "./components/Button/Button";
 
 export default function Login() {
     const history = useHistory();

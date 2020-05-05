@@ -54,8 +54,6 @@ function useAudioStream(sample, stopCallback) {
         setAudioStream(stream);
       });
 
-      // TODO catch
-
       return () => {
         if (micStream) micStream.getTracks().forEach(t => t.stop());
       }
