@@ -28,3 +28,16 @@ cd ./app
 ```
 yarn && yarn deploy
 ```
+#### Note:
+
+This deployment creates 2 S3 buckets that will have to be deleted manually when the stack is destroyed. (Cloudformation does not delete them, in order to avoid data loss).
+* 1 for the client bucket
+* 1 for CDK toolkit (if this is your first time using CDK)
+
+### Development Deploy Commands
+
+* ```yarn deploy:backend```: deploys the backend app
+* ```yarn deploy:client```: deploys or updates the client web app
+* ```yarn build-app```: builds the react app    
+* ```yarn start```: allows development of the web app locally. Changes can be viewed at http://localhost:3000
+* ```yarn destroy```: destroys the backend and client stacks

@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from "react";
 import { Form } from "react-bootstrap";
 import { Auth } from "aws-amplify";
+import { LinkContainer } from "react-router-bootstrap";
 import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import "./Login.module.css";
 import Loading from "./components/Loading/Loading";
 import FormInput from "./components/FormInput/FormInput";
 import Button from "./components/Button/Button";
+import { useAppContext } from "./libs/contextLib";
 
 export default function Login() {
     const history = useHistory();
+    const { userHasAuthenticated } = useAppContext();
     const [credentials, setCredentials] = useState({
         username: "",
         password: "",
@@ -43,8 +46,10 @@ export default function Login() {
               userInit: userInit
             });
             setIsLoading(false);
+            userHasAuthenticated(true);
             console.log("password reset");
           } else {
+            userHasAuthenticated(true);
             userInit.signInUserSession && history.push("/home");
           }
     } catch ({ message }) {
