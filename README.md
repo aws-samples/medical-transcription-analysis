@@ -41,3 +41,9 @@ This deployment creates 2 S3 buckets that will have to be deleted manually when 
 * ```yarn build-app```: builds the react app    
 * ```yarn start```: allows development of the web app locally. Changes can be viewed at http://localhost:3000
 * ```yarn destroy```: destroys the backend and client stacks
+
+### Additional Notes
+
+## Sample Data
+
+MTA has pre-loaded audio sample files. These samples were synthesized using data from [MTSamples.com](https://www.mtsamples.com/)
