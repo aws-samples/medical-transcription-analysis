@@ -15,6 +15,14 @@
   z-index: 4;
 }
 
+.dictateAudio {
+  padding: 12px 15px;
+  border-radius: 4px;
+  font-size: large;
+  color: aliceblue;
+  background-color: #ff9900;
+}
+
 .presets {
   margin-top: 0px;
   display: flex;
@@ -22,6 +30,21 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+}
+
+.credit {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color:rgb(39, 38, 38);
+  color: white;
+  text-align: center;
+}
+
+.credit a{
+  width: 100%;
+  color: #ff9900;
 }
 
 .presets div {
@@ -43,5 +66,6 @@
   border-radius: 30px;
   background-image: url(../img/icon_play_big_01.svg);
   background-position: center center;
+  background-color:#ff9900;
   background-repeat: no-repeat;
 }

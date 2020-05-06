@@ -113,7 +113,7 @@ const FAST = false;
 
 
 export default function Home() {
-  const [ offlineEnabled, setOfflineEnabled ] = useState(true);
+  const [ offlineEnabled, setOfflineEnabled ] = useState(false);
 
   useEffect(() => {
     useComprehension.__offline = offlineEnabled;

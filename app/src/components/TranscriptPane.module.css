@@ -42,14 +42,14 @@
   background: #eeeb;
   backdrop-filter: blur(5px);
   z-index: 4;
-  transition: transform 500ms ease, opacity 500ms ease;
+  transition: transform 500ms ease, opacity 200ms ease;
   transform: translateY(-100%) translateY(-150px);
   transform-origin: 100% 0;
 }
 
 .toggles.visible {
   transform: translateY(0);
-  transition-delay: 500ms;
+  transition-delay: 200ms;
 }
 
 .toggles h4 {
