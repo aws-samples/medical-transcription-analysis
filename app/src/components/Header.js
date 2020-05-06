@@ -16,9 +16,8 @@ export default function Header({
 }) {
   return (
     <>
-      <img className={s.behindLogo} src={require('../img/logo_awsml_01.svg')} />
-      <header className={cs(s.base, stage !== STAGE_HOME && s.visible)}>
-        <div className={s.left}>
+      <header className={cs(s.base, s.visible)}>
+          <div className={s.left}>
           {stage !== STAGE_HOME && stage !== STAGE_SUMMARIZE && stage !== STAGE_EXPORT ?
             <button onClick={onHome}><span />Home</button>
           : null}
@@ -32,10 +31,7 @@ export default function Header({
           <img className={s.logo} src={require('../img/logo_awsml_01.svg')} />
         </div>
         <div className={s.headings}>
-          <h1 className={cs(stage !== STAGE_SUMMARIZE && stage !== STAGE_EXPORT && s.collapse)}>Comprehend Medical</h1>
-          {stage === STAGE_TRANSCRIBED || stage === STAGE_TRANSCRIBING || stage === STAGE_SUMMARIZE || stage === STAGE_EXPORT ?
-            <h1>Transcribe Medical</h1>
-          : null}
+        <h1>Medical Transcription Analysis</h1> 
         </div>
         <div className={s.right}>
           {stage === STAGE_TRANSCRIBED || stage === STAGE_TRANSCRIBING ?

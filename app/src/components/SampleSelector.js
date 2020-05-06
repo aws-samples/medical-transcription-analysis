@@ -49,14 +49,15 @@ export default function SampleSelector({
 
   return (
     <div className={cs(s.base, hidden && s.hidden)}>
-      <button onClick={startMic}>Dictate Audio</button>
-
+      <button className={cs(s.dictateAudio)} onClick={startMic}>Dictate Audio</button>
       <FilePicker onSubmit={filesSubmitted} />
-
       <div className={s.presets}>
         {Object.keys(samples).map((s, i) => (
           <SampleButton idx={i + 1} sample={samples[s]} active={activeSample === samples[s]} onSelect={onSelect} onStop={onStop} />
         ))}
+      </div>
+      <div class={s.credit}>
+        <small>Note: Samples were synthesized using data from <a href="https://www.mtsamples.com">MTSamples.com</a></small>
       </div>
     </div>
   )
