@@ -57,6 +57,10 @@ const GetResources = new Promise((resolve, reject) => {
       {
         type: "AWS::Cognito::UserPoolClient",
         key: "UserPoolClientId"
+      },
+      {
+        type: "AWS::ApiGateway::RestApi",
+        key: "APIGateway"
       }
     ];
     const resources = stackDescriptionObj

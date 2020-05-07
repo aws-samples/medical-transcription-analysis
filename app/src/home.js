@@ -12,12 +12,19 @@ import TranscriptPane from './components/TranscriptPane';
 import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
+import { useAppContext } from "./libs/contextLib";
 
 import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
 
 import sampleAudio from './sampleAudio';
+import getCredentials from './audio-utils/getTranscribeCredentials';
 
 
+async function getTranscribeCreds() {
+  const result = await getCredentials();
+  console.log(result);
+  return result;
+}
 // React hook to take an audio file and return a mediastream of its audio
 // The magic value of 0 for `sample` is used to trigger a microphone capture stream
 // stopCallback is called when a recorded audio sample finishes
@@ -109,9 +116,6 @@ const FAST = false;
     }
   }
 }
-
-
-
 export default function Home() {
   const [ offlineEnabled, setOfflineEnabled ] = useState(true);
 
@@ -142,6 +146,7 @@ export default function Home() {
   const [ partialTranscript, setPartialTranscript ] = useState(' ');
   const [ transcripts, setTranscripts ] = useState(false);
   const [ excludedItems, setExcludedItems ] = useState([]);
+  const [transcribeCredential, setTranscribeCredential] = useState(null);
 
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
@@ -183,20 +188,23 @@ export default function Home() {
           data: frame
         });
       }
-
-
-
-      streamer = streamAudioToWebSocket(
-        audioStream,
-        transcript => {
-          if (stopped) return;
-          recordData(transcript);
-          addTranscriptChunk(transcript);
-        },
-        err => {
-          console.log('ERROR', err);
-        }
-      );
+      const res = getTranscribeCreds().then (
+        result =>{
+          console.log(result); 
+          setTranscribeCredential(result);
+          streamer = streamAudioToWebSocket(
+            audioStream,
+            transcript => {
+              if (stopped) return;
+              recordData(transcript);
+              addTranscriptChunk(transcript);
+            },
+            err => {
+              console.log('ERROR', err);
+            },
+            result
+          );
+      });
     }
 
     return () => {
@@ -212,7 +220,7 @@ export default function Home() {
     setShowAnalysis(false);
   }, []);
 
-  const comprehendResults = useComprehension(transcripts || []);
+  const comprehendResults = useComprehension(transcripts || [], transcribeCredential);
 
   const reset = useCallback(() => {
     setTranscripts(false);
