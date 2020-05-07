@@ -22,7 +22,6 @@ import { CanonicalUserPrincipal } from "@aws-cdk/aws-iam";
 import s3 = require("@aws-cdk/aws-s3");
 import { BucketEncryption } from "@aws-cdk/aws-s3";
 import uuid = require("short-uuid");
-import { GatewayResponse } from '@aws-cdk/aws-apigateway';
 import { requireProperty } from '@aws-cdk/core';
 require("dotenv").config();
 export interface MTAStackProps {
