@@ -48,80 +48,21 @@
 }
 
 .headings {
-<<<<<<< HEAD
-  flex: 0;
-  position: relative;
-  height: 100%;
-=======
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
   text-align: center;
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 }
 
 .headings * {
   white-space: nowrap;
   position: absolute;
   top: 0;
-<<<<<<< HEAD
-  left: 50%;
-=======
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
   transition: transform 1000ms ease, opacity 1000ms linear;
   opacity: 1;
 }
 
-<<<<<<< HEAD
-.headings > :first-child {
-  transform: translateX(1em);
-}
-
-.headings > :last-child {
-  transform: translateX(-100%) translateX(-1em);
-}
-
-.collapse {
-  opacity: 0 !important;
-  transform: translateX(-50%) !important;
-}
-
-.collapse + * {
-  transform: translateX(-50%) !important;
-}
-
-.left button {
-  position: relative;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  padding-left: .4em;
-  margin-left: .5em;
-}
-
-.left button span {
-  position: absolute;
-  top: -3px;
-  right: 100%;
-  margin-right: -1px;
-  bottom: -3px;
-  width: 22px;
-  overflow: hidden;
-  background: #fff;
-}
-
-.left button span:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  content: '';
-  width: 1.85em;
-  height: 1.85em;
-  transform: translate(8px, 5.7px) rotate(45deg);
-  border-radius: 8px 5px;
-  background: #ff9900;
-  box-shadow: 1.4px 1.4px 3px 0 rgba(0,0,0,0.2);
-=======
 
 .left button {
   position: relative;
@@ -148,7 +89,6 @@
   position: relative;
   background: white;
   color: gray;
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 }
 
 @media print {

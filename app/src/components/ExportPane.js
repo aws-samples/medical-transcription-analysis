@@ -102,14 +102,8 @@ export default function ExportPane({
       </div>
 
       <div className={s.actions}>
-<<<<<<< HEAD
-        <a className={s.ehr}>Export to EHR system</a>
-        <a className={s.pdf} onClick={() => window.print()}>Export to PDF</a>
-        <a className={s.csv}>Export to CSV</a>
-=======
         <a className={s.ehr} onClick={()=> alert("Add in your EHR support!")} >Export to EHR system</a>
         <a className={s.pdf} onClick={() => window.print()}>Export to PDF</a>
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
       </div>
 
     </div>
