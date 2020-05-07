@@ -38,22 +38,6 @@ function App() {
   return (
     !isAuthenticating &&
       <div className="App">
-<<<<<<< HEAD
-      <Navbar fsticky="top" collapseOnSelect expand="lg" bg="light" variant="light">
-        <Container>
-        <Nav.Item expand="lg">
-            <Link to="/" className="link"> Medical Transcription Analysis </Link>  
-          </Nav.Item>
-          <Nav.Item pullRight className="nav">
-            {isAuthenticated
-          ? <button onClick={handleLogout} type="submit" className="logout">Logout</button>
-          : null}
-            </Nav.Item>
-        </Container>
-          <Navbar.Toggle />
-      </Navbar> 
-=======
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
       <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
         <Routes />
       </AppContext.Provider>

@@ -2,10 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { BrowserRouter as Router } from "react-router-dom";
-<<<<<<< HEAD
-import Login from './Login';
-=======
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 import Amplify from 'aws-amplify';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -13,10 +9,7 @@ import App from './App';
 require("dotenv").config();
 
 const region = process.env.REACT_APP_region;
-<<<<<<< HEAD
 const APIGateway = process.env.REACT_APP_APIGateway;
-=======
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 console.log(region);
 Amplify.configure({
   Auth: {
@@ -33,7 +26,6 @@ Amplify.configure({
       region: region
     }
   },
-<<<<<<< HEAD
   API: {
     endpoints: [
       {
@@ -42,8 +34,6 @@ Amplify.configure({
       }
     ]
   }
-=======
->>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 });
 
 
