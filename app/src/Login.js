@@ -137,7 +137,7 @@ userInputForm = passwordChangeRequired ? passwordResetForm() : loginForm();
   return (
     <article>
       <div className="Login">
-        <h2>Login</h2>
+        <h2>MTA Login</h2>
         {userInputForm}
         {isLoading && <Loading />}
       </div>

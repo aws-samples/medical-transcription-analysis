@@ -259,20 +259,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           }
         );
 
-        const getTranscribeCredentialsLambdaRole = new iam.Role(
-          this,
-          this.resourceName("getTranscribeCredentialsRole"),
-          {
-            assumedBy: new iam.ServicePrincipal("lambda.amazonaws.com")
-          }
-        );
-
-        getTranscribeCredentialsLambdaRole.assumeRolePolicy?.addStatements(new iam.PolicyStatement({
-          effect: iam.Effect.ALLOW,
-          actions: ["sts:AssumeRole"],
-          principals: [new iam.ServicePrincipal("lambda.amazonaws.com")]
-        }));
-
         const transcriberRole = new iam.Role(
           this,
           this.resourceName("TranscriberRole"),
@@ -286,22 +272,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           actions: ["sts:AssumeRole"],
           principals: [new iam.AccountRootPrincipal]
         }));
-
-        getTranscribeCredentialsLambdaRole.addToPolicy(
-          new iam.PolicyStatement({
-            effect: iam.Effect.ALLOW,
-            actions: ["sts:AssumeRole"],
-            resources: [transcriberRole.roleArn]
-          })
-        );
-        getTranscribeCredentialsLambdaRole.addToPolicy(
-          new iam.PolicyStatement({
-            effect: iam.Effect.ALLOW,
-            actions: ["logs:*", "cloudwatch:*"],
-            resources: ["*"]
-          })
-        )
-
+        
         transcriberRole.addToPolicy(
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
@@ -309,7 +280,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             actions: ["transcribe:StartStreamTranscriptionWebSocket","transcribe:StartMedicalStreamTranscription","comprehendmedical:InferICD10CM","comprehendmedical:InferRxNorm","comprehendmedical:DetectEntitiesV2"]
           })
         );
-
 
         // Lambda
         const apiProcessor = new lambda.Function(
@@ -320,12 +290,19 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             code: lambda.Code.asset("lambda"),
             handler: "lambda_function.lambda_handler",
             timeout: cdk.Duration.seconds(60),
-            role: getTranscribeCredentialsLambdaRole,
             environment: {
               TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
               REGION: process.env.region
             }
           }
+        );
+
+        apiProcessor.addToRolePolicy(
+          new iam.PolicyStatement({
+            actions: ["sts:AssumeRole"],
+            effect: iam.Effect.ALLOW,
+            resources: [transcriberRole.roleArn]
+          })
         );
 
         apiProcessor.addLayers(boto3Layer);
@@ -391,9 +368,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
               methodResponses: [
                 {
                   statusCode: "200",
-                  // responseModels: {
-                  //   'application/json': 'Empty',
-                  // },
                   responseParameters: {
                     "method.response.header.Access-Control-Allow-Headers": true,
                     "method.response.header.Access-Control-Allow-Methods": true,

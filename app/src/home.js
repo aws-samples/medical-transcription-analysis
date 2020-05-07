@@ -22,7 +22,6 @@ import getCredentials from './audio-utils/getTranscribeCredentials';
 
 async function getTranscribeCreds() {
   const result = await getCredentials();
-  console.log(result);
   return result;
 }
 // React hook to take an audio file and return a mediastream of its audio
@@ -193,7 +192,6 @@ export default function Home() {
       }
       const res = getTranscribeCreds().then (
         result =>{
-          console.log(result); 
           setTranscribeCredential(result);
           streamer = streamAudioToWebSocket(
             audioStream,

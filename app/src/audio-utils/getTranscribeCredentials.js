@@ -11,9 +11,7 @@ async function getTranscribeCredentials() {
       },
     };
 
-    const result =  await API.post(apiName, path, myInit);
-    console.log(result);
-    
+    const result =  await API.post(apiName, path, myInit); 
     return result;
 }
 
