@@ -28,7 +28,7 @@ export default function Header({
             <button onClick={onHideExport}><span />Back</button>
           : null}
 
-          <img className={s.logo} src={require('../img/logo_awsml_01.svg')} />
+          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={require('../img/logo_awsml_01.svg')} /></a>
         </div>
         <div className={s.headings}>
         <h1>Medical Transcription Analysis</h1> 

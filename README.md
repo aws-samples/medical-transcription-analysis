@@ -5,9 +5,7 @@ Medical Transcription Analysis (MTA) is a simple solution that leverages the pow
 
 To run the solution, clone/download the project. To deploy the solution follow the steps below:
 
-### Development Deploy
-
-This deploy allows for running the client-side code on a local server. If you have not already, configure the aws cli to interact with AWS services using ```aws configure ```.
+### Deployment
 
 #### Requirements
 * yarn
@@ -17,10 +15,14 @@ This deploy allows for running the client-side code on a local server. If you ha
 * Google Chrome web browser
 
 
-To deploy using this approach, you must first set several values inside the package.json file in the source folder.
+If you have not already, configure the aws cli to interact with AWS services using ```aws configure ```.
+To deploy using this approach, you must first set a few values inside the package.json file in the app folder.
 
-* Set your deployment region in the stack->region property, replacing "%%REGION%%". Unlike the regular CICD deploy, this approach will not pull the AWS region from your current AWS profile.
+* Set your AWS deployment region in the stack->region property, replacing "%%REGION%%". 
+
+ **Note** MTA is supported in AWS Regions where Amazon Transcribe Medical and Amazon Comprehend Medical are available. For more information, check out the [AWS Region Table](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)
 * Enter your email into the email property, replacing "%%USER_EMAIL%%"
+
 
 Now switch to the app directory, and use yarn to deploy the solution:
 ```
@@ -35,16 +37,25 @@ This deployment creates 2 S3 buckets that will have to be deleted manually when 
 * 1 for the client bucket
 * 1 for CDK toolkit (if this is your first time using CDK)
 
-### Development Deploy Commands
+### Deploy Commands
 
 * ```yarn deploy:backend```: deploys the backend app
 * ```yarn deploy:client```: deploys or updates the client web app
 * ```yarn build-app```: builds the react app    
-* ```yarn start```: allows development of the web app locally. Changes can be viewed at http://localhost:3000
+* ```yarn start```: allows development of the web app locally.
 * ```yarn destroy```: destroys the backend and client stacks
 
-### Additional Notes
 
-## Sample Data
+
+## Additional Notes
+
+### Sample Data
 
 MTA has pre-loaded audio sample files. These samples were synthesized using data from [MTSamples.com](https://www.mtsamples.com/)
+
+### Offline Mode
+MTA comes with an offline mode built in. This mode is useful for cases when presenting the capcibilities of Amazon Transcribe Medical and Amazon Comprehend Medical in situations with internet connectivity issues. The data included co
+To display offline mode options, press the Shift key thrice while on the webpage.
+
+### Amazon Transcribe Medical Demo
+This solution was built over components from the [amazon-transcribe-medical-demo](https://github.com/aws-samples/amazon-transcribe-medical-demo)
