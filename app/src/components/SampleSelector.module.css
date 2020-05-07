@@ -15,6 +15,17 @@
   z-index: 4;
 }
 
+<<<<<<< HEAD
+=======
+.dictateAudio {
+  padding: 12px 15px;
+  border-radius: 4px;
+  font-size: large;
+  color: aliceblue;
+  background-color: #ff9900;
+}
+
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 .presets {
   margin-top: 0px;
   display: flex;
@@ -24,6 +35,24 @@
   width: 100%;
 }
 
+<<<<<<< HEAD
+=======
+.credit {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color:rgb(39, 38, 38);
+  color: white;
+  text-align: center;
+}
+
+.credit a{
+  width: 100%;
+  color: #ff9900;
+}
+
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 .presets div {
   display: flex;
   flex-direction: column;
@@ -43,5 +72,9 @@
   border-radius: 30px;
   background-image: url(../img/icon_play_big_01.svg);
   background-position: center center;
+<<<<<<< HEAD
+=======
+  background-color:#ff9900;
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
   background-repeat: no-repeat;
 }

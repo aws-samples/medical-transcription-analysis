@@ -12,11 +12,15 @@ import TranscriptPane from './components/TranscriptPane';
 import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
+<<<<<<< HEAD
 import { useAppContext } from "./libs/contextLib";
+=======
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
 import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
 
 import sampleAudio from './sampleAudio';
+<<<<<<< HEAD
 import getCredentials from './audio-utils/getTranscribeCredentials';
 
 
@@ -25,6 +29,10 @@ async function getTranscribeCreds() {
   console.log(result);
   return result;
 }
+=======
+
+
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 // React hook to take an audio file and return a mediastream of its audio
 // The magic value of 0 for `sample` is used to trigger a microphone capture stream
 // stopCallback is called when a recorded audio sample finishes
@@ -116,8 +124,16 @@ const FAST = false;
     }
   }
 }
+<<<<<<< HEAD
 export default function Home() {
   const [ offlineEnabled, setOfflineEnabled ] = useState(true);
+=======
+
+
+
+export default function Home() {
+  const [ offlineEnabled, setOfflineEnabled ] = useState(false);
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
   useEffect(() => {
     useComprehension.__offline = offlineEnabled;
@@ -146,7 +162,10 @@ export default function Home() {
   const [ partialTranscript, setPartialTranscript ] = useState(' ');
   const [ transcripts, setTranscripts ] = useState(false);
   const [ excludedItems, setExcludedItems ] = useState([]);
+<<<<<<< HEAD
   const [transcribeCredential, setTranscribeCredential] = useState(null);
+=======
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
@@ -188,6 +207,7 @@ export default function Home() {
           data: frame
         });
       }
+<<<<<<< HEAD
       const res = getTranscribeCreds().then (
         result =>{
           console.log(result); 
@@ -205,6 +225,22 @@ export default function Home() {
             result
           );
       });
+=======
+
+
+
+      streamer = streamAudioToWebSocket(
+        audioStream,
+        transcript => {
+          if (stopped) return;
+          recordData(transcript);
+          addTranscriptChunk(transcript);
+        },
+        err => {
+          console.log('ERROR', err);
+        }
+      );
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
     }
 
     return () => {
@@ -220,7 +256,11 @@ export default function Home() {
     setShowAnalysis(false);
   }, []);
 
+<<<<<<< HEAD
   const comprehendResults = useComprehension(transcripts || [], transcribeCredential);
+=======
+  const comprehendResults = useComprehension(transcripts || []);
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
   const reset = useCallback(() => {
     setTranscripts(false);

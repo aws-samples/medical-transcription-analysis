@@ -14,7 +14,10 @@ This deploy allows for running the client-side code on a local server. If you ha
 * node 10+
 * aws cli
 * tsc
+<<<<<<< HEAD
 * Google Chrome web browser
+=======
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
 
 To deploy using this approach, you must first set several values inside the package.json file in the source folder.
@@ -42,3 +45,12 @@ This deployment creates 2 S3 buckets that will have to be deleted manually when 
 * ```yarn build-app```: builds the react app    
 * ```yarn start```: allows development of the web app locally. Changes can be viewed at http://localhost:3000
 * ```yarn destroy```: destroys the backend and client stacks
+<<<<<<< HEAD
+=======
+
+### Additional Notes
+
+## Sample Data
+
+MTA has pre-loaded audio sample files. These samples were synthesized using data from [MTSamples.com](https://www.mtsamples.com/)
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e

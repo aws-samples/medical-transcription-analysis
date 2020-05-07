@@ -49,7 +49,11 @@ export default function TranscriptPane({
         <a className={s.hideToggleButton} onClick={() => setShowToggles(false)} />
         <h4>Highlight on transcript</h4>
         {CATEGORIES.map(c => (
+<<<<<<< HEAD
           <div key={c}>
+=======
+           <div key={c} align="left">
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
             <span className={s.toggleWrapper}>
               <Toggle
                 value={enabledCategories.includes(c)}

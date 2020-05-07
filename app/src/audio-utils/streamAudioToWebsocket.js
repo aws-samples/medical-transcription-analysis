@@ -4,7 +4,11 @@ import eventStreamMarshaller from './eventStreamMarshaller';
 import createWebsocketUrl from './createWebsocketUrl';
 import createPCMStream from './createPCMStream';
 
+<<<<<<< HEAD
 export default function streamAudioToWebSocket(userMediaStream, onChunk, onError, credential) {
+=======
+export default function streamAudioToWebSocket(userMediaStream, onChunk, onError) {
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
   let stopped;
 
@@ -25,8 +29,12 @@ export default function streamAudioToWebSocket(userMediaStream, onChunk, onError
 
   // Pre-signed URLs are a way to authenticate a request (or WebSocket connection, in this case)
   // via Query Parameters. Learn more: https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html
+<<<<<<< HEAD
   
   let url = createWebsocketUrl(credential);
+=======
+  let url = createWebsocketUrl();
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
 
   let socketError, transcribeException;
 

@@ -38,6 +38,7 @@ function App() {
   return (
     !isAuthenticating &&
       <div className="App">
+<<<<<<< HEAD
       <Navbar fsticky="top" collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
         <Nav.Item expand="lg">
@@ -51,6 +52,8 @@ function App() {
         </Container>
           <Navbar.Toggle />
       </Navbar> 
+=======
+>>>>>>> dbce1ff8db98c3ff65173730b263f67926930d6e
       <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
         <Routes />
       </AppContext.Provider>
