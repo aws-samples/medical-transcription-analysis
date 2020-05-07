@@ -18,7 +18,7 @@ const cache = window.__comprehend_cache = require('./recorded-responses/comprehe
 const resultMap = new WeakMap();
 
 // React hook to take an array of transcript chunks and return a corresponding array of Comprehend results, one for each
-export default function useComprehension(transcriptChunks) {
+export default function useComprehension(transcriptChunks, clientParams) {
   // Dummy state variable so we can force a refresh when we receive an update
   const [ counter, setCounter ] = useState(0);
 
@@ -67,15 +67,15 @@ export default function useComprehension(transcriptChunks) {
           return;
         }
 
-        detectEntities(chunk.text).then(entities => {
+        detectEntities(chunk.text, clientParams).then(entities => {
           addResult(chunk, entities, cacheKey);
         });
 
-        inferRxNorm(chunk.text).then(entities => {
+        inferRxNorm(chunk.text, clientParams).then(entities => {
           addResult(chunk, entities, cacheKey);
         });
 
-        inferICD10CM(chunk.text).then(entities => {
+        inferICD10CM(chunk.text, clientParams).then(entities => {
           addResult(chunk, entities, cacheKey);
         });
       }

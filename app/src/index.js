@@ -9,6 +9,7 @@ import App from './App';
 require("dotenv").config();
 
 const region = process.env.REACT_APP_region;
+const APIGateway = process.env.REACT_APP_APIGateway;
 console.log(region);
 Amplify.configure({
   Auth: {
@@ -25,6 +26,14 @@ Amplify.configure({
       region: region
     }
   },
+  API: {
+    endpoints: [
+      {
+        name: "MTADemoAPI",
+        endpoint: `https://${APIGateway}.execute-api.${region}.amazonaws.com/prod/`
+      }
+    ]
+  }
 });
 
 

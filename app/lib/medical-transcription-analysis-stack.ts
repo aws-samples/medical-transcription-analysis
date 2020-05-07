@@ -3,6 +3,7 @@ import iam = require("@aws-cdk/aws-iam");
 import cloudfront = require("@aws-cdk/aws-cloudfront");
 import s3deploy = require ("@aws-cdk/aws-s3-deployment");
 import apigateway = require("@aws-cdk/aws-apigateway");
+import lambda = require("@aws-cdk/aws-lambda");
 
 import {
   CloudFrontWebDistribution,
@@ -21,7 +22,8 @@ import { CanonicalUserPrincipal } from "@aws-cdk/aws-iam";
 import s3 = require("@aws-cdk/aws-s3");
 import { BucketEncryption } from "@aws-cdk/aws-s3";
 import uuid = require("short-uuid");
-
+import { requireProperty } from '@aws-cdk/core';
+require("dotenv").config();
 export interface MTAStackProps {
   email: string;
 }
@@ -243,6 +245,162 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
               authenticated: mtaCognitoAuthenticatedRole.roleArn
             }
           }
+        );
+
+        const yarnBotoLoc = lambda.Code.fromAsset("lambda/boto3");
+
+        const boto3Layer = new lambda.LayerVersion(
+          this,
+          this.resourceName("Boto3"),
+          {
+            code: yarnBotoLoc,
+            compatibleRuntimes: [lambda.Runtime.PYTHON_3_7],
+            license: "Apache-2.0"
+          }
+        );
+
+        const transcriberRole = new iam.Role(
+          this,
+          this.resourceName("TranscriberRole"),
+          {
+            assumedBy: new iam.ServicePrincipal("iam.amazonaws.com")
+          }
+        );
+
+        transcriberRole.assumeRolePolicy?.addStatements(new iam.PolicyStatement({
+          effect: iam.Effect.ALLOW,
+          actions: ["sts:AssumeRole"],
+          principals: [new iam.AccountRootPrincipal]
+        }));
+        
+        transcriberRole.addToPolicy(
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            resources: ["*"],
+            actions: ["transcribe:StartStreamTranscriptionWebSocket","transcribe:StartMedicalStreamTranscription","comprehendmedical:InferICD10CM","comprehendmedical:InferRxNorm","comprehendmedical:DetectEntitiesV2"]
+          })
+        );
+
+        // Lambda
+        const apiProcessor = new lambda.Function(
+          this,
+          this.resourceName("MTAApiProcessor"),
+          {
+            runtime: lambda.Runtime.PYTHON_3_7,
+            code: lambda.Code.asset("lambda"),
+            handler: "lambda_function.lambda_handler",
+            timeout: cdk.Duration.seconds(60),
+            environment: {
+              TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
+              REGION: process.env.region
+            }
+          }
+        );
+
+        apiProcessor.addToRolePolicy(
+          new iam.PolicyStatement({
+            actions: ["sts:AssumeRole"],
+            effect: iam.Effect.ALLOW,
+            resources: [transcriberRole.roleArn]
+          })
+        );
+
+        apiProcessor.addLayers(boto3Layer);
+
+        const api = new apigateway.LambdaRestApi(
+          this,
+          this.resourceName("MTADemoAPI"),
+          {
+            handler: apiProcessor,
+            proxy: false,
+            deployOptions: {
+              loggingLevel: apigateway.MethodLoggingLevel.INFO,
+              dataTraceEnabled: true
+            }
+          }
+        );
+    
+        const reqValidator = new apigateway.RequestValidator(
+          this,
+          this.resourceName("apigwResourceValidator"),
+          {
+            restApi: api,
+            validateRequestBody: true,
+            validateRequestParameters: true
+          }
+        );
+    
+        const authorizer = new apigateway.CfnAuthorizer(this, "Authorizer", {
+          identitySource: "method.request.header.Authorization",
+          name: "Authorization",
+          type: "COGNITO_USER_POOLS",
+          providerArns: [mtaUserPool.userPoolArn],
+          restApiId: api.restApiId
+        });
+    
+        function addCorsOptionsAndMethods(
+          apiResource: apigateway.IResource | apigateway.Resource,
+          methods: string[] | []
+        ) {
+          const options = apiResource.addMethod(
+            "OPTIONS",
+            new apigateway.MockIntegration({
+              integrationResponses: [
+                {
+                  statusCode: "200",
+                  responseParameters: {
+                    "method.response.header.Access-Control-Allow-Headers":
+                      "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                    "method.response.header.Access-Control-Allow-Origin": "'*'",
+                    "method.response.header.Access-Control-Allow-Credentials":
+                      "'false'",
+                    "method.response.header.Access-Control-Allow-Methods":
+                      "'OPTIONS,GET,PUT,POST,DELETE'"
+                  }
+                }
+              ],
+              passthroughBehavior: apigateway.PassthroughBehavior.NEVER,
+              requestTemplates: {
+                "application/json": '{"statusCode": 200}'
+              }
+            }),
+            {
+              methodResponses: [
+                {
+                  statusCode: "200",
+                  responseParameters: {
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true,
+                    "method.response.header.Access-Control-Allow-Origin": true
+                  }
+                }
+              ],
+              requestValidator: reqValidator
+            }
+          );
+    
+          methods.forEach(method => {
+            apiResource.addMethod(method, undefined, {
+              authorizationType: apigateway.AuthorizationType.COGNITO,
+              authorizer: {
+                authorizerId: `${authorizer.ref}`
+              }
+            });
+          });
+        }
+    
+        addCorsOptionsAndMethods(api.root, []);
+    
+        const searchResource = api.root.addResource("getCredentials");
+        addCorsOptionsAndMethods(searchResource, ["GET", "POST"]);
+    
+        cognitoPolicy.addStatements(
+          new iam.PolicyStatement({
+            actions: ["execute-api:Invoke"],
+            resources: [api.arnForExecuteApi()],
+            effect: iam.Effect.ALLOW
+          })
         );
   }
   
