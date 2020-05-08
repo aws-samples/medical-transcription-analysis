@@ -25,14 +25,14 @@
 
 .App .Login {
   position: relative;
-  align-items: center;
-  width: span(8);
-  margin: 150px;
+  width: auto;
+  padding: 4em;
+  display: inline-block;
   border: 3px solid #f1f1f1;
+}
 
-  label {
-    display: block;
-  }
+.App .Login h2 {
+  display: inline-block;
 }
 
 .App .Login .error {
@@ -43,7 +43,10 @@
 .App .Login Button {
   background-color: #ff9900;
   color: white;
+  font-size: 16px;
+  display: inline-block;
   padding: 14px 20px;
+  width: 100%;
   margin: 8px 0;
   border: none;
   cursor: pointer;

@@ -1,34 +1,38 @@
 @import '../../styles/shared/index';
 
-$input-border-default: color(gray, 90);
+$input-border-default: color(black, core);
 $input-border-hover: color(gray, 70);
 $input-border-focus: color(gray, 60);
 $input-border-disabled: color(gray, 50);
 $input-border-error: color(red, 20);
 
-$input-color-default: color(gray, 20);
-$input-color-focus: color(gray, 10);
+$input-color-default: color(black, core);
+$input-color-focus: color(black, core);
 $input-color-disabled: color(gray, 40);
 
-$input-background-default: color(gray, 90);
+$input-background-default: color(white,core);
 $input-background-disabled: color(gray, 30);
 $input-background-error: rgba($input-border-error, 0.05);
 
 // Label
-.label {
-  display: inline-block;
+.App .Login label {
+  display: block;
   font-weight: 500;
   line-height: (20/16);
+  width: 100%;
+  padding:0px;
 }
 
 // Single line text, textarea, and search inputs
-.input {
+  .App .Login input {
   @include type-body-primary($input-color-default);
   display: block;
-  width: 100%;
+  color: black;
   padding: rem(6) 1.25em;
   font-weight: 500;
+  width: 87%;
   line-height: (20/16);
+  margin: 8px 0;
   background-color: $input-background-default;
   border: 1px solid $input-border-default;
   border-radius: 40px;

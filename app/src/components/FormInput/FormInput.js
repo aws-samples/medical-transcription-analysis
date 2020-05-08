@@ -35,7 +35,7 @@ export default function FormInput({ children, className, disabled, error, label,
   })
 
   return (
-    <label className={labelClassNames}>
+    <label id="form" className={labelClassNames}>
       {(type === 'checkbox' || type === 'radio') && (
         <>
           <input type={type} className={statusClassNames} disabled={disabled} {...rest} />
