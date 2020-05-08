@@ -12,7 +12,7 @@ Loading.propTypes = {
 
 Loading.defaultProps = {
   overlay: true,
-  size: 96,
+  size: 50,
   color: '#aab7b8',
   thickness: 2,
 }
