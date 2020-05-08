@@ -5,8 +5,7 @@
     }
   
     .Login form {
-      margin: 0 auto;
-      max-width: 320px;
+      margin: auto;
       border: 3px solid #f1f1f1;
     }
     /* Set a style for all buttons */

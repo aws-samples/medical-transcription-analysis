@@ -8,10 +8,10 @@ To run the solution, clone/download the project. To deploy the solution follow t
 ### Deployment
 
 #### Requirements
-* yarn
-* node 10+
-* aws cli
-* tsc
+* yarn (brew install yarn)
+* node 10+ (You can install nodejs by following the instructions [here](https://nodejs.org/en/download/))
+* aws cli (You can install aws cli by following the instructions [here](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html))
+* tsc (npm install typescript)
 * Google Chrome web browser
 
 
