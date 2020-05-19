@@ -6,9 +6,11 @@ Medical Transcription Analysis (MTA) is a simple solution that leverages the pow
 To run the solution, clone/download the project. To deploy the solution follow the steps below:
 
 ### Deployment
+The instructions below cover installation on Unix-based Operating systems like macOS and Linux. 
+You can use a Cloud9 enviornment or EC2 instance (recommended: t3.large or higher on Amazon Linux platform) to deploy the solution
 
 #### Requirements
-* yarn (brew install yarn)
+* yarn (You can install yarn by following instructions [here](https://classic.yarnpkg.com/en/docs/install/))
 * node 10+ (You can install nodejs by following the instructions [here](https://nodejs.org/en/download/))
 * aws cli (You can install aws cli by following the instructions [here](https://docs.aws.amazon.com/cli/latest/userguide/install-macos.html))
 * tsc (npm install typescript)
