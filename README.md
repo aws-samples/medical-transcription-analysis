@@ -56,8 +56,7 @@ This deployment creates 2 S3 buckets that will have to be deleted manually when 
 MTA has pre-loaded audio sample files. These samples were synthesized using data from [MTSamples.com](https://www.mtsamples.com/)
 
 ### Offline Mode
-MTA comes with an offline mode built in. This mode is useful for cases when presenting the capcibilities of Amazon Transcribe Medical and Amazon Comprehend Medical in situations with internet connectivity issues. The data included co
-To display offline mode options, press the Shift key thrice while on the webpage.
+MTA comes with an offline mode built in. This mode is useful for cases when presenting the capabilities of Amazon Transcribe Medical and Amazon Comprehend Medical in situations with internet connectivity issues. To display offline mode options, press the Shift key thrice while on the webpage.
 
 ### Amazon Transcribe Medical Demo
 This solution was built over components from the [amazon-transcribe-medical-demo](https://github.com/aws-samples/amazon-transcribe-medical-demo)
