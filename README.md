@@ -7,7 +7,7 @@ To run the solution, clone/download the project. To deploy the solution follow t
 
 ### Deployment
 The instructions below cover installation on Unix-based Operating systems like macOS and Linux. 
-You can use a Cloud9 enviornment or EC2 instance (recommended: t3.large or higher on Amazon Linux platform) to deploy the solution
+You can use an AWS Cloud9 enviornment or EC2 instance (recommended: t3.large or higher on Amazon Linux platform) to deploy the solution
 
 #### Requirements
 * yarn (You can install yarn by following instructions [here](https://classic.yarnpkg.com/en/docs/install/))
