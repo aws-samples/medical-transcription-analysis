@@ -12,7 +12,7 @@
     "stackname": "MTA",
     "region": "%%REGION%%"
   },
-  "email": "%%REGION%%",
+  "email": "%%USER_EMAIL%%",
   "scripts": {
     "bootstrap": "AWS_REGION=$npm_package_stack_region USER_EMAIL=$npm_package_email cdk bootstrap --toolkit-stack-name MedicalTranscriptionAnalysisCDKToolkit",
     "build-app": "react-scripts build",
