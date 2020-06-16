@@ -26,6 +26,7 @@ import { requireProperty } from '@aws-cdk/core';
 require("dotenv").config();
 export interface MTAStackProps {
   email: string;
+  description : string;
 }
 
 export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
@@ -36,7 +37,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     id: string, 
     props: MTAStackProps
     ) {
-    super(scope, id);
+    super(scope, id , props);
 
 
   this.resourceName = (name: any) =>

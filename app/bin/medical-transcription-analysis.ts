@@ -12,5 +12,6 @@ const userEmail =
 
 const app = new cdk.App();
 new MedicalTranscriptionAnalysisStack(app, stackName,{
-    email: userEmail
+    email: userEmail,
+    description : "MLSLD-S0002. Medical Transcription Analysis. This stack deploys the backend for MTA",
   });
