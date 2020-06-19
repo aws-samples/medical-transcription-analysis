@@ -46,7 +46,6 @@ export default function Login() {
               userInit: userInit
             });
             setIsLoading(false);
-            //userHasAuthenticated(true);
             console.log("password reset");
           } else {
             userHasAuthenticated(true);
