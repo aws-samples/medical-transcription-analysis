@@ -46,7 +46,7 @@ export default function Login() {
               userInit: userInit
             });
             setIsLoading(false);
-            userHasAuthenticated(true);
+            //userHasAuthenticated(true);
             console.log("password reset");
           } else {
             userHasAuthenticated(true);
@@ -67,6 +67,7 @@ const handlePasswordResetSubmit = useCallback(
       setIsLoading(true);
       try {
         const user = await Auth.completeNewPassword(userInit, newPassword);
+        userHasAuthenticated(true);
         user.signInUserSession && history.push("/home");
       } catch ({ message }) {
         setError(message);
