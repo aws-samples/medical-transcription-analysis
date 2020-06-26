@@ -2,16 +2,18 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Login from "./Login";
 import Home from "./home";
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import UnauthenticatedRoute from "./UnauthenticatedRoute";
 
 export default function Routes() {
   return (
     <Switch>
-      <Route exact path="/">
+      <UnauthenticatedRoute exact path="/">
         <Login />
-      </Route>
-      <Route exact path="/home">
+      </UnauthenticatedRoute>
+      <AuthenticatedRoute exact path="/home">
         <Home />
-      </Route>
+      </AuthenticatedRoute>
     </Switch>
   );
 }
