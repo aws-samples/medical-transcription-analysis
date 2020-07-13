@@ -4,12 +4,13 @@ import json
 
 def lambda_handler(context, event):
     print("event: {}".format(event))
-    sts = boto3.client('sts')
+    sts = boto3.client('sts' , 
+    endpoint_url = 'https://sts.{}.amazonaws.com'.format(os.environ['AWS_REGION'])
+    )
     transcribeCredentials = sts.assume_role(
         RoleArn=os.environ['TRANSCRIBE_ACCESS_ROLEARN'],
         RoleSessionName="access_transcribe_role"
     )['Credentials']
-    print(transcribeCredentials)
     result = {}
     result['accessKeyId'] = transcribeCredentials['AccessKeyId']
     result['secretAccessKey'] = transcribeCredentials['SecretAccessKey']
