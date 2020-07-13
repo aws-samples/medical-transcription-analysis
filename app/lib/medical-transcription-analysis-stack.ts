@@ -1,4 +1,5 @@
 import * as cdk from '@aws-cdk/core';
+import ddb = require("@aws-cdk/aws-dynamodb");
 import iam = require("@aws-cdk/aws-iam");
 import cloudfront = require("@aws-cdk/aws-cloudfront");
 import s3deploy = require ("@aws-cdk/aws-s3-deployment");
@@ -281,6 +282,32 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             actions: ["transcribe:StartStreamTranscriptionWebSocket","transcribe:StartMedicalStreamTranscription","comprehendmedical:InferICD10CM","comprehendmedical:InferRxNorm","comprehendmedical:DetectEntitiesV2"]
           })
         );
+        
+        // Dynamodb
+        const TableSessions = new ddb.Table(this, 'Table1', {
+          tableName: 'Sessions',
+          partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
+          sortKey: {name: 'SessionId', type: ddb.AttributeType.NUMBER },
+          serverSideEncryption: true
+        });
+        
+        TableSessions.addGlobalSecondaryIndex({
+          indexName: "hcpIndex",
+          partitionKey: { name: 'HealthCareProId', type: ddb.AttributeType.STRING },
+          sortKey: {name: 'SessionId', type: ddb.AttributeType.NUMBER }
+        });
+        
+        const TablePatients = new ddb.Table(this, 'Table2', {
+          tableName: 'Patients',
+          partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
+          serverSideEncryption: true
+        });
+        
+        const TableHealthCareProfessionals = new ddb.Table(this, 'Table3', {
+          tableName: 'HealthCareProfessionals',
+          partitionKey: { name: 'HealthCareProId', type: ddb.AttributeType.STRING },
+          serverSideEncryption: true
+        });
 
         // Lambda
         const apiProcessor = new lambda.Function(
