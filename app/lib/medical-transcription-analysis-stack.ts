@@ -256,7 +256,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           this.resourceName("Boto3"),
           {
             code: yarnBotoLoc,
-            compatibleRuntimes: [lambda.Runtime.PYTHON_3_7],
+            compatibleRuntimes: [lambda.Runtime.PYTHON_3_8],
             license: "Apache-2.0"
           }
         );
@@ -290,7 +290,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           sortKey: {name: 'SessionId', type: ddb.AttributeType.NUMBER },
           serverSideEncryption: true
         });
-        
+
         TableSessions.addGlobalSecondaryIndex({
           indexName: "hcpIndex",
           partitionKey: { name: 'HealthCareProId', type: ddb.AttributeType.STRING },
@@ -310,11 +310,26 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         });
 
         // Lambda
+        const createHealthCareProAPI = new lambda.Function(
+          this,
+          this.resourceName("CreateHealthCareProAPI"),
+          {
+            runtime: lambda.Runtime.PYTHON_3_8,
+            code: lambda.Code.asset("lambda/create_health_care_professional"),
+            handler: "lambda_function.lambda_handler",
+            timeout: cdk.Duration.seconds(60),
+            environment: {
+              TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
+              REGION: process.env.region
+            }
+          }
+        );
+
         const apiProcessor = new lambda.Function(
           this,
           this.resourceName("MTAApiProcessor"),
           {
-            runtime: lambda.Runtime.PYTHON_3_7,
+            runtime: lambda.Runtime.PYTHON_3_8,
             code: lambda.Code.asset("lambda"),
             handler: "lambda_function.lambda_handler",
             timeout: cdk.Duration.seconds(60),
