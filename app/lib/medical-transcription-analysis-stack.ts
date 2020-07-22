@@ -59,6 +59,19 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     exposedHeaders: ["ETag"],
     allowedHeaders: ["*"]
   };
+
+  //S3 Bucket for Transcribe, Comprehend, and Audio
+  const storageS3Bucket = new s3.Bucket(
+    this,
+    this.resourceName("storageS3Bucket"),
+    {
+      websiteIndexDocument: "index.html",
+      cors: [corsRule],
+      // blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      encryption: BucketEncryption.S3_MANAGED
+    }
+  );
+
         // ### Client ###
 
         const webAppS3Bucket = new s3.Bucket(
@@ -284,47 +297,56 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         );
         
         // Dynamodb
-        const TableSessions = new ddb.Table(this, 'Table1', {
+        const TableSessions = new ddb.Table(this, 'TableSessions', {
           tableName: 'Sessions',
           partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
-          sortKey: {name: 'SessionId', type: ddb.AttributeType.NUMBER },
+          sortKey: {name: 'SessionId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
         });
 
         TableSessions.addGlobalSecondaryIndex({
           indexName: "hcpIndex",
-          partitionKey: { name: 'HealthCareProId', type: ddb.AttributeType.STRING },
-          sortKey: {name: 'SessionId', type: ddb.AttributeType.NUMBER }
+          partitionKey: { name: 'HealthCareProfessionalId', type: ddb.AttributeType.STRING },
+          sortKey: {name: 'SessionId', type: ddb.AttributeType.STRING }
         });
         
-        const TablePatients = new ddb.Table(this, 'Table2', {
+        const TablePatients = new ddb.Table(this, 'TablePatients', {
           tableName: 'Patients',
           partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
         });
         
-        const TableHealthCareProfessionals = new ddb.Table(this, 'Table3', {
+        const TableHealthCareProfessionals = new ddb.Table(this, 'TableHealthCareProfessionals', {
           tableName: 'HealthCareProfessionals',
-          partitionKey: { name: 'HealthCareProId', type: ddb.AttributeType.STRING },
+          partitionKey: { name: 'HealthCareProfessionalId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
         });
 
         // Lambda
-        const createHealthCareProAPI = new lambda.Function(
-          this,
-          this.resourceName("CreateHealthCareProAPI"),
-          {
-            runtime: lambda.Runtime.PYTHON_3_8,
-            code: lambda.Code.asset("lambda/create_health_care_professional"),
-            handler: "lambda_function.lambda_handler",
-            timeout: cdk.Duration.seconds(60),
-            environment: {
-              TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
-              REGION: process.env.region
-            }
-          }
-        );
+        /* CreatHealthCarePro API Processor */
+        // const CreateHealthCareProAPIProcesser = new lambda.Function(
+        //   this,
+        //   this.resourceName("CreateHealthCareProAPIProcesser"),
+        //   {
+        //     runtime: lambda.Runtime.PYTHON_3_8,
+        //     code: lambda.Code.asset("lambda/create_health_care_professional"),
+        //     handler: "lambda_function.lambda_handler",
+        //     timeout: cdk.Duration.seconds(60),
+        //     environment: {
+        //       TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn, 
+        //       REGION: process.env.region
+        //     }
+        //   }
+        // );
+        
+     
 
+        // TableHealthCareProfessionals.grantWriteData(CreateHealthCareProAPIProcesser);
+
+        
+        
+        
+        /* MTAApiProcessor */
         const apiProcessor = new lambda.Function(
           this,
           this.resourceName("MTAApiProcessor"),
@@ -339,6 +361,10 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             }
           }
         );
+
+        TableHealthCareProfessionals.grantReadWriteData(apiProcessor);
+        TablePatients.grantReadWriteData(apiProcessor);
+        TableSessions.grantReadWriteData(apiProcessor);
 
         apiProcessor.addToRolePolicy(
           new iam.PolicyStatement({
@@ -373,6 +399,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           }
         );
     
+        //one authorizer
         const authorizer = new apigateway.CfnAuthorizer(this, "Authorizer", {
           identitySource: "method.request.header.Authorization",
           name: "Authorization",
@@ -384,6 +411,8 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         function addCorsOptionsAndMethods(
           apiResource: apigateway.IResource | apigateway.Resource,
           methods: string[] | []
+          // thereqValidator: apigateway.IRequestValidator | apigateway.RequestValidator,
+          // theauthorizer: apigateway.CfnAuthorizer //apigateway.IAuthorizer //apigateway.CfnAuthorizer
         ) {
           const options = apiResource.addMethod(
             "OPTIONS",
@@ -428,15 +457,33 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
               authorizationType: apigateway.AuthorizationType.COGNITO,
               authorizer: {
                 authorizerId: `${authorizer.ref}`
+                //`${theauthorizer.ref}`
               }
             });
           });
         }
     
         addCorsOptionsAndMethods(api.root, []);
-    
-        const searchResource = api.root.addResource("getCredentials");
-        addCorsOptionsAndMethods(searchResource, ["GET", "POST"]);
+        const getCredentials = api.root.addResource("getCredentials");
+        addCorsOptionsAndMethods(getCredentials, ["GET", "POST"]);
+
+        const createSessionResource = api.root.addResource("createSession");
+        addCorsOptionsAndMethods(createSessionResource, ["POST"]);
+
+        const listSessionsResource = api.root.addResource("listSessions");
+        addCorsOptionsAndMethods(listSessionsResource, ["GET"]);
+
+        const listPatientsResource = api.root.addResource("listPatients");
+        addCorsOptionsAndMethods(listPatientsResource, ["GET"]);
+
+        const createPatientResource = api.root.addResource("createPatient");
+        addCorsOptionsAndMethods(createPatientResource, ["POST"]);
+
+        const listHealthCareProfessionalsResource = api.root.addResource("listHealthCareProfessionals");
+        addCorsOptionsAndMethods(listHealthCareProfessionalsResource, ["GET"]);
+
+        const createHealthCareProfessionaResource = api.root.addResource("createHealthCareProfessional");
+        addCorsOptionsAndMethods(createHealthCareProfessionaResource, ["POST"]);
     
         cognitoPolicy.addStatements(
           new iam.PolicyStatement({
