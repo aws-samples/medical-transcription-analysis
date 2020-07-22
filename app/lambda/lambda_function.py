@@ -55,3 +55,4 @@ def lambda_handler(event, context):
         return ListSessionsLambda().handle(event,context)
     else:
         return GetCredentialsLambda().handle(event,context)
+
