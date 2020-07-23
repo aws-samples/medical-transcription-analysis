@@ -29,7 +29,7 @@ class DataStore:
         self._indexPartitionKeyName = indexPartitionKeyName
         self._indexSortKeyName = indexSortKeyName
     
-    def save(self, info):
+    def save(self, info, awsRegion=None):
         """Store the data into database
         
         Args:
@@ -39,14 +39,14 @@ class DataStore:
             None
         """
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 table.put_item(Item=info)
             except Exception as e:
                 print(str(e))
 
-    def list_items(self):
+    def list_items(self, awsRegion=None):
         """List the data from database
         
         Args:
@@ -57,7 +57,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.scan()
@@ -80,9 +80,6 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
-                print('query by partition key')
-                print(response)
-                print(response['Items'])
             except Exception as e:
                 print(str(e))
         return response['Items']
@@ -103,9 +100,6 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
-                print('query by both key')
-                print(response)
-                print(response['Items'])
             except Exception as e:
                 print(str(e))
         return response['Items']

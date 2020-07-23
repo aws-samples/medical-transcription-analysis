@@ -35,8 +35,8 @@ class CreateSessionLambda(LambdaBase):
                 DATASTORE_COLUMN_TRANSCRIBE_S3_PATH: TranscribeS3Path,
                 DATASTORE_COLUMN_AUDIO_S3_PATH: AudioS3Path,
                 DATASTORE_COLUMN_TIMESTAMP_START: TimeStampStart,
-                DATASTORE_COLUMN_TIMESTAMP_END: epochTime})
-        return Session().createSession(info)
+                DATASTORE_COLUMN_TIMESTAMP_END: epochTime}
+        Session().createSession(info)
         return SessionId
 
     def handle(self, event, context):
