@@ -46,7 +46,7 @@ class DataStore:
             except Exception as e:
                 print(str(e))
 
-    def list_items(self, awsRegion=None):
+    def listItems(self, awsRegion=None):
         """List the data from database
         
         Args:
@@ -65,7 +65,7 @@ class DataStore:
                 print(str(e))
         return response['Items']
 
-    def query_by_partition_key(self, partitionKey):
+    def queryByPartitionKey(self, partitionKey):
         """List the data from database based on partition key
         
         Args:
@@ -84,7 +84,7 @@ class DataStore:
                 print(str(e))
         return response['Items']
 
-    def query_by_both_keys(self, partitionKey, sortKey):
+    def queryByBothKeys(self, partitionKey, sortKey):
         """List the data from database based on partition key and sort key
         
         Args:
@@ -104,7 +104,7 @@ class DataStore:
                 print(str(e))
         return response['Items']
     
-    def query_by_index_partition_key(self, indexPartitionKey):
+    def queryByIndexPartitionKey(self, indexPartitionKey):
         """List the data from database based on index partition key
         
         Args:
@@ -126,7 +126,7 @@ class DataStore:
                 print(str(e))
         return response['Items']
 
-    def query_by_index_both_keys(self, indexPartitionKey, indexSortKey):
+    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey):
         """List the data from database based on index partition key and index sort key
         
         Args:

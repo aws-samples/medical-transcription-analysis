@@ -13,7 +13,7 @@ class GetCredentialsLambda(LambdaBase):
 
     def handle(self, event, context):
         print("event: {}".format(event))
-        sts = AwsHelper().getResource('sts')
+        sts = AwsHelper().getClient('sts')
         transcribeCredentials = sts.assume_role(
             RoleArn=os.environ['TRANSCRIBE_ACCESS_ROLEARN'],
             RoleSessionName="access_transcribe_role"

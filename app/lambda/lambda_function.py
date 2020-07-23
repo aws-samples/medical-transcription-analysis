@@ -1,4 +1,3 @@
-import boto3
 import os
 import json
 from get_credentials.lambda_function import GetCredentialsLambda
@@ -20,20 +19,5 @@ def lambda_handler(event, context):
     if event['resource'] in options:
         return options[event['resource']].handle(event, context)
     else:
-        raise Exception("operations not supported")
-    # if(event['resource'] == '/getCredentials'):
-    #     return GetCredentialsLambda().handle(event,context)
-    # elif(event['resource'] == '/createHealthCareProfessional'):
-    #     return CreateHealthCareProfessionalLambda().handle(event,context)
-    # elif(event['resource'] == '/createPatient'):
-    #     return CreatePatientLambda().handle(event,context)
-    # elif(event['resource'] == '/listHealthCareProfessionals'):
-    #     return ListHealthCareProfessionalsLambda().handle(event,context)
-    # elif(event['resource'] == '/listPatients'):
-    #     return ListPatientsLambda().handle(event,context)
-    # elif(event['resource'] == '/createSession'):
-    #     return CreateSessionLambda().handle(event,context)
-    # elif(event['resource'] == '/listSessions'):
-    #     return ListSessionsLambda().handle(event,context)
-    # else:
-    #     raise Exception("operation not supported")
+        raise Exception("operation not supported")
+    

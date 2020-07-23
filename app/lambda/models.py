@@ -36,7 +36,7 @@ class Patient:
         Returns:
             List of patient(s) info
         """
-        return self._patientDataStore.query_by_partition_key(partitionKey) if partitionKey else self._patientDataStore.list_items()
+        return self._patientDataStore.queryByPartitionKey(partitionKey) if partitionKey else self._patientDataStore.listItems()
      
             
 
@@ -76,7 +76,7 @@ class HealthCareProfessional:
         Returns:
             List of health care professional(s) info
         """
-        return self._healthCareProfessionalDataStore.query_by_partition_key(partitionKey) if partitionKey else self._healthCareProfessionalDataStore.list_items()
+        return self._healthCareProfessionalDataStore.queryByPartitionKey(partitionKey) if partitionKey else self._healthCareProfessionalDataStore.listItems()
         
 
 class Session:
@@ -125,12 +125,12 @@ class Session:
             List of session(s) info
         """
         if partitionKey and sortKey:
-            return self._sessionDataStore.query_by_both_keys(partitionKey, sortKey)
+            return self._sessionDataStore.queryByBothKeys(partitionKey, sortKey)
         elif indexPartitionKey and sortKey:
-            return self._sessionDataStore.query_by_index_both_keys(indexPartitionKey, sortKey)
+            return self._sessionDataStore.queryByIndexBothKeys(indexPartitionKey, sortKey)
         elif partitionKey:
-            return self._sessionDataStore.query_by_partition_key(partitionKey)
+            return self._sessionDataStore.queryByPartitionKey(partitionKey)
         elif indexPartitionKey:
-            return self._sessionDataStore.query_by_index_partition_key(indexPartitionKey)
+            return self._sessionDataStore.queryByIndexPartitionKey(indexPartitionKey)
         
         return {"Items": []}
