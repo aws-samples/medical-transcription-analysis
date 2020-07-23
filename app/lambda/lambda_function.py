@@ -1,32 +1,3 @@
-# import boto3
-# import os
-# import json
-
-# def lambda_handler(event, context):
-#     print("event: {}".format(event))
-#     sts = boto3.client('sts')
-#     transcribeCredentials = sts.assume_role(
-#         RoleArn=os.environ['TRANSCRIBE_ACCESS_ROLEARN'],
-#         RoleSessionName="access_transcribe_role"
-#     )['Credentials']
-#     print(transcribeCredentials)
-#     result = {}
-#     result['accessKeyId'] = transcribeCredentials['AccessKeyId']
-#     result['secretAccessKey'] = transcribeCredentials['SecretAccessKey']
-#     result['sessionToken'] = transcribeCredentials['SessionToken']
-#     result['region'] = os.environ['AWS_REGION']
-#     return {
-#         "isBase64Encoded": False,
-#         "statusCode": 200,
-#         'body': json.dumps(result),
-#         "headers": {
-#             'Content-Type': 'application/json',
-#             'Access-Control-Allow-Origin': '*',
-#             'Access-Control-Allow-Headers': '*',
-#             'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
-#             }
-#     }
-
 import boto3
 import os
 import json
@@ -39,19 +10,30 @@ from create_session.lambda_function import CreateSessionLambda
 from list_sessions.lambda_function import ListSessionsLambda
 
 def lambda_handler(event, context):
-    if(event['resource'] == '/getCredentials'):
-        return GetCredentialsLambda().handle(event,context)
-    elif(event['resource'] == '/createHealthCareProfessional'):
-        return CreateHealthCareProfessionalLambda().handle(event,context)
-    elif(event['resource'] == '/createPatient'):
-        return CreatePatientLambda().handle(event,context)
-    elif(event['resource'] == '/listHealthCareProfessionals'):
-        return ListHealthCareProfessionalsLambda().handle(event,context)
-    elif(event['resource'] == '/listPatients'):
-        return ListPatientsLambda().handle(event,context)
-    elif(event['resource'] == '/createSession'):
-        return CreateSessionLambda().handle(event,context)
-    elif(event['resource'] == '/listSessions'):
-        return ListSessionsLambda().handle(event,context)
+    options = {'/getCredentials': GetCredentialsLambda(),
+               '/createHealthCareProfessional': CreateHealthCareProfessionalLambda(),
+               '/createPatient': CreatePatientLambda(),
+               '/listHealthCareProfessionals': ListHealthCareProfessionalsLambda(),
+               '/listPatients': ListPatientsLambda(),
+               '/createSession': CreateSessionLambda(),
+               '/listSessions': ListSessionsLambda()}
+    if event['resource'] in options:
+        return options[event['resource']].handle(event, context)
     else:
-        return GetCredentialsLambda().handle(event,context)
+        raise Exception("operations not supported")
+    # if(event['resource'] == '/getCredentials'):
+    #     return GetCredentialsLambda().handle(event,context)
+    # elif(event['resource'] == '/createHealthCareProfessional'):
+    #     return CreateHealthCareProfessionalLambda().handle(event,context)
+    # elif(event['resource'] == '/createPatient'):
+    #     return CreatePatientLambda().handle(event,context)
+    # elif(event['resource'] == '/listHealthCareProfessionals'):
+    #     return ListHealthCareProfessionalsLambda().handle(event,context)
+    # elif(event['resource'] == '/listPatients'):
+    #     return ListPatientsLambda().handle(event,context)
+    # elif(event['resource'] == '/createSession'):
+    #     return CreateSessionLambda().handle(event,context)
+    # elif(event['resource'] == '/listSessions'):
+    #     return ListSessionsLambda().handle(event,context)
+    # else:
+    #     raise Exception("operation not supported")

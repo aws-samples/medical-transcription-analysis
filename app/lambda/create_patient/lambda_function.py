@@ -3,9 +3,9 @@ import uuid
 import sys
 
 sys.path.append("../")
-# import boto3
 from lambda_base import LambdaBase
 from models import Patient
+from constant_variables import *
 
 class CreatePatientLambda(LambdaBase):
     def __init__(self): 
@@ -13,21 +13,14 @@ class CreatePatientLambda(LambdaBase):
 
     def putItem(self, PatientName):
         PatientId = "p-"+uuid.uuid4().hex
-        info = {'PatientId': PatientId, 'PatientName':  PatientName}
+        info = {DATASTORE_COLUMN_PATIENT_ID: PatientId, DATASTORE_COLUMN_PATIENT_NAME:  PatientName}
         Patient().createPatient(info)
         return PatientId
-        # client = boto3.resource('dynamodb')
-        # table = client.Table("Patients")
-        # PatientId = "p-"+uuid.uuid4().hex 
-        # table.put_item(Item= {'PatientId': PatientId,
-        #                      'PatientName':  PatientName})
-        # return PatientId
 
     def handle(self, event, context):
         try:
-            name = event['PatientName'] #need further discussion about json format in request
-            id = self.putItem(name)
-            result = {'PatientId' : id}
+            name = event[DATASTORE_COLUMN_PATIENT_NAME] if DATASTORE_COLUMN_PATIENT_NAME in event else None
+            result = {DATASTORE_COLUMN_PATIENT_ID : id}
             return {
             "isBase64Encoded": False,
             "statusCode": 200,

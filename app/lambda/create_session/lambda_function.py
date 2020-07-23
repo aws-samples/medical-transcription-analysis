@@ -6,6 +6,8 @@ import uuid
 sys.path.append("../")
 import boto3
 from lambda_base import LambdaBase
+from constant_variables import *
+from models import Session
 
 
 class CreateSessionLambda(LambdaBase):
@@ -19,35 +21,33 @@ class CreateSessionLambda(LambdaBase):
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(epoch))
 
     def putItem(self, PatientId, HealthCareProfessionalId, SessionName, TimeStampStart):
-        client = boto3.resource('dynamodb')
-        table = client.Table("Sessions")
         tempId = uuid.uuid4().hex 
         epochTime = self.CurTimeToEpoch()
-        SessionId = "s-"+tempId+str(epochTime)
-        ComprehendS3Path = "c-"+tempId+str(epochTime)
-        TranscribeS3Path = "t-"+tempId+str(epochTime)
-        AudioS3Path = "a-"+tempId+str(epochTime)
-        table.put_item(Item= {'SessionId': SessionId,
-                              'PatientId': PatientId,
-                              'HealthCareProfessionalId': HealthCareProfessionalId,
-                              'SessionName': SessionName,
-                              'ComprehendS3Path': ComprehendS3Path,
-                              'TranscribeS3Path': TranscribeS3Path,
-                              'AudioS3Path': AudioS3Path,
-                              'TimeStampStart': TimeStampStart,
-                              'TimeStampEnd': epochTime})
-        s3_client = boto3.resource('s3')
+        SessionId = "s-"+str(epochTime)+tempId
+        ComprehendS3Path = "c-"+str(epochTime)+tempId
+        TranscribeS3Path = "t-"+str(epochTime)+tempId
+        AudioS3Path = "a-"+str(epochTime)+tempId
+        info = {DATASTORE_COLUMN_SESSION_ID : SessionId,
+                DATASTORE_COLUMN_PATIENT_ID: PatientId,
+                DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID: HealthCareProfessionalId,
+                DATASTORE_COLUMN_SESSION_NAME: SessionName,
+                DATASTORE_COLUMN_COMPREHEND_S3_PATH: ComprehendS3Path,
+                DATASTORE_COLUMN_TRANSCRIBE_S3_PATH: TranscribeS3Path,
+                DATASTORE_COLUMN_AUDIO_S3_PATH: AudioS3Path,
+                DATASTORE_COLUMN_TIMESTAMP_START: TimeStampStart,
+                DATASTORE_COLUMN_TIMESTAMP_END: epochTime})
+        return Session().createSession(info)
         return SessionId
 
     def handle(self, event, context):
         print("event: {}".format(event))
         try:
-            PatientId = event['PatientId'] if 'PatientId' in event else None
-            HealthCareProfessionalId = event['HealthCareProfessionalId'] if 'HealthCareProfessionalId' in event else None
-            SessionName = event['SessionName'] if 'SessionName' in event else None
-            TimeStampStart = event['TimeStampStart'] if 'TimeStampStart' in event else None
+            PatientId = event[DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event else None
+            HealthCareProfessionalId = event[DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event else None
+            SessionName = event[DATASTORE_COLUMN_SESSION_NAME] if DATASTORE_COLUMN_SESSION_NAME in event else None
+            TimeStampStart = event[DATASTORE_COLUMN_TIMESTAMP_START] if DATASTORE_COLUMN_TIMESTAMP_START in event else None
             id = self.putItem(PatientId, HealthCareProfessionalId, SessionName, TimeStampStart)
-            result = {'SessionId' : id}
+            result = {DATASTORE_COLUMN_SESSION_ID : id}
             return {
             "isBase64Encoded": False,
             "statusCode": 200,

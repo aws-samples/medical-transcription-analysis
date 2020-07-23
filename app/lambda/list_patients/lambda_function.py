@@ -2,11 +2,9 @@ import json
 import sys
 
 sys.path.append("../")
-# import boto3
-# from boto3.dynamodb.conditions import Key
 from lambda_base import LambdaBase
 from models import Patient
-
+from constant_variables import *
 
 class ListPatientsLambda(LambdaBase):
     def __init__(self): 
@@ -14,19 +12,10 @@ class ListPatientsLambda(LambdaBase):
 
     def getItems(self, Patientid):
         return Patient().requestPatients(Patientid)
-        # client = boto3.resource('dynamodb')
-        # table = client.Table("Patients")
-        # response = None
-        # if Patientid == '':
-        #     response = table.scan()
-        # else:
-        #     response = table.query(KeyConditionExpression=Key('PatientId').eq(Patientid))
-        # return response["Items"]
         
-
     def handle(self, event, context):
         try:
-            id = event['PatientId'] if 'PatientId' in event else None  
+            id = event[DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event else None  
             result = self.getItems(id)
             return {
             "isBase64Encoded": False,

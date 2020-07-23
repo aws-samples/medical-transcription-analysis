@@ -4,6 +4,7 @@ import sys
 sys.path.append("../")
 from lambda_base import LambdaBase
 from models import HealthCareProfessional
+from constant_variables import *
 
 class ListHealthCareProfessionalsLambda(LambdaBase):
     def __init__(self): 
@@ -11,18 +12,10 @@ class ListHealthCareProfessionalsLambda(LambdaBase):
 
     def getItems(self, HealthCareProfessionalid):
         return HealthCareProfessional().requestHealthCareProfessionals(HealthCareProfessionalid)
-        # client = boto3.resource('dynamodb')
-        # table = client.Table("HealthCareProfessionals")
-        # response = None
-        # if HealthCareProfessionalid == '':
-        #     response = table.scan()
-        # else:
-        #     response = table.query(KeyConditionExpression=Key('HealthCareProfessionalId').eq(HealthCareProfessionalid))
-        # return response["Items"]
 
     def handle(self, event, context):
         try:
-            id = event['HealthCareProfessionalId'] if 'HealthCareProfessionalId' in event else None  
+            id = event[DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event else None  
             result = self.getItems(id)
             return {
             "isBase64Encoded": False,

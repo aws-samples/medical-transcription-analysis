@@ -94,7 +94,7 @@ class Session:
         self._partitionKeyName = "PatientId"
         self._sortKeyName = "SessionId"
         self._indexName = "hcpIndex"
-        self._indexPartitionKeyName = "HealthCareProfesionalId"
+        self._indexPartitionKeyName = "HealthCareProfessionalId"
         self._indexSortKeyName = "SessionId"
         self._sessionDataStore = DataStore(self._databaseName, self._tableName, self._partitionKeyName, self._sortKeyName, self._indexName, self._indexPartitionKeyName, self._indexSortKeyName)
     

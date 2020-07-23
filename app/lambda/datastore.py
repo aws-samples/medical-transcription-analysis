@@ -80,6 +80,9 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
+                print('query by partition key')
+                print(response)
+                print(response['Items'])
             except Exception as e:
                 print(str(e))
         return response['Items']
@@ -100,6 +103,9 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
+                print('query by both key')
+                print(response)
+                print(response['Items'])
             except Exception as e:
                 print(str(e))
         return response['Items']

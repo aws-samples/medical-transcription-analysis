@@ -3,8 +3,8 @@ import json
 import sys
 
 sys.path.append("../")
-import boto3
 from lambda_base import LambdaBase
+from helper import AwsHelper
 
 
 class GetCredentialsLambda(LambdaBase):
@@ -13,7 +13,7 @@ class GetCredentialsLambda(LambdaBase):
 
     def handle(self, event, context):
         print("event: {}".format(event))
-        sts = boto3.client('sts')
+        sts = AwsHelper().getResource('sts')
         transcribeCredentials = sts.assume_role(
             RoleArn=os.environ['TRANSCRIBE_ACCESS_ROLEARN'],
             RoleSessionName="access_transcribe_role"
