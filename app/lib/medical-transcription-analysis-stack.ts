@@ -323,29 +323,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         });
 
         // Lambda
-        /* CreatHealthCarePro API Processor */
-        // const CreateHealthCareProAPIProcesser = new lambda.Function(
-        //   this,
-        //   this.resourceName("CreateHealthCareProAPIProcesser"),
-        //   {
-        //     runtime: lambda.Runtime.PYTHON_3_8,
-        //     code: lambda.Code.asset("lambda/create_health_care_professional"),
-        //     handler: "lambda_function.lambda_handler",
-        //     timeout: cdk.Duration.seconds(60),
-        //     environment: {
-        //       TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn, 
-        //       REGION: process.env.region
-        //     }
-        //   }
-        // );
-        
-     
-
-        // TableHealthCareProfessionals.grantWriteData(CreateHealthCareProAPIProcesser);
-
-        
-        
-        
         /* MTAApiProcessor */
         const apiProcessor = new lambda.Function(
           this,
