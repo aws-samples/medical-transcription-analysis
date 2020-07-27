@@ -48,6 +48,7 @@
     "@aws-cdk/aws-cognito": "1.32.0",
     "@aws-cdk/aws-iam": "1.32.0",
     "@aws-cdk/aws-lambda": "1.32.0",
+    "@aws-cdk/aws-dynamodb": "1.32.0",
     "@aws-cdk/aws-s3": "1.32.0",
     "@aws-cdk/aws-s3-deployment": "1.32.0",
     "@aws-cdk/core": "1.32.0",

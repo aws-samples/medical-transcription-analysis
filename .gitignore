@@ -45,7 +45,7 @@ app/cdk.out/
 app/lib/medical-transcription-analysis-client-stack.js
 app/lib/medical-transcription-analysis-client-stack.js-e
 app/lib/medical-transcription-analysis-stack.js
-
-
-
+app/lambda/__pycache__/datastore.cpython-37.pyc
+app/lambda/__pycache__/helper.cpython-37.pyc
+*pyc
 
