@@ -52,3 +52,43 @@
   cursor: pointer;
 }
 
+.App .preHome Button {
+  background-color: #ff9900;
+  color: white;
+  font-size: 16px;
+  display: inline-block;
+  padding: 14px 20px;
+  width: 100%;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 110px;
+}
+
+/* 
+  .App .preHome {
+    padding: 60px 0;
+    margin-left: 150px;
+  }
+
+  .App .preHome form {
+    margin: auto;
+    border: 3px solid #f1f1f1;
+    display: inline-flex
+  }
+
+  .App .preHome Button {
+    background-color: #ff9900;
+    color: white;
+    padding: 0px 20px;
+    margin: 10px 0;
+    border: 1px solid #767676;
+    border-left: none;
+    cursor: pointer;
+  }
+
+  .App .preHome input{
+    width: 400px;
+    height: 25px;
+    margin: -5px 0;
+  }    */
