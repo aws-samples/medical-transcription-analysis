@@ -101,6 +101,20 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           }
         );
     
+        new cdk.CfnOutput(
+        this,
+        'CloudFront-Id',{
+          description : "Cloudfront Distribution ID",
+          value: distribution.distributionId
+        }  
+        )
+        new cdk.CfnOutput(
+        this,
+        'CloudFront-Domain',{
+          description : "Cloudfront Domain Name",
+          value: distribution.domainName
+        }
+        )
         const cloudfrontPolicyStatement = new iam.PolicyStatement({
           actions: ["s3:GetBucket*", "s3:GetObject*", "s3:List*"],
           resources: [
