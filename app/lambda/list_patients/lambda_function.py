@@ -15,7 +15,7 @@ class ListPatientsLambda(LambdaBase):
         
     def handle(self, event, context):
         try:
-            id = event[DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event else None  
+            id = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event["queryStringParameters"] else None  
             result = self.getItems(id)
             return {
             "isBase64Encoded": False,

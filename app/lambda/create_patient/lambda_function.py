@@ -19,7 +19,11 @@ class CreatePatientLambda(LambdaBase):
 
     def handle(self, event, context):
         try:
-            name = event[DATASTORE_COLUMN_PATIENT_NAME] if DATASTORE_COLUMN_PATIENT_NAME in event else None
+            print("event: {}".format(event))
+            print('body' in event)
+            
+            name = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_NAME] if DATASTORE_COLUMN_PATIENT_NAME in event["queryStringParameters"] else None
+            id = self.putItem(name)
             result = {DATASTORE_COLUMN_PATIENT_ID : id}
             return {
             "isBase64Encoded": False,

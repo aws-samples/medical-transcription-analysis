@@ -431,11 +431,11 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     
           methods.forEach(method => {
             apiResource.addMethod(method, undefined, {
-              authorizationType: apigateway.AuthorizationType.COGNITO,
-              authorizer: {
-                authorizerId: `${authorizer.ref}`
-                //`${theauthorizer.ref}`
-              }
+              authorizationType: apigateway.AuthorizationType.NONE//apigateway.AuthorizationType.COGNITO,
+              // authorizer: {
+              //   authorizerId: `${authorizer.ref}`
+              //   //`${theauthorizer.ref}`
+              // }
             });
           });
         }

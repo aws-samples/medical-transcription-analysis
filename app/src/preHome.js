@@ -16,27 +16,106 @@ export default function PreHome() {
     const handleSubmit = event => {
         event.preventDefault();
         alert(`Submitting Name ${searchVal}`)
-        return search()
+        return listSessions()
     }
 
-    async function search() {
+    async function listSessions() {
         const apiName = 'MTADemoAPI';
         const path = 'listSessions';
-        // console.log((await Auth.currentSession()).getAccessToken().getJwtToken())
         const myInit = { 
-          headers: { 
-            Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-          },
-          response: true,
-        //   queryStringParameters: {
-        //     patientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
+        //   headers: { 
+        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
         //   },
+          response: true,
+          queryStringParameters: {
+            PatientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
+          },
         };
     
         const result =  await API.get(apiName, path, myInit); 
         console.log(result);
         return result;
     }
+
+    async function listPatients() {
+        const apiName = 'MTADemoAPI';
+        const path = 'listPatients';
+        const myInit = { 
+        //   headers: { 
+        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+        //   },
+          response: true,
+          queryStringParameters: {
+            PatientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
+          },
+        };
+    
+        const result =  await API.get(apiName, path, myInit); 
+        console.log(result);
+        return result;
+    }
+
+    async function listHealthCareProfessionals() {
+        const apiName = 'MTADemoAPI';
+        const path = 'listHealthCareProfessionals';
+        const myInit = { 
+        //   headers: { 
+        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+        //   },
+          response: true,
+          queryStringParameters: {
+            HealthCareProfessionalId: 'h-67a2c81c20994ff48b52c1b7416667a5',
+          },
+        };
+    
+        const result =  await API.get(apiName, path, myInit); 
+        console.log(result);
+        return result;
+    }
+ 
+    async function createPatient() {
+        const apiName = 'MTADemoAPI';
+        const path = 'createPatient';
+        const myInit = { 
+            //   headers: { 
+            //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+            //   },
+            response: true,
+            queryStringParameters: {
+                'PatientName': 'Red',
+            },
+            body: {
+                'PatientName': 'Red',
+            },
+        };
+    
+        const result =  await API.post(apiName, path, myInit); 
+        console.log(result);
+        return result;
+    }
+
+    async function createHealthCareProfessional() {
+        const apiName = 'MTADemoAPI';
+        const path = 'createHealthCareProfessional';
+        const myInit = { 
+        //   headers: { 
+        //     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+        //   },
+          response: true,
+          queryStringParameters: {
+            'HealthCareProfessionalName': 'Blue',
+          },
+          body: {
+            'HealthCareProfessionalName': 'Blue',
+          },
+        };
+    
+        const result =  await API.post(apiName, path, myInit); 
+        console.log(result);
+        return result;
+    }
+
+    
 
     // const search = await API.get('MTADemoAPI', '/listSessions', {
     //     headers: { 
@@ -56,9 +135,14 @@ export default function PreHome() {
                 <button type="submit" onClick={toRecordingPage}>Start a record</button>
                 <form className = {s.searchBar}>
                     <input type="text" placeholder="Search.." name="search" value={searchVal} onChange={e => setSearchVal(e.target.value)}/>
-                    <button type="submit" onClick={handleSubmit}><i class="fa fa-search"></i></button>
-                </form>   
+                    <button type="submit" onClick={listSessions}><i class="fa fa-search"></i></button>
+                </form> 
+
             </div>
+            <button type="submit" onClick={listPatients}>List Patients</button>
+            <button type="submit" onClick={listHealthCareProfessionals}>List Health Care Professionals</button>
+            <button type="submit" onClick={createPatient}>Create Patient</button>
+            <button type="submit" onClick={createHealthCareProfessional}>Create Health Care Professional</button>  
         </div>
 
         /* <form>

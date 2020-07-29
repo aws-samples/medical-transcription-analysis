@@ -42,16 +42,16 @@ class CreateSessionLambda(LambdaBase):
     def handle(self, event, context):
         print("event: {}".format(event))
         try:
-            PatientId = event[DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event else None
-            HealthCareProfessionalId = event[DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event else None
-            SessionName = event[DATASTORE_COLUMN_SESSION_NAME] if DATASTORE_COLUMN_SESSION_NAME in event else None
-            TimeStampStart = event[DATASTORE_COLUMN_TIMESTAMP_START] if DATASTORE_COLUMN_TIMESTAMP_START in event else None
+            PatientId = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event["queryStringParameters"] else None
+            HealthCareProfessionalId = event["queryStringParameters"][DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event["queryStringParameters"] else None
+            SessionName = event["queryStringParameters"][DATASTORE_COLUMN_SESSION_NAME] if DATASTORE_COLUMN_SESSION_NAME in event["queryStringParameters"] else None
+            TimeStampStart = event["queryStringParameters"][DATASTORE_COLUMN_TIMESTAMP_START] if DATASTORE_COLUMN_TIMESTAMP_START in event["queryStringParameters"] else None
             id = self.putItem(PatientId, HealthCareProfessionalId, SessionName, TimeStampStart)
             result = {DATASTORE_COLUMN_SESSION_ID : id}
             return {
             "isBase64Encoded": False,
             "statusCode": 200,
-            'body': json.dumps(result),
+            # 'body': json.dumps(result),
             "headers": {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
