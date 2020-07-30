@@ -9,14 +9,28 @@ import s from "./preHome.module.css";
 export default function PreHome() {
     const [isLoading, setIsLoading] = useState(false);
     const [searchVal, setSearchVal] = useState("");
+    const [sessionName, setSessionName] = useState("");
+    const [patientId, setPatientId] = useState("");
+    const [healthCareProfessionalId, setHealthCareProfessionalId] = useState("");
+    const [showCreateSessionForm, setShowCreateSessionForm] = useState(true);
+    const [showCreatePatientForm, setShowCreatePatientForm] = useState(true);
+    const [showCreateHealthCareProfessionalForm, setShowCreateHealthCareProfessionalFrom] = useState(true);
+    const [patientName, setPatientName] = useState("")
+    const [healthCareProfessionalName, setHealthCareProfessionalName] = useState("")
+
     const history = useHistory();
 
     const toRecordingPage = () => history.push("/recording");
 
     const handleSubmit = event => {
-        event.preventDefault();
-        alert(`Submitting Name ${searchVal}`)
-        return listSessions()
+      event.preventDefault();
+      alert(`Submitting Name ${searchVal}`);
+      return listSessions();
+    }
+
+    const handleCreateSession = event => {
+      event.preventDefault();
+      alert(`Submitting Session Name ${sessionName}, Patient Id ${patientId}, Health Care Professional Id ${healthCareProfessionalId}`);
     }
 
     async function listSessions() {
@@ -28,48 +42,41 @@ export default function PreHome() {
         //   },
           response: true,
           queryStringParameters: {
-            PatientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
+            PatientId: searchVal,
           },
         };
-    
-        const result =  await API.get(apiName, path, myInit); 
-        console.log(result);
+        const result =  await API.get(apiName, path, myInit);
         return result;
     }
 
     async function listPatients() {
         const apiName = 'MTADemoAPI';
         const path = 'listPatients';
+        const parameters = (searchVal === '') ? {} : {PatientId: searchVal} 
         const myInit = { 
         //   headers: { 
         //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
         //   },
           response: true,
-          queryStringParameters: {
-            PatientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
-          },
+          queryStringParameters: parameters
         };
-    
         const result =  await API.get(apiName, path, myInit); 
-        console.log(result);
         return result;
     }
 
     async function listHealthCareProfessionals() {
         const apiName = 'MTADemoAPI';
         const path = 'listHealthCareProfessionals';
+        const parameters = (searchVal === '') ? {} : {HealthCareProfessionalId: searchVal} 
         const myInit = { 
         //   headers: { 
         //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
         //   },
           response: true,
-          queryStringParameters: {
-            HealthCareProfessionalId: 'h-67a2c81c20994ff48b52c1b7416667a5',
-          },
+          queryStringParameters: parameters
         };
     
         const result =  await API.get(apiName, path, myInit); 
-        console.log(result);
         return result;
     }
  
@@ -82,15 +89,11 @@ export default function PreHome() {
             //   },
             response: true,
             queryStringParameters: {
-                'PatientName': 'Red',
-            },
-            body: {
-                'PatientName': 'Red',
+                'PatientName': searchVal,
             },
         };
     
         const result =  await API.post(apiName, path, myInit); 
-        console.log(result);
         return result;
     }
 
@@ -103,31 +106,36 @@ export default function PreHome() {
         //   },
           response: true,
           queryStringParameters: {
-            'HealthCareProfessionalName': 'Blue',
-          },
-          body: {
-            'HealthCareProfessionalName': 'Blue',
+            'HealthCareProfessionalName': searchVal,
           },
         };
     
         const result =  await API.post(apiName, path, myInit); 
-        console.log(result);
         return result;
     }
 
-    
+    const CreateSessionForm = () => (
+      <form>
+        <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
+        <input type="text" placeholder="Patient Id" name="patientId" value={patientId} onChange={e => setPatientId(e.target.value)}/>
+        <input type="text" placeholder="Health Care Professional Id" name="healthCareProfessionalId" value={healthCareProfessionalId} onChange={e => setHealthCareProfessionalId(e.target.value)}/>
+        <button type="submit" onClick={()=>setShowCreateSessionForm(!showCreateSessionForm)}>Submit</button>
+      </form> 
+    )
 
-    // const search = await API.get('MTADemoAPI', '/listSessions', {
-    //     headers: { 
-    //         Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
-    //     },
-    //     queryStringParameters: {
-    //         patientId: 'p-3e3477c37d674ecc98e3cdf5487ee07b',
-    //     },
-    // }).then(response => {
-    // }).catch(error => {
-    //     console.log(error.response);
-    // });
+    const CreatePatientForm = () => (
+      <form>
+        <input type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
+        <button type="submit" onClick={()=>setShowCreatePatientForm(!showCreatePatientForm)}>Submit</button>
+      </form> 
+    )
+
+    const CreateHealthCareProfessionalForm = () => (
+      <form>
+        <input type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
+        <button type="submit" onClick={()=>setShowCreateHealthCareProfessionalFrom(!showCreateHealthCareProfessionalForm)}>Submit</button>
+      </form>  
+    )
 
     return (
         <div className = {s.preHome}>
@@ -135,29 +143,17 @@ export default function PreHome() {
                 <button type="submit" onClick={toRecordingPage}>Start a record</button>
                 <form className = {s.searchBar}>
                     <input type="text" placeholder="Search.." name="search" value={searchVal} onChange={e => setSearchVal(e.target.value)}/>
-                    <button type="submit" onClick={listSessions}><i class="fa fa-search"></i></button>
+                    <button type="submit" onClick={handleSubmit}>listSession</button>
                 </form> 
-
             </div>
             <button type="submit" onClick={listPatients}>List Patients</button>
             <button type="submit" onClick={listHealthCareProfessionals}>List Health Care Professionals</button>
             <button type="submit" onClick={createPatient}>Create Patient</button>
             <button type="submit" onClick={createHealthCareProfessional}>Create Health Care Professional</button>  
+
+            {showCreateSessionForm && <CreateSessionForm />}
+            {showCreatePatientForm && <CreatePatientForm />}
+            {showCreateHealthCareProfessionalForm && <CreateHealthCareProfessionalForm />}
         </div>
-
-        /* <form>
-            <p>
-                <FormInput
-                autoComplete="search"
-                type="text"
-                name="Search"
-                label="Search"
-                onChange={handleFormChange}
-                />
-            </p>
-            <Button disabled={isLoading} type="submit">Login</Button>
-            {error && <p className="error">{error}
-        </form> */
-
     )
 }
