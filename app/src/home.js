@@ -19,6 +19,8 @@ import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STA
 import sampleAudio from './sampleAudio';
 import getCredentials from './audio-utils/getTranscribeCredentials';
 
+import { API, Storage, Auth } from "aws-amplify";
+import { uuid } from "short-uuid";
 
 async function getTranscribeCreds() {
   const result = await getCredentials();
@@ -242,7 +244,82 @@ export default function Home() {
     });
   }, [ ])
 
+  const handleSave = (e) => {
+    e.preventDefault()
+    alert("Saving")
+    console.log(uuid())
+    saveSession()
+  }
 
+  async function createSession(data) {
+    const apiName = 'MTADemoAPI';
+    const path = 'createSession';
+    const myInit = { 
+    //   headers: { 
+    //     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+    //   },
+      response: true,
+      queryStringParameters: data
+    };
+
+    const result =  await API.post(apiName, path, myInit); 
+
+    return result;
+  }
+
+  const saveSession = () => {
+    const id = uuid();
+    Storage.configure({
+      bucket: 'mtastack-mtastackstorages3bucketc161f3b3-1tfncqzctldb1',
+      level: 'public',
+      region: 'us-west-2',
+    });
+    const transcribeAddress = `${id}/transrcibe-medical-output/transcribe.txt`
+    const comprehendAddress = `${id}/comprehend-medical-output/comprehend.txt`
+
+    var transcripts_texts = "";
+    transcripts.forEach((item) => { transcripts_texts += item.text + " "});
+    Storage.put(transcribeAddress, transcripts_texts);
+
+    var comprehend_texts = "";
+    const allResults = [].concat(...comprehendResults)
+    const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
+    console.log(filteredResultsM)
+    comprehend_texts += 'Medications/n'
+    filteredResultsM.map((r,i) => comprehend_texts+=r.Text + 
+    '/n');
+    const filteredResultsMC =  allResults.filter(r => r.Category === 'MEDICAL_CONDITION');
+    comprehend_texts += 'Medical Conditions/n'
+    filteredResultsMC.map((r,i) => {
+      comprehend_texts+=r.Text;
+      if(r.Attributes)
+        Object.keys(r.Attributes).map((i2) => comprehend_texts+=" "+r.Attributes[i2].Type+" "+r.Attributes[i2].Text+";");
+      comprehend_texts+='/n'
+    });
+    const filteredResultsTTP =  allResults.filter(r => r.Category === 
+      'TEST_TREATMENT_PROCEDURE');
+    comprehend_texts += 'Tests, Treatments, Procedures/n'
+    filteredResultsTTP.map((r,i) => {
+      comprehend_texts+=r.Text;
+      if(r.Attributes)
+        Object.keys(r.Attributes).map((i2) => comprehend_texts+=" "+r.Attributes[i2].Type+" "+r.Attributes[i2].Text+";");
+      comprehend_texts+='/n'
+    });
+    Storage.put(comprehendAddress, comprehend_texts);
+    
+    const data = {
+      'PatientId': 'p-1',
+      'HealthCareProfessionalId': 'h-1',
+      'SessionName': 'session2',
+      'SessionId': id,
+      'TimeStampStart': 1,
+      'TimeStampEnd': 1,
+      'TranscribeS3Path': transcribeAddress,
+      'ComprehendS3Path': comprehendAddress,
+    }
+    // createSession(data);
+    return id;
+  }
 
   let stage;
 
@@ -312,7 +389,10 @@ export default function Home() {
           excludedItems={excludedItems}
           visible={stage === STAGE_EXPORT}
         />
+ 
       </div>
+      
+    {showAnalysis && <button onClick={handleSave}>Save Session</button>}
     </div>
   );
 }
