@@ -23,13 +23,11 @@ export default function PreHome() {
 
     const handleSubmit = event => {
       event.preventDefault();
-      alert(`Submitting Name ${searchVal}`);
       return listSessions();
     }
 
     const handleCreateSession = event => {
       event.preventDefault();
-      alert(`Submitting Session Name ${sessionName}, Patient Id ${patientId}, Health Care Professional Id ${healthCareProfessionalId}`);
     }
 
     async function listSessions() {
@@ -45,7 +43,6 @@ export default function PreHome() {
           },
         };
         const result =  await API.get(apiName, path, myInit);
-        console.log(result.data);
         setSessions(result.data);
         return result;
     }
@@ -169,11 +166,9 @@ export default function PreHome() {
       <table border="1">
         <tbody>
           {Sessions.map((session) => {
-            console.log('session: ', session);
             return (
               <tr>
                 {Object.entries(session).map((field, value) => {
-                  console.log('field: ', typeof(field[1]));
                   return typeof(field[1])==='object' ? <td>{field[1][1]}</td> : <td>{field[1]}</td>
                 })}
               </tr>

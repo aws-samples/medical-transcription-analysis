@@ -246,8 +246,6 @@ export default function Home() {
 
   const handleSave = (e) => {
     e.preventDefault()
-    alert("Saving")
-    console.log(uuid())
     saveSession()
   }
 
@@ -284,7 +282,6 @@ export default function Home() {
     var comprehend_texts = "";
     const allResults = [].concat(...comprehendResults)
     const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
-    console.log(filteredResultsM)
     comprehend_texts += 'Medications/n'
     filteredResultsM.map((r,i) => comprehend_texts+=r.Text + 
     '/n');
