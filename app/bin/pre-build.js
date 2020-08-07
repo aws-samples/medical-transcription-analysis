@@ -55,6 +55,10 @@ const GetResources = new Promise((resolve, reject) => {
         key: "WebAppBucketName"
       },
       {
+        type: "AWS::S3::Bucket",
+        key: "StorageS3BucketName"
+      },
+      {
         type: "AWS::Cognito::UserPoolClient",
         key: "UserPoolClientId"
       },
@@ -89,6 +93,10 @@ const GetResources = new Promise((resolve, reject) => {
 
     resources.WebAppBucketName = stackDescriptionObj.find(x =>
       /webAppS3Bucket/i.test(x.LogicalResourceId)
+    ).PhysicalResourceId;
+
+    resources.StorageS3BucketName = stackDescriptionObj.find(x =>
+      /storageS3Bucket/i.test(x.LogicalResourceId)
     ).PhysicalResourceId;
 
     resolve(resources);

@@ -113,22 +113,22 @@ export default function PreHome() {
         return result;
     }
 
-    const pBack = () => {
+    const patientBack = () => {
       setShowCreatePatientForm(false)
       setShowCreateSessionForm(true)
     }
 
-    const hPBack = () => {
+    const healthCareProfessionalBack = () => {
       setShowCreateHealthCareProfessionalFrom(false)
       setShowCreateSessionForm(true)
     }
 
-    const pShow = () => {
+    const patientShow = () => {
       setShowCreatePatientForm(true)
       setShowCreateSessionForm(false)
     }
 
-    const hPShow = () => {
+    const healthCareProfessionalShow = () => {
       setShowCreateHealthCareProfessionalFrom(true)
       setShowCreateSessionForm(false)
     }
@@ -138,9 +138,9 @@ export default function PreHome() {
         <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
         <p></p>
         <input type="text" placeholder="Patient Id" name="patientId" value={patientId} onChange={e => setPatientId(e.target.value)}/>
-        <p href="#" onClick={pShow}>new patient?</p>
+        <p href="#" onClick={patientShow}>new patient?</p>
         <input type="text" placeholder="Health Care Professional Id" name="healthCareProfessionalId" value={healthCareProfessionalId} onChange={e => setHealthCareProfessionalId(e.target.value)}/>
-        <p href="#" onClick={hPShow}>new health care professional?</p>
+        <p href="#" onClick={healthCareProfessionalShow}>new health care professional?</p>
         <button type="submit" onClick={()=>setShowCreateSessionForm(!showCreateSessionForm)}>Back</button>
         <button type="submit" onClick={()=>setShowCreateSessionForm(!showCreateSessionForm)}>Submit</button>
       </form> 
@@ -149,7 +149,7 @@ export default function PreHome() {
     const CreatePatientForm = () => (
       <form>
         <input type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
-        <button type="submit" onClick={pBack}>Back</button>
+        <button type="submit" onClick={patientBack}>Back</button>
         <button type="submit" onClick={()=>setShowCreatePatientForm(!showCreatePatientForm)}>Submit</button>
       </form> 
     )
@@ -157,7 +157,7 @@ export default function PreHome() {
     const CreateHealthCareProfessionalForm = () => (
       <form>
         <input type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
-        <button type="submit" onClick={hPBack}>Back</button>
+        <button type="submit" onClick={healthCareProfessionalBack}>Back</button>
         <button type="submit" onClick={()=>setShowCreateHealthCareProfessionalFrom(!showCreateHealthCareProfessionalForm)}>Submit</button>
       </form>  
     )
