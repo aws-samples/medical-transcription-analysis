@@ -43,8 +43,10 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 table.put_item(Item=info)
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
 
     def listItems(self, awsRegion=None):
         """List the data from database
@@ -61,8 +63,10 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.scan()
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByPartitionKey(self, partitionKey):
@@ -80,8 +84,10 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByBothKeys(self, partitionKey, sortKey):
@@ -100,8 +106,10 @@ class DataStore:
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
     
     def queryByIndexPartitionKey(self, indexPartitionKey):
@@ -122,8 +130,10 @@ class DataStore:
                     IndexName=self._indexName,
                     KeyConditionExpression=Key(self._indexPartitionKeyName).eq(indexPartitionKey)
                 )
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey):
@@ -145,8 +155,10 @@ class DataStore:
                     IndexName=self._indexName,
                     KeyConditionExpression=Key(self._indexPartitionKeyName).eq(indexPartitionKey) & Key(self._indexSortKeyName).eq(indexSortKey)
                 )
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
         
 

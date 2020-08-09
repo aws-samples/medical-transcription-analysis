@@ -126,17 +126,16 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
 
         webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
 
-        const cloudfrontStorageBucketPolicyStatement = new iam.PolicyStatement({
-          actions: ["s3:GetBucket*", "s3:GetObject*", "s3:List*", "s3:PutObject"],
-          resources: [
-            storageS3Bucket.bucketArn,
-            `${storageS3Bucket.bucketArn}/*`
-          ],
-          principals: [new CanonicalUserPrincipal(oai.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
-        });
+        // const cloudfrontStorageBucketPolicyStatement = new iam.PolicyStatement({
+        //   actions: ["s3:GetBucket*", "s3:GetObject*", "s3:List*", "s3:PutObject"],
+        //   resources: [
+        //     storageS3Bucket.bucketArn,
+        //     `${storageS3Bucket.bucketArn}/*`
+        //   ],
+        //   principals: [new CanonicalUserPrincipal(oai.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
+        // });
 
-        webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
-        storageS3Bucket.addToResourcePolicy(cloudfrontStorageBucketPolicyStatement);
+        // storageS3Bucket.addToResourcePolicy(cloudfrontStorageBucketPolicyStatement);
    
     
     // ####### Cognito User Authentication #######
@@ -362,6 +361,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         TableHealthCareProfessionals.grantReadWriteData(apiProcessor);
         TablePatients.grantReadWriteData(apiProcessor);
         TableSessions.grantReadWriteData(apiProcessor);
+        storageS3Bucket.grantReadWrite(apiProcessor);
 
         apiProcessor.addToRolePolicy(
           new iam.PolicyStatement({
@@ -479,8 +479,12 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         const listHealthCareProfessionalsResource = api.root.addResource("listHealthCareProfessionals");
         addCorsOptionsAndMethods(listHealthCareProfessionalsResource, ["GET"]);
 
-        const createHealthCareProfessionaResource = api.root.addResource("createHealthCareProfessional");
-        addCorsOptionsAndMethods(createHealthCareProfessionaResource, ["POST"]);
+        const createHealthCareProfessionalResource = api.root.addResource("createHealthCareProfessional");
+        addCorsOptionsAndMethods(createHealthCareProfessionalResource, ["POST"]);
+
+        const getTranscriptionComprehendResource = api.root.addResource("getTranscriptionComprehend");
+        addCorsOptionsAndMethods(getTranscriptionComprehendResource, ["GET"]);
+        
     
         cognitoPolicy.addStatements(
           new iam.PolicyStatement({

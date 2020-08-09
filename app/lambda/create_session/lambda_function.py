@@ -57,6 +57,6 @@ class CreateSessionLambda(LambdaBase):
                 }
             }
         except Exception as e:
-            print(str(e))
+            print("Unexpected error: %s" % e)
 
 lambda_handler = CreateSessionLambda.get_handler()

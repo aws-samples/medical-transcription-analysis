@@ -24,7 +24,6 @@
   z-index: 4;
 }
 
-
 @media print {
   .rest {
     position: static;
@@ -32,3 +31,52 @@
     overflow: auto;
   }
 }
+
+.SaveButton {
+  background-color: #ff9900;
+  padding: 8px 8px;
+  display: inline-block;
+  margin: auto 0 auto 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  vertical-align: middle;
+  color: white;
+
+  position: absolute;
+  z-index: 4;
+  bottom: 100px;
+  left: 80%;
+}
+
+.CreateSessionFlow{
+  background: #fff;
+  padding: 50px;
+  width: 30%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1), 0 0 3px rgba(0, 0, 0, 0.1);
+
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  top: 30%;
+  margin: auto;
+}
+
+.CreateSessionFlow button{
+  background-color: #ff9900;
+  border: none;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: auto 0 auto 15px;
+  font-size: 14px;
+  cursor: pointer;
+  vertical-align: middle;
+  color: white;
+}
+
+.CreateSessionFlow p{
+  color: blue;
+  font-size: 10px;
+}
+
