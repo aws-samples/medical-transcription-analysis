@@ -1,0 +1,55 @@
+.preHome button{
+  background: #ff9900;
+  padding: 8px 8px;
+  display: inline-block;
+  margin: auto 0 auto 15px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  vertical-align: middle;
+  color: white;
+}
+
+.searchBar button {
+  /* float: right; */
+  padding: 10px 10px;
+  display: inline-block;
+  margin: auto 15px auto 0;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.searchBar input[type=text]{
+  width: 480px;
+  height: 100%;
+  padding: 6px;
+  display: inline-block;
+  margin: auto 0 auto 15px;
+  font-size: 17px;
+}
+
+.searchBar button:hover {
+  background: #ccc;
+}
+
+.preHome{
+  /* background: blue; */
+}
+
+.searchBarContainer{
+  width: 80%;
+  margin: auto;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.preHome h1{
+  margin: auto 15px;
+  text-align: center;
+}

@@ -19,6 +19,8 @@ import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STA
 import sampleAudio from './sampleAudio';
 import getCredentials from './audio-utils/getTranscribeCredentials';
 
+import { API, Storage, Auth } from "aws-amplify";
+import { generate } from "short-uuid";
 
 async function getTranscribeCreds() {
   const result = await getCredentials();
@@ -148,8 +150,12 @@ export default function Home() {
   const [ partialTranscript, setPartialTranscript ] = useState(' ');
   const [ transcripts, setTranscripts ] = useState(false);
   const [ excludedItems, setExcludedItems ] = useState([]);
-  const [transcribeCredential, setTranscribeCredential] = useState(null);
+  const [ transcribeCredential, setTranscribeCredential] = useState(null);
 
+  const [ patientId, setPatientId ] = useState('');
+  const [ healthCareProfessionalId, setHealthCareProfessionId ] = useState('');
+  const [ timeStampStart, setTimeStampStart ] = useState(0);
+  const [ timeStampEnd, setTimeStampEnd ] = useState(0);
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const text = Alternatives[0].Transcript;
@@ -242,7 +248,109 @@ export default function Home() {
     });
   }, [ ])
 
+  const handleSave = (e) => {
+    e.preventDefault()
+    saveSession()
+  }
 
+  async function createSession(data) {
+    const apiName = 'MTADemoAPI';
+    const path = 'createSession';
+    const myInit = { 
+    //   headers: { 
+    //     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+    //   },
+      response: true,
+      queryStringParameters: data
+    };
+
+    const result =  await API.post(apiName, path, myInit); 
+
+    return result;
+  }
+
+  const saveSession = () => {
+    const sessionId = generate();
+    Storage.configure({
+      bucket: process.env.REACT_APP_StorageS3BucketName,
+      level: 'public',
+      region: process.env.REACT_APP_region,
+    });
+    const transcribeAddress = `transrcibe-medical-output/${sessionId}/${sessionId}-session-transcribe.txt`
+    const comprehendAddress = `comprehend-medical-output/${sessionId}/${sessionId}-session-comprehend.txt`
+
+    var dict = {
+      'Session':{
+        'sessionId':sessionId,
+        'patientId':patientId,
+        'healthCareProfessionalId':healthCareProfessionalId,
+        'timeStampStart':timeStampStart,
+        'timeStampEnd':timeStampEnd
+      },
+      'Medication':[],
+      'RxNorm':[],
+      'MedicationRxNorm':[],
+      'MedicalCondition':[],
+      'ICD10CMConcept':[],
+      'MedicalConditionICD10CMConcept':[],
+      'TestTreatmentProcedures':[]
+    }
+
+    var transcripts_texts = "";
+    transcripts.forEach((item) => { transcripts_texts += item.text + " "});
+    Storage.put(transcribeAddress, transcripts_texts);
+
+    const allResults = [].concat(...comprehendResults);
+    const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
+    filteredResultsM.map((r,i) => {
+      const medicationId = 'm'+sessionId+i
+      dict.Medication.push({'medicationId': medicationId, 'sessiondId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
+      if(r.RxNormConcepts)
+        (r.RxNormConcepts).forEach((r2,i2) => {
+          dict.RxNorm.push({'code':r2.Code, 'description':r2.Description})
+          dict.MedicationRxNorm.push({'medicationId':medicationId, 'code':r2.Code})
+        })
+    });
+
+    const filteredResultsMC =  allResults.filter(r => r.Category === 'MEDICAL_CONDITION');   
+    filteredResultsMC.map((r,i) => {
+      const medicalConditionId = 'mc'+sessionId+i
+      dict.MedicalCondition.push({'medicalConditionId':medicalConditionId, 'sessionId':sessionId, 'medicalConditionText':r.Text})
+      if(r.ICD10CMConcepts)
+        (r.ICD10CMConcepts).forEach((r2,i2) => {
+          dict.ICD10CMConcept.push({'code':r2.Code, 'description':r2.Description})
+          dict.MedicalConditionICD10CMConcept.push({'medicalConditionId':medicalConditionId, 'code':r2.Code})
+        })
+    });
+    
+    const filteredResultsTTP =  allResults.filter(r => r.Category === 
+      'TEST_TREATMENT_PROCEDURE');
+    filteredResultsTTP.map((r,i) => {
+      const testTreatmentProcedureId = 't'+sessionId+i
+      dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
+    });
+    Storage.put(comprehendAddress, JSON.stringify(dict));
+
+
+    
+    const data = {
+      'PatientId': 'p-1',
+      'HealthCareProfessionalId': 'h-1',
+      'SessionName': 'session2',
+      'SessionId': sessionId,
+      'TimeStampStart': 1,
+      'TimeStampEnd': 1,
+      'TranscribeS3Path': transcribeAddress,
+      'ComprehendS3Path': comprehendAddress,
+    }
+    Storage.configure({
+      bucket: process.env.REACT_APP_REACT_APP_WebAppBucketName,
+      level: 'public',
+      region: process.env.REACT_APP_region,
+    });
+    // createSession(data);
+    return sessionId;
+  }
 
   let stage;
 
@@ -312,7 +420,10 @@ export default function Home() {
           excludedItems={excludedItems}
           visible={stage === STAGE_EXPORT}
         />
+ 
       </div>
+      
+    <button onClick={handleSave}>Save Session</button>
     </div>
   );
 }

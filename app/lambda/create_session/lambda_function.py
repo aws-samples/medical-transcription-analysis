@@ -20,38 +20,35 @@ class CreateSessionLambda(LambdaBase):
     def EpochToCurTime(self, epoch): #int
         return time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(epoch))
 
-    def putItem(self, PatientId, HealthCareProfessionalId, SessionName, TimeStampStart):
-        tempId = uuid.uuid4().hex 
-        epochTime = self.CurTimeToEpoch()
-        SessionId = "s-"+str(epochTime)+tempId
-        ComprehendS3Path = "c-"+str(epochTime)+tempId
-        TranscribeS3Path = "t-"+str(epochTime)+tempId
-        AudioS3Path = "a-"+str(epochTime)+tempId
+    def putItem(self, PatientId, HealthCareProfessionalId, SessionName, SessionId, TimeStampStart, TimeStampEnd, TranscribeS3Path, ComprehendS3Path):
         info = {DATASTORE_COLUMN_SESSION_ID : SessionId,
                 DATASTORE_COLUMN_PATIENT_ID: PatientId,
                 DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID: HealthCareProfessionalId,
                 DATASTORE_COLUMN_SESSION_NAME: SessionName,
                 DATASTORE_COLUMN_COMPREHEND_S3_PATH: ComprehendS3Path,
                 DATASTORE_COLUMN_TRANSCRIBE_S3_PATH: TranscribeS3Path,
-                DATASTORE_COLUMN_AUDIO_S3_PATH: AudioS3Path,
                 DATASTORE_COLUMN_TIMESTAMP_START: TimeStampStart,
-                DATASTORE_COLUMN_TIMESTAMP_END: epochTime}
+                DATASTORE_COLUMN_TIMESTAMP_END: TimeStampEnd}
         Session().createSession(info)
         return SessionId
 
     def handle(self, event, context):
-        print("event: {}".format(event))
         try:
-            PatientId = event[DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event else None
-            HealthCareProfessionalId = event[DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event else None
-            SessionName = event[DATASTORE_COLUMN_SESSION_NAME] if DATASTORE_COLUMN_SESSION_NAME in event else None
-            TimeStampStart = event[DATASTORE_COLUMN_TIMESTAMP_START] if DATASTORE_COLUMN_TIMESTAMP_START in event else None
-            id = self.putItem(PatientId, HealthCareProfessionalId, SessionName, TimeStampStart)
+            PatientId = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event["queryStringParameters"] else None
+            HealthCareProfessionalId = event["queryStringParameters"][DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event["queryStringParameters"] else None
+            SessionName = event["queryStringParameters"][DATASTORE_COLUMN_SESSION_NAME] if DATASTORE_COLUMN_SESSION_NAME in event["queryStringParameters"] else None
+            SessionId = event["queryStringParameters"][DATASTORE_COLUMN_SESSION_ID] if DATASTORE_COLUMN_SESSION_ID in event["queryStringParameters"] else None
+            TimeStampStart = event["queryStringParameters"][DATASTORE_COLUMN_TIMESTAMP_START] if DATASTORE_COLUMN_TIMESTAMP_START in event["queryStringParameters"] else None
+            TimeStampEnd= event["queryStringParameters"][DATASTORE_COLUMN_TIMESTAMP_END] if DATASTORE_COLUMN_TIMESTAMP_END in event["queryStringParameters"] else None
+            TranscribeS3Path = event["queryStringParameters"][DATASTORE_COLUMN_TRANSCRIBE_S3_PATH] if DATASTORE_COLUMN_TRANSCRIBE_S3_PATH in event["queryStringParameters"] else None
+            ComprehendS3Path = event["queryStringParameters"][DATASTORE_COLUMN_COMPREHEND_S3_PATH] if DATASTORE_COLUMN_COMPREHEND_S3_PATH in event["queryStringParameters"] else None
+
+            id = self.putItem(PatientId, HealthCareProfessionalId, SessionName, SessionId, TimeStampStart, TimeStampEnd, TranscribeS3Path, ComprehendS3Path)
             result = {DATASTORE_COLUMN_SESSION_ID : id}
             return {
             "isBase64Encoded": False,
             "statusCode": 200,
-            'body': json.dumps(result),
+            # 'body': json.dumps(result),
             "headers": {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',

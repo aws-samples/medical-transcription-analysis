@@ -125,6 +125,18 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         });
 
         webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
+
+        const cloudfrontStorageBucketPolicyStatement = new iam.PolicyStatement({
+          actions: ["s3:GetBucket*", "s3:GetObject*", "s3:List*", "s3:PutObject"],
+          resources: [
+            storageS3Bucket.bucketArn,
+            `${storageS3Bucket.bucketArn}/*`
+          ],
+          principals: [new CanonicalUserPrincipal(oai.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
+        });
+
+        webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
+        storageS3Bucket.addToResourcePolicy(cloudfrontStorageBucketPolicyStatement);
    
     
     // ####### Cognito User Authentication #######
@@ -210,7 +222,15 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
                 "*"
               ],
               effect: iam.Effect.ALLOW
-            })
+            }),
+            new iam.PolicyStatement({
+              actions: ["s3:GetObject*", "s3:List*", "s3:PutObject"],
+              resources: [
+                storageS3Bucket.bucketArn,
+                `${storageS3Bucket.bucketArn}/*`,
+              ],
+              effect: iam.Effect.ALLOW,
+            }),
           ]
         });
     
@@ -431,11 +451,11 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     
           methods.forEach(method => {
             apiResource.addMethod(method, undefined, {
-              authorizationType: apigateway.AuthorizationType.COGNITO,
-              authorizer: {
-                authorizerId: `${authorizer.ref}`
-                //`${theauthorizer.ref}`
-              }
+              authorizationType: apigateway.AuthorizationType.NONE//apigateway.AuthorizationType.COGNITO,
+              // authorizer: {
+              //   authorizerId: `${authorizer.ref}`
+              //   //`${theauthorizer.ref}`
+              // }
             });
           });
         }

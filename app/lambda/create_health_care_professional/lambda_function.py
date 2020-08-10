@@ -19,7 +19,7 @@ class CreateHealthCareProfessionalLambda(LambdaBase):
 
     def handle(self, event, context):
         try:
-            name = event[DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_NAME] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_NAME in event else None
+            name = event["queryStringParameters"][DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_NAME] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_NAME in event["queryStringParameters"] else None
             id = self.putItem(name)
             result = {DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID : id}
             return {
