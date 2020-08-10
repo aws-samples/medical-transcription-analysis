@@ -482,7 +482,7 @@ export default function Home() {
     const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
     filteredResultsM.map((r,i) => {
       const medicationId = 'm'+sessionId+i
-      dict.Medication.push({'medicationId': medicationId, 'sessiondId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
+      dict.Medication.push({'medicationId': medicationId, 'sessionId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
       if(r.RxNormConcepts)
         (r.RxNormConcepts).forEach((r2,i2) => {
           dict.RxNorm.push({'code':r2.Code, 'description':r2.Description})
@@ -505,7 +505,7 @@ export default function Home() {
       'TEST_TREATMENT_PROCEDURE');
     filteredResultsTTP.map((r,i) => {
       const testTreatmentProcedureId = 't'+sessionId+i
-      dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
+      dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'sessionId':sessionId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
     });
     Storage.put(comprehendAddress, JSON.stringify(dict));
     
