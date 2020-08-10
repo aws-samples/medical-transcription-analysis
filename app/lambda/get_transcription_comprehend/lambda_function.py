@@ -30,6 +30,8 @@ class GetTranscriptionComprehendLambda(LambdaBase):
             print(event)
             sessionId = event['queryStringParameters']['sessionId'] if 'sessionId' in event['queryStringParameters'] else None
             print(sessionId)
+            # bucket get where 
+            # region
             bucket = 'mtastack-mtastackstorages3bucketc161f3b3-1tfncqzctldb1'
             comprehend_key = self.getKeyName(sessionId,'comprehend','json')
             transcribe_key = self.getKeyName(sessionId,'transcribe','txt')

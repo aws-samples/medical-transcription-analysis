@@ -38,15 +38,23 @@ class DataStore:
         Returns:
             None
         """
+        response = {'status': 'OK'}
         if self._databaseName == 'dynamodb':
             dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
+            for key in info:
+                if not info[key]:
+                    response['status'] = 'BAD'
+                    response['error'] = key + ' should not be empty.'
+                    print(response['error'])
+                    return response
             try:
                 table.put_item(Item=info)
             except ParamValidationError as e:
                 print("Parameter validation error: %s" % e)
             except ClientError as e:
                 print("Unexpected error: %s" % e)
+        return response
 
     def listItems(self, awsRegion=None):
         """List the data from database
@@ -69,7 +77,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByPartitionKey(self, partitionKey):
+    def queryByPartitionKey(self, partitionKey, awsRegion=None):
         """List the data from database based on partition key
         
         Args:
@@ -80,7 +88,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
@@ -90,7 +98,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByBothKeys(self, partitionKey, sortKey):
+    def queryByBothKeys(self, partitionKey, sortKey, awsRegion=None):
         """List the data from database based on partition key and sort key
         
         Args:
@@ -102,7 +110,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
@@ -112,7 +120,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
     
-    def queryByIndexPartitionKey(self, indexPartitionKey):
+    def queryByIndexPartitionKey(self, indexPartitionKey, awsRegion=None):
         """List the data from database based on index partition key
         
         Args:
@@ -123,7 +131,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
@@ -136,7 +144,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey):
+    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey, awsRegion):
         """List the data from database based on index partition key and index sort key
         
         Args:
@@ -148,7 +156,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
