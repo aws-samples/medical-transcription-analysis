@@ -7,9 +7,6 @@ from datastore import DataStore
 from models import *
 from constant_variables import *
 from data.test_constants import *
-import os
-
-os.environ["AWS_REGION"] = "us-west-2"
 
 class TestModel(unittest.TestCase):
     @mock_dynamodb2 

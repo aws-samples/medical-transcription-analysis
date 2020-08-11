@@ -4,6 +4,7 @@ from boto3.dynamodb.conditions import Key
 from helper import AwsHelper
 import datetime
 import re
+import os
 
 class DataStore:
     def __init__(self, databaseName, tableName, partitionKeyName, sortKeyName=None, indexName=None, indexPartitionKeyName=None, indexSortKeyName=None):
@@ -28,8 +29,9 @@ class DataStore:
         self._indexName = indexName
         self._indexPartitionKeyName = indexPartitionKeyName
         self._indexSortKeyName = indexSortKeyName
+        self._awsRegion = os.environ['REGION'] if 'REGION' in os.environ else 'us-west-2' # us-west-2 is for testing locally
     
-    def save(self, info, awsRegion='us-west-2'):
+    def save(self, info):
         """Store the data into database
         
         Args:
@@ -40,7 +42,7 @@ class DataStore:
         """
         response = {'status': 'OK'}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             for key in info:
                 if not info[key]:
@@ -56,7 +58,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response
 
-    def listItems(self, awsRegion='us-west-2'):
+    def listItems(self):
         """List the data from database
         
         Args:
@@ -67,7 +69,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.scan()
@@ -77,7 +79,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByPartitionKey(self, partitionKey, awsRegion='us-west-2'):
+    def queryByPartitionKey(self, partitionKey):
         """List the data from database based on partition key
         
         Args:
@@ -88,7 +90,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
@@ -98,7 +100,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByBothKeys(self, partitionKey, sortKey, awsRegion='us-west-2'):
+    def queryByBothKeys(self, partitionKey, sortKey):
         """List the data from database based on partition key and sort key
         
         Args:
@@ -110,7 +112,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
@@ -120,7 +122,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
     
-    def queryByIndexPartitionKey(self, indexPartitionKey, awsRegion='us-west-2'):
+    def queryByIndexPartitionKey(self, indexPartitionKey):
         """List the data from database based on index partition key
         
         Args:
@@ -131,7 +133,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
@@ -144,7 +146,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey, awsRegion='us-west-2'):
+    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey):
         """List the data from database based on index partition key and index sort key
         
         Args:
@@ -156,7 +158,7 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
