@@ -1,12 +1,12 @@
 import json
 import sys
-
+import os
 sys.path.append("../")
 import boto3
 from lambda_base import LambdaBase
 from constant_variables import *
 
-class GetTranscriptionComprehendLambda(LambdaBase):
+class GetSessionDataLambda(LambdaBase):
     def __init__(self): 
         pass
 
@@ -30,14 +30,10 @@ class GetTranscriptionComprehendLambda(LambdaBase):
             print(event)
             sessionId = event['queryStringParameters']['sessionId'] if 'sessionId' in event['queryStringParameters'] else None
             print(sessionId)
-            # bucket get where 
-            # region
-            bucket = 'mtastack-mtastackstorages3bucketc161f3b3-1tfncqzctldb1'
+            bucket = os.environ['BUCKET_NAME']
             comprehend_key = self.getKeyName(sessionId,'comprehend','json')
             transcribe_key = self.getKeyName(sessionId,'transcribe','txt')
-            print(comprehend_key)
-            print(transcribe_key)
-            client = boto3.client('s3', region_name='us-west-2')
+            client = boto3.client('s3', region_name=os.environ['AWS_REGION'])
             comprehend_result = client.get_object(Bucket=bucket, Key=comprehend_key)
             transcribe_result = client.get_object(Bucket=bucket, Key=transcribe_key)
             result = {'comprehend': (comprehend_result['Body'].read()).decode("utf-8"), 'transcribe': (transcribe_result['Body'].read()).decode("utf-8")}
@@ -56,18 +52,5 @@ class GetTranscriptionComprehendLambda(LambdaBase):
         except Exception as e:
             print(str(e))
 
-lambda_handler = GetTranscriptionComprehendLambda.get_handler()
-
-# def getKeyName(sessionId, category, fileType):     
-#     return 'public/'+category+'-medical-output/'+sessionId+'/'+sessionId+'-session-'+category+'.'+fileType
-
-# bucket = 'mtastack-mtastackstorages3bucketc161f3b3-1tfncqzctldb1'
-# comprehend_key = getKeyName('s-1596908098q9nbq4KpsgXXqVuHjcTWYC','comprehend','json')
-# transcribe_key = getKeyName('s-1596908098q9nbq4KpsgXXqVuHjcTWYC','transcribe','txt')
-# client = boto3.client('s3', region_name='us-west-2')
-# comprehend_result = client.get_object(Bucket=bucket, Key=comprehend_key)
-# # transcribe_result = client.get_object(Bucket=bucket, Key=transcribe_key)
-# print(comprehend_result['Body'].read())
-# # print(transcribe_result['Body'].read())
-
-# transcribe_key = 'public/transcribe-medical-output/s-1596908098q9nbq4KpsgXXqVuHjcTWYC/s-1596908098q9nbq4KpsgXXqVuHjcTWYC-session-transcribe.txt'
+lambda_handler = GetSessionDataLambda.get_handler()
+ 

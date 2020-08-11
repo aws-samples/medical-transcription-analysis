@@ -1,5 +1,5 @@
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, ParamValidationError
 from boto3.dynamodb.conditions import Key
 from helper import AwsHelper
 import datetime
@@ -29,7 +29,7 @@ class DataStore:
         self._indexPartitionKeyName = indexPartitionKeyName
         self._indexSortKeyName = indexSortKeyName
     
-    def save(self, info, awsRegion=None):
+    def save(self, info, awsRegion='us-west-2'):
         """Store the data into database
         
         Args:
@@ -56,7 +56,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response
 
-    def listItems(self, awsRegion=None):
+    def listItems(self, awsRegion='us-west-2'):
         """List the data from database
         
         Args:
@@ -77,7 +77,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByPartitionKey(self, partitionKey, awsRegion=None):
+    def queryByPartitionKey(self, partitionKey, awsRegion='us-west-2'):
         """List the data from database based on partition key
         
         Args:
@@ -98,7 +98,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByBothKeys(self, partitionKey, sortKey, awsRegion=None):
+    def queryByBothKeys(self, partitionKey, sortKey, awsRegion='us-west-2'):
         """List the data from database based on partition key and sort key
         
         Args:
@@ -120,7 +120,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
     
-    def queryByIndexPartitionKey(self, indexPartitionKey, awsRegion=None):
+    def queryByIndexPartitionKey(self, indexPartitionKey, awsRegion='us-west-2'):
         """List the data from database based on index partition key
         
         Args:
@@ -144,7 +144,7 @@ class DataStore:
                 print("Unexpected error: %s" % e)
         return response['Items']
 
-    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey, awsRegion):
+    def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey, awsRegion='us-west-2'):
         """List the data from database based on index partition key and index sort key
         
         Args:

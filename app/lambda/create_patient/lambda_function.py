@@ -20,6 +20,18 @@ class CreatePatientLambda(LambdaBase):
     def handle(self, event, context):
         try:
             name = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_NAME] if DATASTORE_COLUMN_PATIENT_NAME in event["queryStringParameters"] else None
+            if not name or name == '':
+                return {
+                "isBase64Encoded": False,
+                "statusCode": 400,
+                'body': json.dumps({'message': DATASTORE_COLUMN_PATIENT_NAME + ' should not be empty.'}),
+                "headers": {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+                    }
+                }
             id = self.putItem(name)
             result = {DATASTORE_COLUMN_PATIENT_ID : id}
             return {
@@ -35,5 +47,16 @@ class CreatePatientLambda(LambdaBase):
             }
         except Exception as e:
             print(str(e))
+            return {
+            "isBase64Encoded": False,
+            "statusCode": 500,
+            'body': json.dumps({'errorType': 'InternalServerError', 'message':  "An unknown error has occurred. Please try again."}),
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
+                }
+            }
 
 lambda_handler = CreatePatientLambda.get_handler() 

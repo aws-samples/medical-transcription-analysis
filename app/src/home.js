@@ -657,7 +657,8 @@ export default function Home() {
  
       </div>
       
-      {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={handleSave}>Save Session</button>}
+      {/* {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={handleSave}>Save Session</button>} */}
+      <button className={s.SaveButton} onClick={handleSave}>Save Session</button>
     </div>
   );
 }

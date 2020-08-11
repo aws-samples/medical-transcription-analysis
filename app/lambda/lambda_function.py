@@ -7,7 +7,7 @@ from list_health_care_professionals.lambda_function import ListHealthCareProfess
 from list_patients.lambda_function import ListPatientsLambda
 from create_session.lambda_function import CreateSessionLambda
 from list_sessions.lambda_function import ListSessionsLambda
-from get_transcription_comprehend.lambda_function import GetTranscriptionComprehendLambda
+from get_session_data.lambda_function import GetSessionDataLambda
 
 def lambda_handler(event, context):
     options = {'/getCredentials': GetCredentialsLambda(),
@@ -17,7 +17,7 @@ def lambda_handler(event, context):
                '/listPatients': ListPatientsLambda(),
                '/createSession': CreateSessionLambda(),
                '/listSessions': ListSessionsLambda(),
-               '/getTranscriptionComprehend': GetTranscriptionComprehendLambda()}
+               '/getTranscriptionComprehend': GetSessionDataLambda()}
     if event['resource'] in options:
         return options[event['resource']].handle(event, context)
     else:
