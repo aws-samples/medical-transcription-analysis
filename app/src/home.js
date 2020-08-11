@@ -176,6 +176,7 @@ export default function Home() {
 
   const history = useHistory();
 
+
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const text = Alternatives[0].Transcript;
     if (IsPartial) {
@@ -477,6 +478,7 @@ export default function Home() {
     var transcripts_texts = "";
     if(transcripts)
       transcripts.forEach((item) => { transcripts_texts += item.text + " "});
+    
     Storage.put(transcribeAddress, transcripts_texts);
 
     const allResults = [].concat(...comprehendResults);
@@ -525,7 +527,9 @@ export default function Home() {
       level: 'public',
       region: process.env.REACT_APP_region,
     });
+
     createSession(data);
+
     return sessionId;
   }
 
@@ -660,6 +664,7 @@ export default function Home() {
       
       {/* {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={handleSave}>Save Session</button>} */}
       <button className={s.SaveButton} onClick={handleSave}>Save Session</button>
+
     </div>
   );
 }

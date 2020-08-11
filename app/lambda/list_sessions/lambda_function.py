@@ -7,6 +7,7 @@ from models import Session
 from constant_variables import *
 from utility import DecimalEncoder
 from response_helper import sendResponse
+
         
 class ListSessionsLambda(LambdaBase):
     def __init__(self): 

@@ -127,6 +127,18 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         });
 
         webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
+
+        const cloudfrontStorageBucketPolicyStatement = new iam.PolicyStatement({
+          actions: ["s3:GetBucket*", "s3:GetObject*", "s3:List*", "s3:PutObject"],
+          resources: [
+            storageS3Bucket.bucketArn,
+            `${storageS3Bucket.bucketArn}/*`
+          ],
+          principals: [new CanonicalUserPrincipal(oai.cloudFrontOriginAccessIdentityS3CanonicalUserId)]
+        });
+
+        webAppS3Bucket.addToResourcePolicy(cloudfrontPolicyStatement);
+        storageS3Bucket.addToResourcePolicy(cloudfrontStorageBucketPolicyStatement);
    
     
     // ####### Cognito User Authentication #######

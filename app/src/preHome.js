@@ -18,6 +18,7 @@ export default function PreHome() {
     const [Patients, setPatients] = useState([])
     const [HealthCareProfessionals, setHealthCareProfessionals] = useState([])
 
+
     const history = useHistory();
 
     const toRecordingPage = () => history.push("/recording");
