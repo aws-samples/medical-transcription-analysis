@@ -1,4 +1,5 @@
 from datastore import DataStore
+import os
 
 class Patient:
     def __init__(self):
@@ -24,7 +25,7 @@ class Patient:
         Returns:
             None
         """
-        self._patientDataStore.save(info) 
+        return self._patientDataStore.save(info) 
 
     def requestPatients(self, partitionKey):
         """Request and get the specific patient from the database based on partition key.
@@ -64,7 +65,7 @@ class HealthCareProfessional:
         Returns:
             None
         """
-        self._healthCareProfessionalDataStore.save(info)
+        return self._healthCareProfessionalDataStore.save(info)
 
     def requestHealthCareProfessionals(self, partitionKey):
         """Request and get the specific health care professional from the database based on partition key.
@@ -107,7 +108,7 @@ class Session:
         Returns:
             None
         """
-        self._sessionDataStore.save(info)
+        return self._sessionDataStore.save(info)
 
     def requestSession(self, partitionKey, sortKey, indexPartitionKey):
         """Request and get the specific session(s) from the database.
@@ -132,5 +133,5 @@ class Session:
             return self._sessionDataStore.queryByPartitionKey(partitionKey)
         elif indexPartitionKey:
             return self._sessionDataStore.queryByIndexPartitionKey(indexPartitionKey)
-        
-        return {"Items": []}
+
+        return {"Items": [], "status": "BAD", "message": "Wrong Way to Search."}

@@ -1,9 +1,10 @@
 import boto3
-from botocore.exceptions import ClientError
+from botocore.exceptions import ClientError, ParamValidationError
 from boto3.dynamodb.conditions import Key
 from helper import AwsHelper
 import datetime
 import re
+import os
 
 class DataStore:
     def __init__(self, databaseName, tableName, partitionKeyName, sortKeyName=None, indexName=None, indexPartitionKeyName=None, indexSortKeyName=None):
@@ -28,8 +29,9 @@ class DataStore:
         self._indexName = indexName
         self._indexPartitionKeyName = indexPartitionKeyName
         self._indexSortKeyName = indexSortKeyName
+        self._awsRegion = os.environ['REGION'] if 'REGION' in os.environ else 'us-west-2' # us-west-2 is for testing locally
     
-    def save(self, info, awsRegion=None):
+    def save(self, info):
         """Store the data into database
         
         Args:
@@ -38,15 +40,25 @@ class DataStore:
         Returns:
             None
         """
+        response = {'status': 'OK'}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
+            for key in info:
+                if not info[key]:
+                    response['status'] = 'BAD'
+                    response['error'] = key + ' should not be empty.'
+                    print(response['error'])
+                    return response
             try:
                 table.put_item(Item=info)
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
+        return response
 
-    def listItems(self, awsRegion=None):
+    def listItems(self):
         """List the data from database
         
         Args:
@@ -57,12 +69,14 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName, awsRegion)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.scan()
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByPartitionKey(self, partitionKey):
@@ -76,12 +90,14 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey))
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByBothKeys(self, partitionKey, sortKey):
@@ -96,12 +112,14 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(KeyConditionExpression=Key(self._partitionKeyName).eq(partitionKey) & Key(self._sortKeyName).eq(sortKey))
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
     
     def queryByIndexPartitionKey(self, indexPartitionKey):
@@ -115,15 +133,17 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
                     IndexName=self._indexName,
                     KeyConditionExpression=Key(self._indexPartitionKeyName).eq(indexPartitionKey)
                 )
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
 
     def queryByIndexBothKeys(self, indexPartitionKey, indexSortKey):
@@ -138,15 +158,17 @@ class DataStore:
         """
         response = {'Items' : []}
         if self._databaseName == 'dynamodb':
-            dynamodb = AwsHelper().getResource(self._databaseName)
+            dynamodb = AwsHelper().getResource(self._databaseName, self._awsRegion)
             table = dynamodb.Table(self._tableName)
             try:
                 response = table.query(
                     IndexName=self._indexName,
                     KeyConditionExpression=Key(self._indexPartitionKeyName).eq(indexPartitionKey) & Key(self._indexSortKeyName).eq(indexSortKey)
                 )
-            except Exception as e:
-                print(str(e))
+            except ParamValidationError as e:
+                print("Parameter validation error: %s" % e)
+            except ClientError as e:
+                print("Unexpected error: %s" % e)
         return response['Items']
         
 
