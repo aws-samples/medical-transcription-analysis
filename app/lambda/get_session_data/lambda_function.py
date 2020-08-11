@@ -5,6 +5,7 @@ sys.path.append("../")
 import boto3
 from lambda_base import LambdaBase
 from constant_variables import *
+from response_helper import sendResponse
 
 class GetSessionDataLambda(LambdaBase):
     def __init__(self): 
@@ -27,9 +28,10 @@ class GetSessionDataLambda(LambdaBase):
 
     def handle(self, event, context):
         try:
-            print(event)
-            sessionId = event['queryStringParameters']['sessionId'] if 'sessionId' in event['queryStringParameters'] else None
-            print(sessionId)
+            sessionId = event['queryStringParameters'][DATASTORE_COLUMN_SESSION_ID].strip() if DATASTORE_COLUMN_SESSION_ID in event['queryStringParameters'] else None
+            if SessionId is None or SessionId == '' or SessionId[:2] != 'h-':
+                return sendResponse(400, {'message':  DATASTORE_COLUMN_SESSION_ID + " has incorrect format"})
+
             bucket = os.environ['BUCKET_NAME']
             comprehend_key = self.getKeyName(sessionId,'comprehend','json')
             transcribe_key = self.getKeyName(sessionId,'transcribe','txt')
@@ -38,19 +40,10 @@ class GetSessionDataLambda(LambdaBase):
             transcribe_result = client.get_object(Bucket=bucket, Key=transcribe_key)
             result = {'comprehend': (comprehend_result['Body'].read()).decode("utf-8"), 'transcribe': (transcribe_result['Body'].read()).decode("utf-8")}
 
-            return {
-            "isBase64Encoded": False,
-            "statusCode": 200,
-            'body': json.dumps(result),
-            "headers": {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*',
-                'Access-Control-Allow-Methods': 'GET,POST,OPTIONS'
-                }
-            }
+            return sendResponse(200, result)
         except Exception as e:
             print(str(e))
+            return sendResponse(500, {'message':  "An unknown error has occurred. Please try again."})
 
 lambda_handler = GetSessionDataLambda.get_handler()
  

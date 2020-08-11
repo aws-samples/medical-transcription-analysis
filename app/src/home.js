@@ -475,7 +475,8 @@ export default function Home() {
     }
 
     var transcripts_texts = "";
-    transcripts.forEach((item) => { transcripts_texts += item.text + " "});
+    if(transcripts)
+      transcripts.forEach((item) => { transcripts_texts += item.text + " "});
     Storage.put(transcribeAddress, transcripts_texts);
 
     const allResults = [].concat(...comprehendResults);
