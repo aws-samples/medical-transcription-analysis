@@ -49,7 +49,7 @@ export default function Login() {
             console.log("password reset");
           } else {
             userHasAuthenticated(true);
-            userInit.signInUserSession && history.push("/home");
+            userInit.signInUserSession && history.push("/recording");
           }
     } catch ({ message }) {
         setError(message);

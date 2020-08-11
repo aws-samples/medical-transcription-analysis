@@ -1,0 +1,49 @@
+import json
+import sys
+import os
+sys.path.append("../")
+import boto3
+from lambda_base import LambdaBase
+from constant_variables import *
+from response_helper import sendResponse
+
+class GetSessionDataLambda(LambdaBase):
+    def __init__(self): 
+        pass
+
+    def putItem(self, PatientId, HealthCareProfessionalId, SessionName, SessionId, TimeStampStart, TimeStampEnd, TranscribeS3Path, ComprehendS3Path):
+        info = {DATASTORE_COLUMN_SESSION_ID : SessionId,
+                DATASTORE_COLUMN_PATIENT_ID: PatientId,
+                DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID: HealthCareProfessionalId,
+                DATASTORE_COLUMN_SESSION_NAME: SessionName,
+                DATASTORE_COLUMN_COMPREHEND_S3_PATH: ComprehendS3Path,
+                DATASTORE_COLUMN_TRANSCRIBE_S3_PATH: TranscribeS3Path,
+                DATASTORE_COLUMN_TIMESTAMP_START: TimeStampStart,
+                DATASTORE_COLUMN_TIMESTAMP_END: TimeStampEnd}
+        Session().createSession(info)
+        return SessionId
+
+    def getKeyName(self, sessionId, category, fileType):
+        return 'public/'+category+'-medical-output/'+sessionId+'/'+sessionId+'-session-'+category+'.'+fileType
+
+    def handle(self, event, context):
+        try:
+            sessionId = event['queryStringParameters'][DATASTORE_COLUMN_SESSION_ID].strip() if DATASTORE_COLUMN_SESSION_ID in event['queryStringParameters'] else None
+            if SessionId is None or SessionId == '' or SessionId[:2] != 'h-':
+                return sendResponse(400, {'message':  DATASTORE_COLUMN_SESSION_ID + " has incorrect format"})
+
+            bucket = os.environ['BUCKET_NAME']
+            comprehend_key = self.getKeyName(sessionId,'comprehend','json')
+            transcribe_key = self.getKeyName(sessionId,'transcribe','txt')
+            client = boto3.client('s3', region_name=os.environ['AWS_REGION'])
+            comprehend_result = client.get_object(Bucket=bucket, Key=comprehend_key)
+            transcribe_result = client.get_object(Bucket=bucket, Key=transcribe_key)
+            result = {'comprehend': (comprehend_result['Body'].read()).decode("utf-8"), 'transcribe': (transcribe_result['Body'].read()).decode("utf-8")}
+
+            return sendResponse(200, result)
+        except Exception as e:
+            print(str(e))
+            return sendResponse(500, {'message':  "An unknown error has occurred. Please try again."})
+
+lambda_handler = GetSessionDataLambda.get_handler()
+ 

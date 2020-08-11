@@ -135,7 +135,6 @@ export default function Home() {
 
   const playSample = useCallback(sample => {
     setActiveSample(sample);
-    setTimeStampStart((Date.now()/1000)|0);
   }, []);
 
   const stop = useCallback(() => {
@@ -145,7 +144,6 @@ export default function Home() {
   const delayedStop = useCallback(() => {
     if (activeSample) activeSample.pause()
     setTimeout(stop, 5000);
-    setTimeStampEnd((Date.now()/1000)|0)
   }, [activeSample, stop]);
   const audioStream = useAudioStream(activeSample, delayedStop);
 
@@ -170,12 +168,6 @@ export default function Home() {
   const [showCreateHealthCareProfessionalSucces, setShowCreateHealthCareProfessionalSuccess] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [showSaveSessionButton, setShowSaveSessionButton] = useState(false)
-  const [showCreateSessionSuccess, setShowCreateSessionSuccess] = useState(false)
-  const [SessionId, setSessionId] = useState('')
-  var sessionId = ''
-
-  const history = useHistory();
-
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const text = Alternatives[0].Transcript;
@@ -258,7 +250,6 @@ export default function Home() {
     setShowAnalysis(false);
     setShowExport(false);
     setExcludedItems([]);
-    setShowForm(false);
   }, []);
 
   
@@ -269,8 +260,7 @@ export default function Home() {
     setShowAnalysis(false);
     setShowExport(false);
     setExcludedItems([]);
-    setShowForm(false);
-    history.push("/home");
+    // history.push("/");
   }, []);
 
   
@@ -288,14 +278,13 @@ export default function Home() {
   const handleSave = (e) => {
     e.preventDefault()
     setShowCreateSessionForm(true)
-    toggleShowForm()
+    toogleShowForm()
   }
 
   const handleSessionSubmit = (e) => {
     e.preventDefault()
     saveSession()
     toggleCreateSessionForm()
-    toggleCreateSessionSuccess()
     clearSessionFields()
   }
 
@@ -361,7 +350,6 @@ export default function Home() {
   const toggleHealthCareProfessionalSuccess = () => setShowCreateHealthCareProfessionalSuccess(!showCreateHealthCareProfessionalSucces)
   const toggleCreateSessionForm = () => setShowCreateSessionForm(!showCreateSessionForm)
   const toggleShowForm = () => setShowForm(!showForm)
-  const toggleCreateSessionSuccess = () => setShowCreateSessionSuccess(!showCreateSessionSuccess)
 
 
   const handleCreatePatient = (e) => {
@@ -448,14 +436,13 @@ export default function Home() {
   }
 
   const saveSession = () => {
-    sessionId = 's-'+timeStampEnd+generate();
-    setSessionId(SessionId);
+    const sessionId = 's-'+generate();
     Storage.configure({
       bucket: process.env.REACT_APP_StorageS3BucketName,
       level: 'public',
       region: process.env.REACT_APP_region,
     });
-    const transcribeAddress = `transcribe-medical-output/${sessionId}/${sessionId}-session-transcribe.txt`
+    const transcribeAddress = `transrcibe-medical-output/${sessionId}/${sessionId}-session-transcribe.txt`
     const comprehendAddress = `comprehend-medical-output/${sessionId}/${sessionId}-session-comprehend.json`
 
     var dict = {
@@ -476,16 +463,14 @@ export default function Home() {
     }
 
     var transcripts_texts = "";
-    if(transcripts)
-      transcripts.forEach((item) => { transcripts_texts += item.text + " "});
-    
+    transcripts.forEach((item) => { transcripts_texts += item.text + " "});
     Storage.put(transcribeAddress, transcripts_texts);
 
     const allResults = [].concat(...comprehendResults);
     const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
     filteredResultsM.map((r,i) => {
       const medicationId = 'm'+sessionId+i
-      dict.Medication.push({'medicationId': medicationId, 'sessionId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
+      dict.Medication.push({'medicationId': medicationId, 'sessiondId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
       if(r.RxNormConcepts)
         (r.RxNormConcepts).forEach((r2,i2) => {
           dict.RxNorm.push({'code':r2.Code, 'description':r2.Description})
@@ -508,17 +493,17 @@ export default function Home() {
       'TEST_TREATMENT_PROCEDURE');
     filteredResultsTTP.map((r,i) => {
       const testTreatmentProcedureId = 't'+sessionId+i
-      dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'sessionId':sessionId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
+      dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
     });
     Storage.put(comprehendAddress, JSON.stringify(dict));
     
     const data = {
-      'PatientId': patientId,
-      'HealthCareProfessionalId': healthCareProfessionalId,
-      'SessionName': sessionName,
+      'PatientId': 'p-1',
+      'HealthCareProfessionalId': 'h-1',
+      'SessionName': 'session2',
       'SessionId': sessionId,
-      'TimeStampStart': timeStampStart,
-      'TimeStampEnd': timeStampEnd,
+      'TimeStampStart': 1,
+      'TimeStampEnd': 1,
       'TranscribeS3Path': transcribeAddress,
       'ComprehendS3Path': comprehendAddress,
     }
@@ -527,9 +512,7 @@ export default function Home() {
       level: 'public',
       region: process.env.REACT_APP_region,
     });
-
     createSession(data);
-
     return sessionId;
   }
 
@@ -549,9 +532,9 @@ export default function Home() {
 
   return (
     <div className={s.base}>
-      <Header
+      {/* <Header
         stage={stage}
-        onHome={toHome}
+        onHome={reset}
         onAnalyze={enableAnanlysis}
         onHideAnalysis={disableAnalysis}
         onShowExport={() => setShowExport(true)}
@@ -562,11 +545,11 @@ export default function Home() {
       <DebugMenu
         offlineEnabled={offlineEnabled}
         onSetOffline={setOfflineEnabled}
-      />
+      /> */}
 
 
       <div className={s.rest}>
-        <SampleSelector
+        {/* <SampleSelector
           samples={sampleAudio}
           activeSample={activeSample}
           onSelect={playSample}
@@ -600,71 +583,20 @@ export default function Home() {
           resultChunks={comprehendResults}
           excludedItems={excludedItems}
           visible={stage === STAGE_EXPORT}
-        />
+        /> */}
 
-      
-        {showForm && <div className={s.CreateSessionFlow}>
-          {showCreateSessionForm && 
-            <form>
-              <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
-              <p></p>
-              <input type="text" placeholder="Patient Id" name="patientId" value={patientId} onChange={e => setPatientId(e.target.value)}/>
-              <p href="#" onClick={patientShow}>new patient?</p>
-              <input type="text" placeholder="Health Care Professional Id" name="healthCareProfessionalId" value={healthCareProfessionalId} onChange={e => setHealthCareProfessionalId(e.target.value)}/>
-              <p href="#" onClick={healthCareProfessionalShow}>new health care professional?</p>
-              <button type="submit" onClick={()=>{setShowCreateSessionForm(!showCreateSessionForm);toggleShowForm()}}>Back</button>
-              <button type="submit" onClick={handleSessionSubmit}>Submit</button>
-            </form>
-          }
-
-          {showCreatePatientForm && 
-            <form>
-              <input type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
-              <button type="submit" onClick={()=>{toggleCreatePatient();toggleCreateSessionForm()}}>Back</button>
-              <button type="submit" onClick={handleCreatePatient}>Submit</button>
-            </form> 
-          }
-
-          {showCreateHealthCareProfessionalForm && 
-            <form>
-              <input type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
-              <button type="submit" onClick={()=>{toggleCreateHealthCareProfessional();toggleCreateSessionForm()}}>Back</button>
-              <button type="submit" onClick={handleCreateHealthCareProfessional}>Submit</button>
-            </form>  
-          }
-
-          {showCreatePatientSuccess && 
-            <div>
-              <p>Create Patient Success!</p>
-              <p>The Patient Id is {patientId}.</p>
-              <p>Remember to save it :)</p>
-              <button onClick={()=>{togglePatientSuccess();toggleCreateSessionForm()}}>Back</button>
-            </div>
-          }
-
-          {showCreateHealthCareProfessionalSucces && 
-          <div>
-            <p>Create Health Care Professional Success!</p>
-            <p>The Health Care Professional Id is {healthCareProfessionalId}.</p>
-            <p>Remember to save it :)</p>
-            <button onClick={()=>{toggleHealthCareProfessionalSuccess();toggleCreateSessionForm()}}>Back</button>
-          </div>
-          } 
-
-          {showCreateSessionSuccess &&
-          <div>
-            <p>Create Session Success!</p>
-            <p>The Session Id is {SessionId}.</p>
-            <p>Remember to save it :)</p>
-            <button onClick={()=>{toggleCreateSessionSuccess();toggleShowForm()}}>Close</button>
-          </div>}
-        </div>}
+        <CreateSessionForm className={s.SessionForm} />
+        {/* {showForm && <div className={s.CreateSessionFlow}>
+          {showCreateSessionForm && <CreateSessionForm className={s.SessionForm} />}
+          {showCreatePatientForm && <CreatePatientForm className={s.PatientForm} />}
+          {showCreateHealthCareProfessionalForm && <CreateHealthCareProfessionalForm className={s.HealthCareProfessionalForm} />}
+          {showCreatePatientSuccess && <CreatePatientSuccessPage className={s.PatientSuccess} />}
+          {showCreateHealthCareProfessionalSucces && <CreateHealthCareProfessionalSuccessPage className={s.HealthCareProfessionalSuccess}/>}
+        </div>} */}
  
       </div>
       
-      {/* {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={handleSave}>Save Session</button>} */}
-      <button className={s.SaveButton} onClick={handleSave}>Save Session</button>
-
+      {/* {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={ave}>Save Session</button>} */}
     </div>
   );
 }

@@ -53,3 +53,10 @@
   margin: auto 15px;
   text-align: center;
 }
+
+.tableGroup table{
+  left: 0;
+  right: 0;
+  margin: auto;
+
+}

@@ -7,6 +7,7 @@ from list_health_care_professionals.lambda_function import ListHealthCareProfess
 from list_patients.lambda_function import ListPatientsLambda
 from create_session.lambda_function import CreateSessionLambda
 from list_sessions.lambda_function import ListSessionsLambda
+from get_session_data.lambda_function import GetSessionDataLambda
 
 def lambda_handler(event, context):
     options = {'/getCredentials': GetCredentialsLambda(),
@@ -15,9 +16,11 @@ def lambda_handler(event, context):
                '/listHealthCareProfessionals': ListHealthCareProfessionalsLambda(),
                '/listPatients': ListPatientsLambda(),
                '/createSession': CreateSessionLambda(),
-               '/listSessions': ListSessionsLambda()}
+               '/listSessions': ListSessionsLambda(),
+               '/getTranscriptionComprehend': GetSessionDataLambda()}
     if event['resource'] in options:
         return options[event['resource']].handle(event, context)
     else:
-        raise Exception("operation not supported")
+        print(event['resource'])
+        raise Exception("Operation Not Supported")
     

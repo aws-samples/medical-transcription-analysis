@@ -5,6 +5,8 @@ import cloudfront = require("@aws-cdk/aws-cloudfront");
 import s3deploy = require ("@aws-cdk/aws-s3-deployment");
 import apigateway = require("@aws-cdk/aws-apigateway");
 import lambda = require("@aws-cdk/aws-lambda");
+import { CustomResource, Duration } from '@aws-cdk/core';
+import * as cr from '@aws-cdk/custom-resources';
 
 import {
   CloudFrontWebDistribution,
@@ -67,7 +69,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     {
       websiteIndexDocument: "index.html",
       cors: [corsRule],
-      // blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      // blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, change back
       encryption: BucketEncryption.S3_MANAGED
     }
   );
@@ -344,6 +346,48 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
 
         // Lambda
         /* MTAApiProcessor */
+        const onEventAthenaLambda = new lambda.Function(
+          this,
+          this.resourceName("MTAOnEventAthenaLambda"),
+          {
+            runtime: lambda.Runtime.PYTHON_3_8,
+            code: lambda.Code.asset("lambda/set_up_athena/"),
+            handler: "lambda_function.lambda_handler",
+            timeout: cdk.Duration.seconds(60),
+            environment: {
+              BUCKET_NAME: storageS3Bucket.bucketName,
+              REGION: process.env.region
+            }
+          }
+        );
+
+        onEventAthenaLambda.addLayers(boto3Layer);
+
+        onEventAthenaLambda.addToRolePolicy(
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["athena:StartQueryExecution", "athena:CreateNamedQuery", "athena:DeleteNamedQuery", "athena:GetQueryResults",
+            "athena:GetWorkGroup", "athena:CancelQueryExecution", "athena:StopQueryExecution", "athena:GetQueryExecution"],
+            resources: ["*"]
+          })
+        );
+
+        onEventAthenaLambda.addToRolePolicy(
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["s3:PutObject", "s3:GetObject", "s3:AbortMultipartUpload"],
+            resources: ["*"]
+          })
+        );
+
+        onEventAthenaLambda.addToRolePolicy(
+          new iam.PolicyStatement({
+            effect: iam.Effect.ALLOW,
+            actions: ["glue:*"],
+            resources: ["*"]
+          })
+        );
+
         const apiProcessor = new lambda.Function(
           this,
           this.resourceName("MTAApiProcessor"),
@@ -354,7 +398,8 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             timeout: cdk.Duration.seconds(60),
             environment: {
               TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
-              REGION: process.env.region
+              REGION: process.env.region,
+              BUCKET_NAME: storageS3Bucket.bucketName
             }
           }
         );
@@ -362,6 +407,8 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         TableHealthCareProfessionals.grantReadWriteData(apiProcessor);
         TablePatients.grantReadWriteData(apiProcessor);
         TableSessions.grantReadWriteData(apiProcessor);
+        storageS3Bucket.grantReadWrite(apiProcessor);
+        storageS3Bucket.grantReadWrite(onEventAthenaLambda);
 
         apiProcessor.addToRolePolicy(
           new iam.PolicyStatement({
@@ -479,8 +526,12 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         const listHealthCareProfessionalsResource = api.root.addResource("listHealthCareProfessionals");
         addCorsOptionsAndMethods(listHealthCareProfessionalsResource, ["GET"]);
 
-        const createHealthCareProfessionaResource = api.root.addResource("createHealthCareProfessional");
-        addCorsOptionsAndMethods(createHealthCareProfessionaResource, ["POST"]);
+        const createHealthCareProfessionalResource = api.root.addResource("createHealthCareProfessional");
+        addCorsOptionsAndMethods(createHealthCareProfessionalResource, ["POST"]);
+
+        const getTranscriptionComprehendResource = api.root.addResource("getTranscriptionComprehend");
+        addCorsOptionsAndMethods(getTranscriptionComprehendResource, ["GET"]);
+        
     
         cognitoPolicy.addStatements(
           new iam.PolicyStatement({
@@ -489,6 +540,16 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             effect: iam.Effect.ALLOW
           })
         );
+
+        // Custom Resource
+
+        const athenaProvider = new cr.Provider(this, this.resourceName('athenaProvider'), {
+          onEventHandler: onEventAthenaLambda
+        });
+    
+        const athenaCustomResource = new CustomResource(this, this.resourceName('athenaCustomResource'), {
+          serviceToken: athenaProvider.serviceToken,
+        });
   }
   
 }
