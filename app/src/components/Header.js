@@ -8,6 +8,7 @@ import { STAGE_HOME, STAGE_TRANSCRIBING, STAGE_TRANSCRIBED, STAGE_SUMMARIZE, STA
 export default function Header({
   stage,
   onHome,
+  onSearch,
   onAnalyze,
   onHideAnalysis,
   onShowExport,
@@ -34,6 +35,7 @@ export default function Header({
         <h1>Medical Transcription Analysis</h1> 
         </div>
         <div className={s.right}>
+           <button className={s.search} onClick={onSearch}>Search</button>
           {stage === STAGE_TRANSCRIBED || stage === STAGE_TRANSCRIBING ?
             <button disabled={stage === STAGE_TRANSCRIBING} onClick={onAnalyze}>Analyze</button>
           : null}

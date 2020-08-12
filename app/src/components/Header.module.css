@@ -10,7 +10,7 @@
   background: #fff;
   transition: opacity 100ms 400ms linear, transform 500ms ease;
   opacity: 0;
-  transform: translateY(-100px);
+  transform: translateY(-75px);
 }
 
 .visible {
@@ -58,7 +58,6 @@
 .headings * {
   white-space: nowrap;
   position: absolute;
-  top: 0;
   transition: transform 1000ms ease, opacity 1000ms linear;
   opacity: 1;
 }
@@ -83,6 +82,11 @@
   margin-left: .5em;
   background: #ff9900;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+  color: white;
+}
+
+.right .search button{
+  color: white;
 }
 
 .right button:disabled{

@@ -10,9 +10,9 @@
   },
   "stack": {
     "stackname": "MTA",
-    "region": "us-west-2"
+    "region": "%%REGION%%"
   },
-  "email": "ruilz@amazon.com",
+  "email": "%%USER_EMAIL%%",
   "scripts": {
     "bootstrap": "AWS_REGION=$npm_package_stack_region USER_EMAIL=$npm_package_email cdk bootstrap --toolkit-stack-name MedicalTranscriptionAnalysisCDKToolkit",
     "build-app": "react-scripts build",
@@ -76,7 +76,7 @@
     "react-redux": "^7.1.0",
     "react-router-bootstrap": "^0.25.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.2",
+    "react-scripts": "^3.4.3",
     "react-transition-group": "^4.4.0",
     "readline-sync": "^1.4.10",
     "redux": "^4.0.5",
