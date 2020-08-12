@@ -22,6 +22,7 @@ import getCredentials from './audio-utils/getTranscribeCredentials';
 import { API, Storage, Auth } from "aws-amplify";
 import { generate } from "short-uuid";
 import { Link, useHistory } from "react-router-dom";
+import {Form, Button, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 async function getTranscribeCreds() {
   const result = await getCredentials();
@@ -119,8 +120,6 @@ const FAST = false;
   }
 }
 
-
-
 export default function Home() {
   const [ offlineEnabled, setOfflineEnabled ] = useState(false);
 
@@ -172,10 +171,17 @@ export default function Home() {
   const [showSaveSessionButton, setShowSaveSessionButton] = useState(false)
   const [showCreateSessionSuccess, setShowCreateSessionSuccess] = useState(false)
   const [SessionId, setSessionId] = useState('')
+  const [sessionValidated, setSessionValidated] = useState(false);
+  const [patientValidated, setPatientValidated] = useState(false);
+  const [healthCareProfessionalValidated, setHealthCareProfessionalValidated] = useState(false);
+  const [Patients, setPatients] = useState([])
+  const [HealthCareProfessionals, setHealthCareProfessionals] = useState([])
+  const [healthCareProfessionalIdDisabled, setHealthCareProfessionalIdDisabled] = useState(false)
+  const [patientIdDisabled, setPatientIdDisabled] = useState(false)
+
   var sessionId = ''
 
   const history = useHistory();
-
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const text = Alternatives[0].Transcript;
@@ -249,8 +255,6 @@ export default function Home() {
 
   const comprehendResults = useComprehension(transcripts || [], transcribeCredential);
 
-  // const history = useHistory();
-
   const reset = useCallback(() => {
     setTranscripts(false);
     setPartialTranscript('');
@@ -260,7 +264,6 @@ export default function Home() {
     setExcludedItems([]);
     setShowForm(false);
   }, []);
-
   
   const toHome = useCallback(() => {
     setTranscripts(false);
@@ -273,7 +276,16 @@ export default function Home() {
     history.push("/home");
   }, []);
 
-  
+  const toSearch = useCallback(() => {
+    setTranscripts(false);
+    setPartialTranscript('');
+    setActiveSample(null);
+    setShowAnalysis(false);
+    setShowExport(false);
+    setExcludedItems([]);
+    setShowForm(false);
+    history.push("/search");
+  }, []);
 
   const toggleResultItemVisibility = useCallback(id => {
     setExcludedItems(arr => {
@@ -291,12 +303,18 @@ export default function Home() {
     toggleShowForm()
   }
 
-  const handleSessionSubmit = (e) => {
-    e.preventDefault()
-    saveSession()
-    toggleCreateSessionForm()
-    toggleCreateSessionSuccess()
-    clearSessionFields()
+  const handleSessionSubmit = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      setSessionValidated(true);
+    }else{
+      saveSession()
+      toggleCreateSessionForm()
+      toggleCreateSessionSuccess()
+      clearSessionFields()
+    } 
   }
 
   async function createPatient() {
@@ -364,18 +382,30 @@ export default function Home() {
   const toggleCreateSessionSuccess = () => setShowCreateSessionSuccess(!showCreateSessionSuccess)
 
 
-  const handleCreatePatient = (e) => {
-    e.preventDefault()
-    createPatient()
-    toggleCreatePatient()
-    togglePatientSuccess()
+  const handleCreatePatient = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      setPatientValidated(true);
+    }else{
+      createPatient()
+      toggleCreatePatient()
+      togglePatientSuccess()
+    } 
   }
 
-  const handleCreateHealthCareProfessional = (e) => {
-    e.preventDefault()
-    createHealthCareProfessional()
-    toggleCreateHealthCareProfessional()
-    toggleHealthCareProfessionalSuccess()
+  const handleCreateHealthCareProfessional = (event) => {
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+      setHealthCareProfessionalValidated(true);
+    }else{
+      createHealthCareProfessional()
+      toggleCreateHealthCareProfessional()
+      toggleHealthCareProfessionalSuccess()
+    }
   }
 
   const CreateSessionForm = () => (
@@ -427,8 +457,8 @@ export default function Home() {
 
   const clearSessionFields = () => {
     setSessionName("");
-    setPatientId("");
-    setHealthCareProfessionalId("");
+    // setPatientId("");
+    // setHealthCareProfessionalId("");
   }
 
   async function createSession(data) {
@@ -442,8 +472,7 @@ export default function Home() {
       queryStringParameters: data
     };
 
-    const result =  await API.post(apiName, path, myInit); 
-
+    const result =  await API.post(apiName, path, myInit);
     return result;
   }
 
@@ -533,6 +562,50 @@ export default function Home() {
     return sessionId;
   }
 
+  async function listPatients() {
+    const apiName = 'MTADemoAPI';
+    const path = 'listPatients';
+    const myInit = { 
+    //   headers: { 
+    //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+    //   },
+      response: true,
+      queryStringParameters: {PatientId: ''}
+    };
+    // const result =  await API.get(apiName, path, myInit); 
+    // setPatients(result.data)
+    // return result
+    await API.get(apiName, path, myInit).then(result => setPatients(result.data))
+  }
+
+  async function listHealthCareProfessionals() {
+    const apiName = 'MTADemoAPI';
+    const path = 'listHealthCareProfessionals';
+    const myInit = { 
+    //   headers: { 
+    //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+    //   },
+      response: true,
+      queryStringParameters: {HealthCareProfessionalId: ''}
+    };
+
+    const result =  await API.get(apiName, path, myInit); 
+    setHealthCareProfessionals(result.data)
+    return result;
+  }
+
+  const ToolTipIcon = () => (
+    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-question-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.57 6.033H5.25C5.22 4.147 6.68 3.5 8.006 3.5c1.397 0 2.673.73 2.673 2.24 0 1.08-.635 1.594-1.244 2.057-.737.559-1.01.768-1.01 1.486v.355H7.117l-.007-.463c-.038-.927.495-1.498 1.168-1.987.59-.444.965-.736.965-1.371 0-.825-.628-1.168-1.314-1.168-.901 0-1.358.603-1.358 1.384zm1.251 6.443c-.584 0-1.009-.394-1.009-.927 0-.552.425-.94 1.01-.94.609 0 1.028.388 1.028.94 0 .533-.42.927-1.029.927z"/>
+</svg>
+  )
+  
+  const renderTooltip = (message, props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      {message}
+    </Tooltip>
+  );
+
   let stage;
 
   if (!transcripts) {
@@ -551,6 +624,7 @@ export default function Home() {
     <div className={s.base}>
       <Header
         stage={stage}
+        onSearch={toSearch}
         onHome={toHome}
         onAnalyze={enableAnanlysis}
         onHideAnalysis={disableAnalysis}
@@ -602,9 +676,57 @@ export default function Home() {
           visible={stage === STAGE_EXPORT}
         />
 
-      
         {showForm && <div className={s.CreateSessionFlow}>
-          {showCreateSessionForm && 
+            {showCreateSessionForm &&
+            <Form noValidate validated={sessionValidated} onSubmit={handleSessionSubmit}>
+                <h2>Save Session</h2>
+                <p>Save this session to review it at a later time or conduct analysis.</p> 
+                <p>This data would be available across all users for review.</p>
+                {/* Session Name Field */}
+                <Form.Group as={Row} id="formSessionName">
+                      <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('This is the name you can give to your test session. This field cannot be empty.')}>
+                  <Form.Label column sm="4"><ToolTipIcon/>Session Name</Form.Label>
+                      </OverlayTrigger>
+                      
+                  <Col sm="8">
+                    <Form.Control required type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
+                    <Form.Text className="text-white">session name no color hint</Form.Text>
+                    <Form.Control.Feedback type="invalid">Session name cannot be empty.</Form.Control.Feedback>
+                  </Col>
+                </Form.Group>
+                {/* Patient Id Field */}
+                <Form.Group as={Row} Id="formPatientId">
+                      <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('This is the unique ID tagged to every patient in the system. You can use this id to search or save sessions related to the Patient.')}>
+                  <Form.Label column sm="4"><ToolTipIcon/>Patient Id</Form.Label>
+                      </OverlayTrigger>
+                  <Col sm="8">
+                      <Form.Control required as="select" disabled={patientIdDisabled} value={patientId} onChange={e => {console.log('p', e.target.value); setPatientId(e.target.value)}} onClick={listPatients}>
+                        <option value=''></option>
+                        {Patients.map((patient,index) => (<option key={index} value={patient['PatientId']}>{patient['PatientId'] + ' | ' + patient['PatientName']}</option>))}
+                      </Form.Control>
+                      <Form.Text className="text-primary" onClick={patientShow}>Create a new patient?</Form.Text>
+                      <Form.Control.Feedback type="invalid">Patient name cannot be empty.</Form.Control.Feedback>
+                  </Col>
+                </Form.Group>
+                {/* Health Care Professional Id Field */}
+                <Form.Group required as={Row} Id="formHealthCareProfessionalId">
+                      <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('This is the unique ID tagged to every health care professional in the system. You can use this id to search or save sessions related to the Health care professional.')}>
+                  <Form.Label column sm="4"><ToolTipIcon/>Health Care Professional Id</Form.Label>
+                      </OverlayTrigger>
+                  <Col sm="8">
+                      <Form.Control as="select" required disabled={healthCareProfessionalIdDisabled} value={healthCareProfessionalId} onChange={e => {console.log(e.target.value); setHealthCareProfessionalId(e.target.value); console.log(healthCareProfessionalName)}} onClick={listHealthCareProfessionals}>
+                         <option value=''></option>
+                        {HealthCareProfessionals.map((hcp,index) => (<option key={index} value={hcp['HealthCareProfessionalId']}>{hcp['HealthCareProfessionalId'] + ' | '+ hcp['HealthCareProfessionalName']}</option>))}
+                      </Form.Control>
+                      <Form.Text className="text-primary" onClick={healthCareProfessionalShow}>Create a Health Care Professional?</Form.Text>
+                      <Form.Control.Feedback type="invalid">Hcp name cannot be empty.</Form.Control.Feedback>
+                  </Col>
+                </Form.Group>
+                <Button variant="primary" onClick={()=>{setShowCreateSessionForm(!showCreateSessionForm);toggleShowForm();clearSessionFields();setSessionValidated(false)}}>Back</Button>
+                <Button variant="primary" type="submit">Submit</Button>  
+            </Form>
+          }
+          {/* {showCreateSessionForm && 
             <form>
               <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
               <p></p>
@@ -615,27 +737,57 @@ export default function Home() {
               <button type="submit" onClick={()=>{setShowCreateSessionForm(!showCreateSessionForm);toggleShowForm()}}>Back</button>
               <button type="submit" onClick={handleSessionSubmit}>Submit</button>
             </form>
+          } */}
+
+          {showCreatePatientForm &&  
+            <Form noValidate validated={patientValidated} onSubmit={handleCreatePatient}>
+              <h2>Create New Patient</h2>
+              <p>Create a new patient and save it into the database.</p> 
+              <p>This data would be available across all users for review.</p>
+              <p>You will get a patient Id in order to save the session.</p>
+              {/* Patient Name Field */}
+              <Form.Group as={Row} id="formPatientName">
+                      <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('To create a new patient you need to provide the patient name, then you will get the patient id from this. This field cannot be empty.')}>
+                  <Form.Label column sm="4"><ToolTipIcon/>Patient Name</Form.Label>
+                      </OverlayTrigger>
+                      
+                  <Col sm="8">
+                    <Form.Control required type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
+                    <Form.Text className="text-white">patient name no color hint</Form.Text>
+                    <Form.Control.Feedback type="invalid">Patient name cannot be empty.</Form.Control.Feedback>
+                  </Col>
+                </Form.Group>
+                <Button variant="primary" onClick={()=>{toggleCreatePatient();toggleCreateSessionForm();setPatientValidated(false)}}>Back</Button>
+                <Button variant="primary" type="submit">Submit</Button>  
+            </Form>
           }
 
-          {showCreatePatientForm && 
-            <form>
-              <input type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
-              <button type="submit" onClick={()=>{toggleCreatePatient();toggleCreateSessionForm()}}>Back</button>
-              <button type="submit" onClick={handleCreatePatient}>Submit</button>
-            </form> 
-          }
-
-          {showCreateHealthCareProfessionalForm && 
-            <form>
-              <input type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
-              <button type="submit" onClick={()=>{toggleCreateHealthCareProfessional();toggleCreateSessionForm()}}>Back</button>
-              <button type="submit" onClick={handleCreateHealthCareProfessional}>Submit</button>
-            </form>  
+          {showCreateHealthCareProfessionalForm  &&  
+            <Form noValidate validated={healthCareProfessionalValidated} onSubmit={handleCreateHealthCareProfessional}>
+              <h2>Create New Health Care Professional</h2>
+              <p>Create a new health care professional and save it into the database.</p> 
+              <p>This data would be available across all users for review.</p>
+              <p>You will get a patient Id in order to save the session.</p>
+              {/* Patient Name Field */}
+              <Form.Group as={Row} id="formHealthCareProfessionalName">
+                      <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('To create a new health care professional you need to provide the health care professional name, then you will get the health care professional id from this. This field cannot be empty.')}>
+                  <Form.Label column sm="4"><ToolTipIcon/>Health Care Professional Name</Form.Label>
+                      </OverlayTrigger>
+                      
+                  <Col sm="8">
+                    <Form.Control required type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
+                    <Form.Text className="text-white">health care professional name no color hint</Form.Text>
+                    <Form.Control.Feedback type="invalid">Health care professional name cannot be empty.</Form.Control.Feedback>
+                  </Col>
+                </Form.Group>
+                <Button variant="primary" onClick={()=>{toggleCreateHealthCareProfessional();toggleCreateSessionForm();setHealthCareProfessionalValidated(false)}}>Back</Button>
+                <Button variant="primary" type="submit">Submit</Button>  
+            </Form>
           }
 
           {showCreatePatientSuccess && 
             <div>
-              <p>Create Patient Success!</p>
+              <h2>Create Patient Success!</h2>
               <p>The Patient Id is {patientId}.</p>
               <p>Remember to save it :)</p>
               <button onClick={()=>{togglePatientSuccess();toggleCreateSessionForm()}}>Back</button>
@@ -644,7 +796,7 @@ export default function Home() {
 
           {showCreateHealthCareProfessionalSucces && 
           <div>
-            <p>Create Health Care Professional Success!</p>
+            <h2>Create Health Care Professional Success!</h2>
             <p>The Health Care Professional Id is {healthCareProfessionalId}.</p>
             <p>Remember to save it :)</p>
             <button onClick={()=>{toggleHealthCareProfessionalSuccess();toggleCreateSessionForm()}}>Back</button>
@@ -653,7 +805,7 @@ export default function Home() {
 
           {showCreateSessionSuccess &&
           <div>
-            <p>Create Session Success!</p>
+            <h2>Create Session Success!</h2>
             <p>The Session Id is {SessionId}.</p>
             <p>Remember to save it :)</p>
             <button onClick={()=>{toggleCreateSessionSuccess();toggleShowForm()}}>Close</button>
@@ -661,9 +813,8 @@ export default function Home() {
         </div>}
  
       </div>
-      
-      {/* {stage!=STAGE_HOME && stage!=STAGE_TRANSCRIBING && <button className={s.SaveButton} onClick={handleSave}>Save Session</button>} */}
-      <button className={s.SaveButton} onClick={handleSave}>Save Session</button>
+   
+      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE) && <Button className={s.SaveButton} onClick={handleSave} id={'i'+stage} >Save Session</Button>}
 
     </div>
   );

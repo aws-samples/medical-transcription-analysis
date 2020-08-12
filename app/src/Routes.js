@@ -12,10 +12,10 @@ export default function Routes() {
       <UnauthenticatedRoute exact path="/">
         <Login />
       </UnauthenticatedRoute>
-      <AuthenticatedRoute exact path="/recording">
+      <AuthenticatedRoute exact path="/home">
         <Home/>
       </AuthenticatedRoute>
-      <AuthenticatedRoute exact path="/home">
+      <AuthenticatedRoute exact path="/search">
         <PreHome/>
       </AuthenticatedRoute>
     </Switch>

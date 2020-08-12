@@ -20,7 +20,7 @@ class ListSessionsLambda(LambdaBase):
         try:
             PatientId = event["queryStringParameters"][DATASTORE_COLUMN_PATIENT_ID] if DATASTORE_COLUMN_PATIENT_ID in event["queryStringParameters"] else None
             HealthCareProfessionalId = event["queryStringParameters"][DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID] if DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID in event["queryStringParameters"] else None
-            SessionId = event["queryStringParameters"][DATASTORE_COLUMN_SESSION_ID] if DATASTORE_COLUMN_SESSION_ID in event["queryStringParameters"] else None
+            SessionId = event["queryStringParameters"][DATASTORE_COLUMN_SESSION_ID].strip() if DATASTORE_COLUMN_SESSION_ID in event["queryStringParameters"] else None
             result = self.getItems(PatientId, HealthCareProfessionalId, SessionId)
             return {
             "isBase64Encoded": False,

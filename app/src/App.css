@@ -52,6 +52,10 @@
   cursor: pointer;
 }
 
+.App .Login input {
+  width: 100%;
+}
+
 .App .preHome Button {
   background-color: #ff9900;
   color: white;
