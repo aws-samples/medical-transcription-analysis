@@ -29,7 +29,6 @@ export default function Export(){
     },[params.sid]);
 
     const SessionSection = () => {
-        console.log(comprehendDict)
         const Session = comprehendDict.Session
 
         return (
