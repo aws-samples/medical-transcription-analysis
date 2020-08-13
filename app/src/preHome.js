@@ -70,8 +70,7 @@ export default function PreHome() {
     }
 
     const handleTableCellClick = (sessionId) => {
-        alert(sessionId)
-        listS3Content(sessionId)
+        window.open('/export/'+sessionId, '_blank');
     }
 
     async function listS3Content(sessionId){
@@ -79,10 +78,11 @@ export default function PreHome() {
       const path = 'getTranscriptionComprehend';
       const myInit = {
         response: true,
-        queryStringParameters: {'sessionId': sessionId }
+        queryStringParameters: {'SessionId': sessionId }
       }
       const result =  await API.get(apiName, path, myInit);
-      console.log(result)
+      const transcribe = result['data']['transcribe']
+      const comprehend = JSON.parse(result['data']['comprehend'])
       return result
     }
 
