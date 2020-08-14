@@ -11,25 +11,13 @@ class GetSessionDataLambda(LambdaBase):
     def __init__(self): 
         pass
 
-    def putItem(self, PatientId, HealthCareProfessionalId, SessionName, SessionId, TimeStampStart, TimeStampEnd, TranscribeS3Path, ComprehendS3Path):
-        info = {DATASTORE_COLUMN_SESSION_ID : SessionId,
-                DATASTORE_COLUMN_PATIENT_ID: PatientId,
-                DATASTORE_COLUMN_HEALTH_CARE_PROFESSSIONAL_ID: HealthCareProfessionalId,
-                DATASTORE_COLUMN_SESSION_NAME: SessionName,
-                DATASTORE_COLUMN_COMPREHEND_S3_PATH: ComprehendS3Path,
-                DATASTORE_COLUMN_TRANSCRIBE_S3_PATH: TranscribeS3Path,
-                DATASTORE_COLUMN_TIMESTAMP_START: TimeStampStart,
-                DATASTORE_COLUMN_TIMESTAMP_END: TimeStampEnd}
-        Session().createSession(info)
-        return SessionId
-
     def getKeyName(self, sessionId, category, fileType):
         return 'public/'+category+'-medical-output/'+sessionId+'/'+sessionId+'-session-'+category+'.'+fileType
 
     def handle(self, event, context):
         try:
             sessionId = event['queryStringParameters'][DATASTORE_COLUMN_SESSION_ID].strip() if DATASTORE_COLUMN_SESSION_ID in event['queryStringParameters'] else None
-            if SessionId is None or SessionId == '' or SessionId[:2] != 'h-':
+            if sessionId is None or sessionId[:2] != 's-':
                 return sendResponse(400, {'message':  DATASTORE_COLUMN_SESSION_ID + " has incorrect format"})
 
             bucket = os.environ['BUCKET_NAME']

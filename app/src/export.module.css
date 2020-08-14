@@ -1,0 +1,52 @@
+.body{
+    margin-top: -50px;
+    background-color: #ddd;
+    overflow: auto;
+    position: relative;
+    height: auto;
+    min-height: 100% !important;
+}
+
+.container{
+    margin: 5vw;
+    /* width: 60vw; */
+    /* height: 80vw; */
+    overflow: auto;
+    background: #fff;
+    padding: 5vw;
+    box-sizing: border-box;
+    box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.3);
+    font-size: .88vw;
+}
+
+thead .spec {
+    background-color: white;;
+}
+
+thead td{
+    background-color: rgba(0,0,0,.05);
+}
+
+thead h2{
+    margin: 0.2em;
+    float:left;
+}
+
+thead h3{
+    /* float: left; */
+    margin: 0;
+}
+
+.session table{
+    width: 50%;
+    margin: 40px auto;
+}
+
+h2{
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+.transcribe p{
+    font-size: 1vw;
+}

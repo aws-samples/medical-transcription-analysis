@@ -170,7 +170,7 @@ export default function Home() {
   const [showForm, setShowForm] = useState(false)
   const [showSaveSessionButton, setShowSaveSessionButton] = useState(false)
   const [showCreateSessionSuccess, setShowCreateSessionSuccess] = useState(false)
-  const [SessionId, setSessionId] = useState('')
+  const [sid, setSessionId] = useState('')
   const [sessionValidated, setSessionValidated] = useState(false);
   const [patientValidated, setPatientValidated] = useState(false);
   const [healthCareProfessionalValidated, setHealthCareProfessionalValidated] = useState(false);
@@ -304,9 +304,9 @@ export default function Home() {
   }
 
   const handleSessionSubmit = (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
       setSessionValidated(true);
     }else{
@@ -478,7 +478,7 @@ export default function Home() {
 
   const saveSession = () => {
     sessionId = 's-'+timeStampEnd+generate();
-    setSessionId(SessionId);
+    setSessionId(sessionId);
     Storage.configure({
       bucket: process.env.REACT_APP_StorageS3BucketName,
       level: 'public',
@@ -726,18 +726,6 @@ export default function Home() {
                 <Button variant="primary" type="submit">Submit</Button>  
             </Form>
           }
-          {/* {showCreateSessionForm && 
-            <form>
-              <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
-              <p></p>
-              <input type="text" placeholder="Patient Id" name="patientId" value={patientId} onChange={e => setPatientId(e.target.value)}/>
-              <p href="#" onClick={patientShow}>new patient?</p>
-              <input type="text" placeholder="Health Care Professional Id" name="healthCareProfessionalId" value={healthCareProfessionalId} onChange={e => setHealthCareProfessionalId(e.target.value)}/>
-              <p href="#" onClick={healthCareProfessionalShow}>new health care professional?</p>
-              <button type="submit" onClick={()=>{setShowCreateSessionForm(!showCreateSessionForm);toggleShowForm()}}>Back</button>
-              <button type="submit" onClick={handleSessionSubmit}>Submit</button>
-            </form>
-          } */}
 
           {showCreatePatientForm &&  
             <Form noValidate validated={patientValidated} onSubmit={handleCreatePatient}>
@@ -806,7 +794,7 @@ export default function Home() {
           {showCreateSessionSuccess &&
           <div>
             <h2>Create Session Success!</h2>
-            <p>The Session Id is {SessionId}.</p>
+            <p>The Session Id is {sid}.</p>
             <p>Remember to save it :)</p>
             <button onClick={()=>{toggleCreateSessionSuccess();toggleShowForm()}}>Close</button>
           </div>}
