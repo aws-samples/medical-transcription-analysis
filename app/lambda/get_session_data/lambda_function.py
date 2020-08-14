@@ -17,7 +17,7 @@ class GetSessionDataLambda(LambdaBase):
     def handle(self, event, context):
         try:
             sessionId = event['queryStringParameters'][DATASTORE_COLUMN_SESSION_ID].strip() if DATASTORE_COLUMN_SESSION_ID in event['queryStringParameters'] else None
-            if sessionId is None or sessionId == '' or sessionId[:2] != 's-':
+            if sessionId is None or sessionId[:2] != 's-':
                 return sendResponse(400, {'message':  DATASTORE_COLUMN_SESSION_ID + " has incorrect format"})
 
             bucket = os.environ['BUCKET_NAME']
