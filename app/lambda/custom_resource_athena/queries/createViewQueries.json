@@ -1,0 +1,12 @@
+{
+    "queries" : [
+        "CREATE OR REPLACE VIEW SessionView AS SELECT Session.sessionId, Session.patientId, Session.healthCareProfessionalId, Session.timeStampStart, Session.timeStampEnd FROM Comprehend;",
+        "CREATE OR REPLACE VIEW MedicationView AS SELECT m.medicationId, m.sessionId, m.medicationText, m.medicationType FROM Comprehend CROSS JOIN UNNEST(Medication) AS t(m);",
+        "CREATE OR REPLACE VIEW RxNormView AS SELECT Distinct r.code, r.description FROM Comprehend CROSS JOIN UNNEST(RxNorm) AS t(r);",
+        "CREATE OR REPLACE VIEW MedicationRxNormView AS SELECT m.medicationId, m.code FROM Comprehend CROSS JOIN UNNEST(MedicationRxNorm) AS t(m);",
+        "CREATE OR REPLACE VIEW MedicalConditionView AS SELECT m.medicalConditionId, m.sessionId, m.medicalConditionText FROM Comprehend CROSS JOIN UNNEST(MedicalCondition) AS t(m);",
+        "CREATE OR REPLACE VIEW ICD10CMConceptView AS SELECT Distinct i.code, i.description FROM Comprehend CROSS JOIN UNNEST(ICD10CMConcept) AS t(i);",
+        "CREATE OR REPLACE VIEW MedicalConditionICD10CMConceptView AS SELECT m.medicalconditionid, m.code FROM Comprehend CROSS JOIN UNNEST(MedicalConditionICD10CMConcept) AS t(m);",
+        "CREATE OR REPLACE VIEW TestTreatmentProceduresView AS SELECT t.testTreatmentProcedureId, t.sessionId, t.testTreatmentProcedureText, t.testTreatmentProcedureType FROM Comprehend CROSS JOIN UNNEST(TestTreatmentProcedures) AS t(t);"
+    ]
+}

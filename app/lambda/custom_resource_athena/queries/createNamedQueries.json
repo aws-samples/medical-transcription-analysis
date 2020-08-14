@@ -1,0 +1,29 @@
+{
+    "queries" : [
+        {
+            "name": "custom query 1",
+            "description": "Top 5 most frequent medical conditions assigned all time",
+            "queryString": "SELECT medicalConditionText, count(*) AS count FROM MedicalConditionView GROUP BY medicalConditionText ORDER BY count(*) DESC LIMIT 5;"
+        },
+        {
+            "name": "custom query 2",
+            "description": "Top 5 most frequent medications assigned all time",
+            "queryString": "SELECT medicationText, count(*) AS count FROM MedicationView GROUP BY medicationText ORDER BY count(*) DESC LIMIT 5;"
+        },
+        {
+            "name": "custom query 3",
+            "description": "Top 5 most frequent procedures assigned all time",
+            "queryString": "SELECT testTreatmentProcedureText, count(*) as count FROM TestTreatmentProceduresView WHERE testTreatmentProcedureType='PROCEDURE_NAME' GROUP BY testTreatmentProcedureText ORDER BY count(*) DESC LIMIT 5;"
+        },
+        {
+            "name": "custom query 4",
+            "description": "Top 5 most frequent patients attending sessions",
+            "queryString": "SELECT patientId, count(*) AS count FROM SessionView GROUP BY patientId ORDER BY count(*) DESC LIMIT 5;"
+        },
+        {
+            "name": "custom query 5",
+            "description": "Top 5 most frequent health care professionals attending sessions",
+            "queryString": "SELECT healthCareProfessionalId, count(*) AS count FROM SessionView GROUP BY healthCareProfessionalId ORDER BY count(*) DESC LIMIT 5;"
+        }
+    ]
+}
