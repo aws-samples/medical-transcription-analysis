@@ -366,7 +366,8 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         onEventAthenaLambda.addToRolePolicy(
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
-            actions: ["athena:*"],
+            actions: ["athena:StartQueryExecution", "athena:CreateNamedQuery", "athena:DeleteNamedQuery", "athena:GetQueryResults",
+            "athena:CreateWorkGroup", "athena:DeleteWorkGroup"],
             resources: ["*"]
           })
         );
