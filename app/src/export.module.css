@@ -1,5 +1,4 @@
 .body{
-    margin-top: -50px;
     background-color: #ddd;
     overflow: auto;
     position: relative;
@@ -9,8 +8,6 @@
 
 .container{
     margin: 5vw;
-    /* width: 60vw; */
-    /* height: 80vw; */
     overflow: auto;
     background: #fff;
     padding: 5vw;

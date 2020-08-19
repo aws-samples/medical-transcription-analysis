@@ -3,6 +3,8 @@ import { BrowserRouter as Router, useHistory } from "react-router-dom";
 import { API, Auth } from "aws-amplify";
 import s from "./preHome.module.css";
 import {Form, Row, Col, Button, Overlay, OverlayTrigger, Tooltip, Table} from 'react-bootstrap';
+import Header from './components/Header';
+import {STAGE_SEARCH} from './consts';
 
 export default function PreHome() {
     const [isLoading, setIsLoading] = useState(false);
@@ -86,6 +88,10 @@ export default function PreHome() {
       return result
     }
 
+    const epochToDate= (e) => {
+      return (new Date(e*1000)).toLocaleString()
+    }
+
     const SessionsTable = () => (
       <Table striped bordered hover responsive>
         <thead>
@@ -108,8 +114,8 @@ export default function PreHome() {
 
                   <td>{session.PatientId}</td>
                   <td>{session.HealthCareProfessionalId}</td>
-                  <td>{session.TimeStampStart}</td>
-                  <td>{session.TimeStampEnd}</td>
+                  <td>{epochToDate(session.TimeStampStart)}</td>
+                  <td>{epochToDate(session.TimeStampEnd)}</td>
           
                 </tr>
               )
@@ -233,18 +239,13 @@ export default function PreHome() {
     }
 
     return (
+      <div>
+        <Header
+              stage={STAGE_SEARCH}
+              onHome={toRecordingPage}
+        />
         <div className = {s.preHome}>
-          <header className = {s.base}>
-              <div className={s.left}>
-                <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={require('./logo_awsml_01.svg')} /></a>
-              </div>
-              <div className={s.headings}>
-                <h1>Medical Transcription Analysis</h1> 
-              </div>
-              <div className={s.right}>
-                  <button onClick={toRecordingPage}><span />Home</button>
-              </div>
-        </header>
+          
           <div className = {s.searchBarContainer}>
               <Form onSubmit={handleSearchSessions}> 
                   <h2>Search Session</h2>
@@ -361,5 +362,6 @@ export default function PreHome() {
               {Sessions.length ? <SessionsTable></SessionsTable> : null}
             </div>
         </div>
+      </div>
     )
 }

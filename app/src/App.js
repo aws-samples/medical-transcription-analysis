@@ -30,16 +30,10 @@ function App() {
     setIsAuthenticating(false);
   }
 
-  async function handleLogout() {
-    await Auth.signOut();
-    userHasAuthenticated(false);
-    history.push("/");
-  } 
   return (
     !isAuthenticating &&
       <div className="App">
       <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
-      {isAuthenticated? <href class= "logout" onClick={handleLogout}>Logout</href>: null }
         <Routes />
       </AppContext.Provider>
     </div>

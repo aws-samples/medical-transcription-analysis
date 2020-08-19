@@ -3,6 +3,8 @@ import { BrowserRouter as Router, useHistory, useParams } from "react-router-dom
 import { API, Auth } from "aws-amplify";
 import s from "./export.module.css";
 import {Table} from 'react-bootstrap';
+import Header from './components/Header';
+import {STAGE_SEARCH_EXPORT} from './consts';
 
 export default function Export(){
     let params = useParams();
@@ -27,6 +29,11 @@ export default function Export(){
         }
         loadS3Content(params.sid);
     },[params.sid]);
+
+    const epochToDate= (e) => {
+        return (new Date(e*1000)).toLocaleString()
+    }
+  
 
     const SessionSection = () => {
         const Session = comprehendDict.Session
@@ -57,11 +64,11 @@ export default function Export(){
                             </tr>
                             <tr>
                                 <th>Timestamp Start </th>
-                                <td>{Session.timeStampStart}</td>
+                                <td>{epochToDate(Session.timeStampStart)}</td>
                             </tr>
                             <tr>
                                 <th>Timestamp End</th>
-                                <td>{Session.timeStampEnd}</td>
+                                <td>{epochToDate(Session.timeStampEnd)}</td>
                             </tr>
                         </tbody>
                     </Table>
@@ -190,6 +197,9 @@ export default function Export(){
 
     return (
         <div className={s.body}>
+            <Header
+                stage={STAGE_SEARCH_EXPORT}
+            />
             {updated && 
             <div className={s.container}>
                 <SessionSection></SessionSection>
