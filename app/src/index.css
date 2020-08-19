@@ -126,7 +126,7 @@ button {
   border-radius: 0.5rem;
   position: absolute;
   z-index: 4;
-  bottom: 1%;
+  bottom: 5%;
   left: 44%;
 }
 
@@ -144,7 +144,7 @@ button {
   border-radius: 0.5rem;
   position: absolute;
   z-index: 4;
-  bottom: 1%;
+  bottom: 5%;
   left: 20%;
 }
 

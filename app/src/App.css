@@ -1,6 +1,6 @@
 
 .App {
-  margin-top: 15px;
+  margin-top: 0px;
 }
 
 .App .nav {
@@ -9,14 +9,21 @@
 }
 
 .App .logout {
-  position: relative;
-  left: 550px;
-  top: 0px;
-  color: black;
+  color: rgba(0, 0, 0, 0);
+  background-color: rgba(0, 0, 0, 0);
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
   cursor: pointer;
+  position: absolute;
+  z-index: 9;
+  left: 30px;
+  top: 90px;
+}
+
+.App .logout:hover{
+  color: black;
+  background-color: rgb(239, 239, 239)
 }
 
 .App .link {

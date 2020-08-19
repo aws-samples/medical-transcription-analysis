@@ -384,8 +384,8 @@ export default function Home() {
 
   const handleCreatePatient = (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
       setPatientValidated(true);
     }else{
@@ -396,9 +396,9 @@ export default function Home() {
   }
 
   const handleCreateHealthCareProfessional = (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
       setHealthCareProfessionalValidated(true);
     }else{
