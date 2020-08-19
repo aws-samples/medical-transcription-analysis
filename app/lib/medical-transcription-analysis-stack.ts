@@ -351,7 +351,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           this.resourceName("MTAOnEventAthenaLambda"),
           {
             runtime: lambda.Runtime.PYTHON_3_8,
-            code: lambda.Code.asset("lambda/set_up_athena/"),
+            code: lambda.Code.asset("lambda/custom_resource_athena/"),
             handler: "lambda_function.lambda_handler",
             timeout: cdk.Duration.seconds(60),
             environment: {
@@ -498,11 +498,11 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     
           methods.forEach(method => {
             apiResource.addMethod(method, undefined, {
-              authorizationType: apigateway.AuthorizationType.NONE//apigateway.AuthorizationType.COGNITO,
-              // authorizer: {
-              //   authorizerId: `${authorizer.ref}`
-              //   //`${theauthorizer.ref}`
-              // }
+              authorizationType: apigateway.AuthorizationType.COGNITO,
+              authorizer: {
+                authorizerId: `${authorizer.ref}`
+                //`${theauthorizer.ref}`
+              }
             });
           });
         }

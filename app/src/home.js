@@ -321,9 +321,9 @@ export default function Home() {
     const apiName = 'MTADemoAPI';
     const path = 'createPatient';
     const myInit = { 
-        //   headers: { 
-        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-        //   },
+          headers: { 
+            Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          },
         response: true,
         queryStringParameters: {
             'PatientName': patientName,
@@ -339,9 +339,9 @@ export default function Home() {
       const apiName = 'MTADemoAPI';
       const path = 'createHealthCareProfessional';
       const myInit = { 
-      //   headers: { 
-      //     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
-      //   },
+        headers: { 
+          Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+        },
         response: true,
         queryStringParameters: {
           'HealthCareProfessionalName': healthCareProfessionalName,
@@ -465,9 +465,9 @@ export default function Home() {
     const apiName = 'MTADemoAPI';
     const path = 'createSession';
     const myInit = { 
-    //   headers: { 
-    //     Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
-    //   },
+      headers: { 
+        Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+      },
       response: true,
       queryStringParameters: data
     };
@@ -566,15 +566,12 @@ export default function Home() {
     const apiName = 'MTADemoAPI';
     const path = 'listPatients';
     const myInit = { 
-    //   headers: { 
-    //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-    //   },
+      headers: { 
+        Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+      },
       response: true,
       queryStringParameters: {PatientId: ''}
     };
-    // const result =  await API.get(apiName, path, myInit); 
-    // setPatients(result.data)
-    // return result
     await API.get(apiName, path, myInit).then(result => setPatients(result.data))
   }
 
@@ -582,9 +579,9 @@ export default function Home() {
     const apiName = 'MTADemoAPI';
     const path = 'listHealthCareProfessionals';
     const myInit = { 
-    //   headers: { 
-    //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-    //   },
+      headers: { 
+        Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+      },
       response: true,
       queryStringParameters: {HealthCareProfessionalId: ''}
     };
