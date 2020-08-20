@@ -17,6 +17,9 @@ export default function Export(){
             const apiName = 'MTADemoAPI';
             const path = 'getTranscriptionComprehend';
             const myInit = {
+                headers: { 
+                    Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+                },
                 response: true,
                 queryStringParameters: {'SessionId': sessionId }
             }

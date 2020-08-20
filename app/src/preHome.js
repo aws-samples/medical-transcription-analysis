@@ -43,9 +43,9 @@ export default function PreHome() {
         const path = 'listPatients';
         const parameters = (searchVal === '') ? {PatientId: ''} : {PatientId: searchVal} 
         const myInit = { 
-        //   headers: { 
-        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-        //   },
+          headers: { 
+            Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          },
           response: true,
           queryStringParameters: {PatientId: ''}
         };
@@ -59,9 +59,9 @@ export default function PreHome() {
         const path = 'listHealthCareProfessionals';
         const parameters = (searchVal === '') ? {HealthCareProfessionalId: ''} : {HealthCareProfessionalId: searchVal} 
         const myInit = { 
-        //   headers: { 
-        //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-        //   },
+          headers: { 
+            Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          },
           response: true,
           queryStringParameters: {HealthCareProfessionalId: ''}
         };
@@ -229,6 +229,9 @@ export default function PreHome() {
         return {'status':'error'}
       }
       const myInit = { 
+          headers: { 
+            Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
+          },
           response: true,
           queryStringParameters: parameters
         };
