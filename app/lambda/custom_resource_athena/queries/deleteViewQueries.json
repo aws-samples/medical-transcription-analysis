@@ -1,0 +1,12 @@
+{
+    "queries" : [
+        "DROP VIEW SessionView;",
+        "DROP VIEW MedicationView;",
+        "DROP VIEW RxNormView;",
+        "DROP VIEW MedicationRxNormView;",
+        "DROP VIEW MedicalConditionView;",
+        "DROP VIEW ICD10CMConceptView;",
+        "DROP VIEW MedicalConditionICD10CMConceptView;",
+        "DROP VIEW TestTreatmentProceduresView;"
+    ]
+}

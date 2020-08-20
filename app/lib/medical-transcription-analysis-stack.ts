@@ -351,7 +351,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           this.resourceName("MTAOnEventAthenaLambda"),
           {
             runtime: lambda.Runtime.PYTHON_3_8,
-            code: lambda.Code.asset("lambda/set_up_athena/"),
+            code: lambda.Code.asset("lambda/custom_resource_athena/"),
             handler: "lambda_function.lambda_handler",
             timeout: cdk.Duration.seconds(60),
             environment: {
@@ -367,7 +367,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           new iam.PolicyStatement({
             effect: iam.Effect.ALLOW,
             actions: ["athena:StartQueryExecution", "athena:CreateNamedQuery", "athena:DeleteNamedQuery", "athena:GetQueryResults",
-            "athena:GetWorkGroup", "athena:CancelQueryExecution", "athena:StopQueryExecution", "athena:GetQueryExecution"],
+            "athena:CreateWorkGroup", "athena:DeleteWorkGroup"],
             resources: ["*"]
           })
         );
