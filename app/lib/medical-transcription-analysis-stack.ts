@@ -455,8 +455,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         function addCorsOptionsAndMethods(
           apiResource: apigateway.IResource | apigateway.Resource,
           methods: string[] | []
-          // thereqValidator: apigateway.IRequestValidator | apigateway.RequestValidator,
-          // theauthorizer: apigateway.CfnAuthorizer //apigateway.IAuthorizer //apigateway.CfnAuthorizer
         ) {
           const options = apiResource.addMethod(
             "OPTIONS",
@@ -501,7 +499,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
               authorizationType: apigateway.AuthorizationType.COGNITO,
               authorizer: {
                 authorizerId: `${authorizer.ref}`
-                //`${theauthorizer.ref}`
               }
             });
           });
