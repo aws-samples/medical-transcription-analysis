@@ -29,7 +29,7 @@ class DataStore:
         self._indexName = indexName
         self._indexPartitionKeyName = indexPartitionKeyName
         self._indexSortKeyName = indexSortKeyName
-        self._awsRegion = os.environ['REGION'] if 'REGION' in os.environ else 'us-west-2' # us-west-2 is for testing locally
+        self._awsRegion = os.environ['AWS_REGION'] if 'AWS_REGION' in os.environ else 'us-west-2' # us-west-2 is for testing locally
     
     def save(self, info):
         """Store the data into database
