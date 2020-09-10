@@ -356,7 +356,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             timeout: cdk.Duration.seconds(60),
             environment: {
               BUCKET_NAME: storageS3Bucket.bucketName,
-              REGION: process.env.region
             }
           }
         );
@@ -398,7 +397,6 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
             timeout: cdk.Duration.seconds(60),
             environment: {
               TRANSCRIBE_ACCESS_ROLEARN: transcriberRole.roleArn,
-              REGION: process.env.region,
               BUCKET_NAME: storageS3Bucket.bucketName
             }
           }
