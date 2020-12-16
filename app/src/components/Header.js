@@ -2,6 +2,7 @@ import React from 'react';
 
 import cs from 'clsx';
 import s from './Header.module.css';
+import awsmllogo from '../img/logo_awsml_01.svg';
 
 import { STAGE_HOME, STAGE_TRANSCRIBING, STAGE_TRANSCRIBED, STAGE_SUMMARIZE, STAGE_EXPORT, STAGE_SEARCH_EXPORT, STAGE_SEARCH } from '../consts';
 import { Link, useHistory } from "react-router-dom";
@@ -37,7 +38,7 @@ export default function Header({
             <button onClick={onHideExport}><span />Back</button>
           : null}
 
-          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={require('../img/logo_awsml_01.svg')} /></a>
+          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={awsmllogo} /></a>
         </div>
         <div className={s.headings}>
         <h1>Medical Transcription Analysis</h1> 
