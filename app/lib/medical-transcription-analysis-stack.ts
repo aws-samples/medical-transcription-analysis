@@ -319,8 +319,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         );
         
         // Dynamodb
-        const TableSessions = new ddb.Table(this, 'TableSessions', {
-          tableName: 'Sessions',
+        const TableSessions = new ddb.Table(this, this.resourceName('TableSessions'), {
           partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
           sortKey: {name: 'SessionId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
@@ -332,14 +331,12 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
           sortKey: {name: 'SessionId', type: ddb.AttributeType.STRING }
         });
         
-        const TablePatients = new ddb.Table(this, 'TablePatients', {
-          tableName: 'Patients',
+        const TablePatients = new ddb.Table(this, this.resourceName('TablePatients'), {
           partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
         });
         
-        const TableHealthCareProfessionals = new ddb.Table(this, 'TableHealthCareProfessionals', {
-          tableName: 'HealthCareProfessionals',
+        const TableHealthCareProfessionals = new ddb.Table(this, this.resourceName('TableHealthCareProfessionals'), {
           partitionKey: { name: 'HealthCareProfessionalId', type: ddb.AttributeType.STRING },
           serverSideEncryption: true
         });

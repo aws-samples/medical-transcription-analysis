@@ -2,6 +2,7 @@ import json
 import boto3 
 import os
 import time
+import uuid
 
 WORK_GROUP_NAME = 'MTAWorkGroup'
 DATABASE_NAME = 'mtadatabase'
