@@ -12,7 +12,6 @@ import TranscriptPane from './components/TranscriptPane';
 import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
-import { useAppContext } from "./libs/contextLib";
 
 import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
 
@@ -21,7 +20,7 @@ import getCredentials from './audio-utils/getTranscribeCredentials';
 
 import { API, Storage, Auth } from "aws-amplify";
 import { generate } from "short-uuid";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import {Form, Button, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap';
 
 async function getTranscribeCreds() {
@@ -168,7 +167,6 @@ export default function Home() {
   const [showCreatePatientSuccess, setShowCreatePatientSuccess] = useState(false)
   const [showCreateHealthCareProfessionalSucces, setShowCreateHealthCareProfessionalSuccess] = useState(false)
   const [showForm, setShowForm] = useState(false)
-  const [showSaveSessionButton, setShowSaveSessionButton] = useState(false)
   const [showCreateSessionSuccess, setShowCreateSessionSuccess] = useState(false)
   const [sid, setSessionId] = useState('')
   const [sessionValidated, setSessionValidated] = useState(false);
@@ -176,8 +174,8 @@ export default function Home() {
   const [healthCareProfessionalValidated, setHealthCareProfessionalValidated] = useState(false);
   const [Patients, setPatients] = useState([])
   const [HealthCareProfessionals, setHealthCareProfessionals] = useState([])
-  const [healthCareProfessionalIdDisabled, setHealthCareProfessionalIdDisabled] = useState(false)
-  const [patientIdDisabled, setPatientIdDisabled] = useState(false)
+  const [healthCareProfessionalIdDisabled] = useState(false)
+  const [patientIdDisabled] = useState(false)
 
   var sessionId = ''
 
@@ -222,7 +220,7 @@ export default function Home() {
           data: frame
         });
       }
-      const res = getTranscribeCreds().then (
+      getTranscribeCreds().then (
         result =>{
           setTranscribeCredential(result);
           streamer = streamAudioToWebSocket(
@@ -353,16 +351,6 @@ export default function Home() {
       return result;
   }
 
-  const patientBack = () => {
-    setShowCreatePatientForm(false)
-    setShowCreateSessionForm(true)
-  }
-
-  const healthCareProfessionalBack = () => {
-    setShowCreateHealthCareProfessionalFrom(false)
-    setShowCreateSessionForm(true)
-  }
-
   const patientShow = () => {
     setShowCreatePatientForm(true)
     setShowCreateSessionForm(false)
@@ -407,53 +395,6 @@ export default function Home() {
       toggleHealthCareProfessionalSuccess()
     }
   }
-
-  const CreateSessionForm = () => (
-    <form>
-      <input type="text" placeholder="Session Name" name="sessionName" value={sessionName} onChange={e => setSessionName(e.target.value)}/>
-      <p></p>
-      <input type="text" placeholder="Patient Id" name="patientId" value={patientId} onChange={e => setPatientId(e.target.value)}/>
-      <p href="#" onClick={patientShow}>new patient?</p>
-      <input type="text" placeholder="Health Care Professional Id" name="healthCareProfessionalId" value={healthCareProfessionalId} onChange={e => setHealthCareProfessionalId(e.target.value)}/>
-      <p href="#" onClick={healthCareProfessionalShow}>new health care professional?</p>
-      <button type="submit" onClick={()=>{setShowCreateSessionForm(!showCreateSessionForm);toggleShowForm()}}>Back</button>
-      <button type="submit" onClick={handleSessionSubmit}>Submit</button>
-    </form> 
-  )
-
-  const CreatePatientForm = () => (
-    <form>
-      <input type="text" placeholder="Patient Name" name="patientName" value={patientName} onChange={e => setPatientName(e.target.value)}/>
-      <button type="submit" onClick={()=>{toggleCreatePatient();toggleCreateSessionForm()}}>Back</button>
-      <button type="submit" onClick={handleCreatePatient}>Submit</button>
-    </form> 
-  )
-
-  const CreateHealthCareProfessionalForm = () => (
-    <form>
-      <input type="text" placeholder="Health Care Professional Name" name="healthCareProfessionalName" value={healthCareProfessionalName} onChange={e => setHealthCareProfessionalName(e.target.value)}/>
-      <button type="submit" onClick={()=>{toggleCreateHealthCareProfessional();toggleCreateSessionForm()}}>Back</button>
-      <button type="submit" onClick={handleCreateHealthCareProfessional}>Submit</button>
-    </form>  
-  )
-
-  const CreatePatientSuccessPage = () => (
-    <div>
-      <p>Create Patient Success!</p>
-      <p>The Patient Id is {patientId}.</p>
-      <p>Remember to save it :)</p>
-      <button onClick={()=>{togglePatientSuccess();toggleCreateSessionForm()}}>Back</button>
-    </div>
-  )
-
-  const CreateHealthCareProfessionalSuccessPage = () => (
-    <div>
-      <p>Create Health Care Professional Success!</p>
-      <p>The Health Care Professional Id is {healthCareProfessionalId}.</p>
-      <p>Remember to save it :)</p>
-      <button onClick={()=>{toggleHealthCareProfessionalSuccess();toggleCreateSessionForm()}}>Back</button>
-    </div>
-  )
 
   const clearSessionFields = () => {
     setSessionName("");

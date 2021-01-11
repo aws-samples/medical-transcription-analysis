@@ -1,25 +1,23 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import React, { useState, useRef } from 'react';
+import { useHistory } from "react-router-dom";
 import { API, Auth } from "aws-amplify";
 import s from "./preHome.module.css";
-import {Form, Row, Col, Button, Overlay, OverlayTrigger, Tooltip, Table} from 'react-bootstrap';
+import {Form, Row, Col, Button,OverlayTrigger, Tooltip, Table} from 'react-bootstrap';
 import Header from './components/Header';
 import {STAGE_SEARCH} from './consts';
 
 export default function PreHome() {
-    const [isLoading, setIsLoading] = useState(false);
-    const [searchVal, setSearchVal] = useState("");
     const [patientId, setPatientId] = useState("");
     const [sessionId, setSessionId] = useState("")
     const [Patients, setPatients] = useState([])
     const [HealthCareProfessionals, setHealthCareProfessionals] = useState([])
     const [healthCareProfessionalId, setHealthCareProfessionalId] = useState("");
-    const [healthCareProfessionalName, setHealthCareProfessionalName] = useState("")
+    const [healthCareProfessionalName] = useState("")
     const [Sessions, setSessions] = useState([])
     const [Stage, setStage] = useState(1)
     const [show, setShow] = useState(false);
     const target = useRef(null);
-    const [searchValidated, setSearchValidated] = useState(false) 
+    const [setSearchValidated] = useState(false) 
     
 
     const ToolTipIcon = () => (
@@ -41,7 +39,6 @@ export default function PreHome() {
     async function listPatients() {
         const apiName = 'MTADemoAPI';
         const path = 'listPatients';
-        const parameters = (searchVal === '') ? {PatientId: ''} : {PatientId: searchVal} 
         const myInit = { 
           headers: { 
             Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
@@ -57,7 +54,6 @@ export default function PreHome() {
     async function listHealthCareProfessionals() {
         const apiName = 'MTADemoAPI';
         const path = 'listHealthCareProfessionals';
-        const parameters = (searchVal === '') ? {HealthCareProfessionalId: ''} : {HealthCareProfessionalId: searchVal} 
         const myInit = { 
           headers: { 
             Authorization: `Bearer ${(await Auth.currentSession()).getIdToken().getJwtToken()}`,
@@ -73,19 +69,6 @@ export default function PreHome() {
 
     const handleTableCellClick = (sessionId) => {
         window.open('/export/'+sessionId, '_blank');
-    }
-
-    async function listS3Content(sessionId){
-      const apiName = 'MTADemoAPI';
-      const path = 'getTranscriptionComprehend';
-      const myInit = {
-        response: true,
-        queryStringParameters: {'SessionId': sessionId }
-      }
-      const result =  await API.get(apiName, path, myInit);
-      const transcribe = result['data']['transcribe']
-      const comprehend = JSON.parse(result['data']['comprehend'])
-      return result
     }
 
     const epochToDate= (e) => {
@@ -122,56 +105,6 @@ export default function PreHome() {
             })}
         </tbody>
       </Table>
-    )
-
-    const PatientsTable = () => (
-      <table border="1">
-        <tbody>
-        {Patients.map((patient,index) => {
-            return index === 0 ? (
-              <tr>
-                {Object.entries(patient).map((field, value) => {
-                  return typeof(field[1])==='object' ? <td>{field[1][0]}</td> : <td>{field[0]}</td>
-                })}
-              </tr>
-            ) : null;
-          })}
-          {Patients.map((patient) => {
-            return (
-              <tr>
-                {Object.entries(patient).map((field, value) => {
-                  return typeof(field[1])==='object' ? <td>{field[1][1]}</td> : <td>{field[1]}</td>
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
-    )
-
-    const HealthCareProfessionalsTable = () => (
-      <table border="1">
-        <tbody>
-          {HealthCareProfessionals.map((healthCareProfessional, index) => {
-            return index === 0 ? (
-              <tr>
-                {Object.entries(healthCareProfessional).map((field, value) => {
-                  return typeof(field[1])==='object' ? <td>{field[1][0]}</td> : <td>{field[0]}</td>
-                })}
-              </tr>
-            ) : null
-          })}
-          {HealthCareProfessionals.map((healthCareProfessional) => {
-            return (
-              <tr>
-                {Object.entries(healthCareProfessional).map((field, value) => {
-                  return typeof(field[1])==='object' ? <td>{field[1][1]}</td> : <td>{field[1]}</td>
-                })}
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
     )
 
     const handleSearchSessions = (event) => {

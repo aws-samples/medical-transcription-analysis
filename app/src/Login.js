@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { Form } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import { LinkContainer } from "react-router-bootstrap";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./Login.module.css";
 import Loading from "./components/Loading/Loading";
 import FormInput from "./components/FormInput/FormInput";

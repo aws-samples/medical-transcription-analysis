@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { API, Auth } from "aws-amplify";
 import s from "./export.module.css";
 import {Table} from 'react-bootstrap';

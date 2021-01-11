@@ -4,7 +4,7 @@ import cs from 'clsx';
 import s from './Header.module.css';
 
 import { STAGE_HOME, STAGE_TRANSCRIBING, STAGE_TRANSCRIBED, STAGE_SUMMARIZE, STAGE_EXPORT, STAGE_SEARCH_EXPORT, STAGE_SEARCH } from '../consts';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 export default function Header({
