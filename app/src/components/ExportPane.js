@@ -102,8 +102,8 @@ export default function ExportPane({
       </div>
 
       <div className={s.actions}>
-        <a className={s.ehr} onClick={()=> alert("Please add in the components for your EHR support")} >Export to EHR system</a>
-        <a className={s.pdf} onClick={() => window.print()}>Export to PDF</a>
+        <button className={s.ehr} onClick={()=> alert("Please add in the components for your EHR support")} >Export to EHR system</button>
+        <button className={s.pdf} onClick={() => window.print()}>Export to PDF</button>
       </div>
 
     </div>

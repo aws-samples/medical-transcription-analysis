@@ -37,7 +37,7 @@ export default function Header({
             <button onClick={onHideExport}><span />Back</button>
           : null}
 
-          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={require('../img/logo_awsml_01.svg')} /></a>
+          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={require('../img/logo_awsml_01.svg')} alt="AWS machine learning"/></a>
         </div>
         <div className={s.headings}>
         <h1>Medical Transcription Analysis</h1> 
