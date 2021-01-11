@@ -24,6 +24,7 @@
     "deploy": "yarn compile-stacks && yarn bootstrap && yarn deploy:backend && yarn pre-build && yarn deploy:client",
     "destroy": "STACKNAME=$npm_package_stack_stackname AWS_REGION=$npm_package_stack_region cdk destroy -v true -a \"node bin/deploy-client-stack.js\" && STACKNAME=$npm_package_stack_stackname AWS_REGION=$npm_package_stack_region USER_EMAIL=$npm_package_email cdk destroy -v true",
     "pre-build": "STACKNAME=$npm_package_stack_stackname AWS_REGION=$npm_package_stack_region node ./bin/pre-build.js",
+    "preinstall": "npx npm-force-resolutions",
     "test": "jest && react-scripts test",
     "update-client-stack-variables": "bash bin/stack-variables-to-client.sh",
     "watch": "tsc -w",
@@ -105,6 +106,7 @@
     ]
   },
   "resolutions": {
-    "@types/react": "16.8.3"
+    "@types/react": "16.8.3",
+    "axios": "0.21.1"
   }
 }
