@@ -87,7 +87,7 @@ export function createPresignedURL(method, host, path, service, payload, options
 };
 
 function toTime(time) {
-  return new Date(time).toISOString().replace(/[:\-]|\.\d{3}/g, '');
+  return new Date(time).toISOString().replace(/[:-]|\.\d{3}/g, '');
 }
 
 function toDate(time) {
