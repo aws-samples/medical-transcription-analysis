@@ -272,7 +272,7 @@ export default function Home() {
     setExcludedItems([]);
     setShowForm(false);
     history.push("/home");
-  }, []);
+  }, [history]);
 
   const toSearch = useCallback(() => {
     setTranscripts(false);
@@ -283,7 +283,7 @@ export default function Home() {
     setExcludedItems([]);
     setShowForm(false);
     history.push("/search");
-  }, []);
+  }, [history]);
 
   const toggleResultItemVisibility = useCallback(id => {
     setExcludedItems(arr => {
@@ -453,7 +453,7 @@ export default function Home() {
 
     const allResults = [].concat(...comprehendResults);
     const filteredResultsM =  allResults.filter(r => r.Category === 'MEDICATION');
-    filteredResultsM.map((r,i) => {
+    filteredResultsM.forEach((r,i) => {
       const medicationId = 'm'+sessionId+i
       dict.Medication.push({'medicationId': medicationId, 'sessionId': sessionId, 'medicationText': r.Text, 'medicationType': r.Type})
       if(r.RxNormConcepts)
@@ -464,7 +464,7 @@ export default function Home() {
     });
 
     const filteredResultsMC =  allResults.filter(r => r.Category === 'MEDICAL_CONDITION');   
-    filteredResultsMC.map((r,i) => {
+    filteredResultsMC.forEach((r,i) => {
       const medicalConditionId = 'mc'+sessionId+i
       dict.MedicalCondition.push({'medicalConditionId':medicalConditionId, 'sessionId':sessionId, 'medicalConditionText':r.Text})
       if(r.ICD10CMConcepts)
@@ -476,7 +476,7 @@ export default function Home() {
     
     const filteredResultsTTP =  allResults.filter(r => r.Category === 
       'TEST_TREATMENT_PROCEDURE');
-    filteredResultsTTP.map((r,i) => {
+    filteredResultsTTP.forEach((r,i) => {
       const testTreatmentProcedureId = 't'+sessionId+i
       dict.TestTreatmentProcedures.push({'testTreatmentProcedureId':testTreatmentProcedureId, 'sessionId':sessionId, 'testTreatmentProcedureText':r.Text, 'testTreatmentProcedureType':r.Type})
     });

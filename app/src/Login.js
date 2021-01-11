@@ -55,7 +55,7 @@ export default function Login() {
         console.log(message);
     }
   },
-  [username, password, passwordChangeRequired, userInit]
+  [username, password, history, userHasAuthenticated]
 );
 
 const handlePasswordResetSubmit = useCallback(
@@ -71,7 +71,7 @@ const handlePasswordResetSubmit = useCallback(
         setIsLoading(false);
       }
     },
-    [userInit, newPassword]
+    [userInit, newPassword, history, userHasAuthenticated]
   );
 
   const handleFormChange = useCallback(
@@ -79,7 +79,7 @@ const handlePasswordResetSubmit = useCallback(
       const { name, value } = e.target;
       setCredentials(credentials => ({ ...credentials, [name]: value }));
     },
-    [username, password, passwordChangeRequired, newPassword, userInit]
+    []
   );
 
   const loginForm = () => {

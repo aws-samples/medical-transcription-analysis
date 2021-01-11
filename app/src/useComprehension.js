@@ -80,7 +80,7 @@ export default function useComprehension(transcriptChunks, clientParams) {
         });
       }
     }
-  }, [addResult, transcriptChunks]);
+  }, [addResult, transcriptChunks, clientParams]);
 
   const results = useMemo(() => {
     return transcriptChunks.map(chunk => (resultMap.get(chunk) || []))

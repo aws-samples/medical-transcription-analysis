@@ -126,21 +126,21 @@ export default function PreHome() {
     const validatesSessionId = (str) => {
       if(!str|| str==='') return false;
       if(str.length<2) return false;
-      if(str.substr(0,2)!='s-') return false;
+      if(str.substr(0,2)!=='s-') return false;
       return true;
     }
 
     const validatesPatientId = (str) => {
       if(!str || str==='') return false;
       if(str.length<2) return false;
-      if(str.substr(0,2)!='p-') return false;
+      if(str.substr(0,2)!=='p-') return false;
       return true;
     }
 
     const validatesHealthCareProfessionalId = (str) => {
       if(!str || str==='') return false;
       if(str.length<2) return false;
-      if(str.substr(0,2)!='h-') return false;
+      if(str.substr(0,2)!=='h-') return false;
       return true;
     }
 
@@ -187,7 +187,7 @@ export default function PreHome() {
                   <h2>Search Session</h2>
                   {/* Patient Id Field */}
                   <Form.Row>
-                  {(Stage==1||Stage==3) &&         
+                  {(Stage===1||Stage===3) &&         
                   <Form.Group as={Col} >
                         <OverlayTrigger placement="top" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('This is the unique ID tagged to every patient in the system. You can use this id to search or save sessions related to the Patient.')}>
                     <Form.Label column sm="0">Patient Id<ToolTipIcon/></Form.Label>
@@ -204,7 +204,7 @@ export default function PreHome() {
                   </Form.Group>
                   }
                   {/* Health Care Professional Id Field */}
-                  {(Stage==2||Stage==4) && 
+                  {(Stage===2||Stage===4) && 
                   <Form.Group required as={Col}>
                         <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('This is the unique ID tagged to every health care professional in the system. You can use this id to search or save sessions related to the Health care professional.')}>
                     <Form.Label column sm="0">Health Care Professional Id<ToolTipIcon/></Form.Label>
@@ -220,7 +220,7 @@ export default function PreHome() {
                   </Form.Group>
                   }
                   {/* Session Id Field */}
-                  {(Stage==3||Stage==4) &&
+                  {(Stage===3||Stage===4) &&
                   <Form.Group as={Col} id="formSessionId">
                         <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip('To create a new patient you need to provide the patient name, then you will get the patient id from this. This field cannot be empty.')}>
                     <Form.Label column sm="0">SessionId<ToolTipIcon/></Form.Label>
@@ -248,7 +248,7 @@ export default function PreHome() {
                             name="By Patient Id"
                             id="1"
                             onClick={()=>{setStage(1);setHealthCareProfessionals([]);setSessionId('');setHealthCareProfessionalId('')}}
-                            checked = {Stage==1}
+                            checked = {Stage===1}
                           />
                         </Col>
                         <Col sm={5}>
@@ -258,7 +258,7 @@ export default function PreHome() {
                             name="By Health Care Professional Id"
                             id="2"
                             onClick={()=>{setStage(2);setPatients([]);setSessionId('');setPatientId('')}}
-                            checked = {Stage==2}
+                            checked = {Stage===2}
                           />
                         </Col>
                         </Row>
@@ -270,7 +270,7 @@ export default function PreHome() {
                           name="By Patient Id and Session Id"
                           id="3"
                           onClick={()=>{setStage(3);setHealthCareProfessionals([]);setHealthCareProfessionalId('')}}
-                          checked = {Stage==3}
+                          checked = {Stage===3}
                         />
                         </Col>
                         <Col sm={7}>
@@ -280,7 +280,7 @@ export default function PreHome() {
                           name="By Health Care Professional Id and Session Id"
                           id="4"
                           onClick={()=>{setStage(4);setPatients([]);setPatientId('')}}
-                          checked = {Stage==4}
+                          checked = {Stage===4}
                         />
                         </Col>
                         </Row>
