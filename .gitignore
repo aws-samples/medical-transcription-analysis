@@ -12,6 +12,21 @@ app/build
 # production
 /build
 
+# CDK asset staging directory
+.cdk.staging
+cdk.out
+cdk.context.json
+cdk.context.json
+cdk.out/
+app/cdk.out/
+
+app/lib/medical-transcription-analysis-client-stack.js
+app/lib/medical-transcription-analysis-client-stack.js-e
+app/lib/medical-transcription-analysis-stack.js
+app/lambda/__pycache__/datastore.cpython-37.pyc
+app/lambda/__pycache__/helper.cpython-37.pyc
+*pyc
+
 # misc
 .DS_Store
 .env
@@ -34,18 +49,4 @@ jest.config.js
 *.d.ts
 node_modules
 
-# CDK asset staging directory
-.cdk.staging
-cdk.out
-cdk.context.json
-cdk.context.json
-cdk.out/
-app/cdk.out/
-
-app/lib/medical-transcription-analysis-client-stack.js
-app/lib/medical-transcription-analysis-client-stack.js-e
-app/lib/medical-transcription-analysis-stack.js
-app/lambda/__pycache__/datastore.cpython-37.pyc
-app/lambda/__pycache__/helper.cpython-37.pyc
-*pyc
-
+.eslintcache
