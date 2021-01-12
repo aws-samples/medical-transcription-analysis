@@ -1,21 +1,21 @@
 @media all and (min-width: 480px) {
-    .Login {
-      padding: 60px 0;
-      margin-left: 150px;
-    }
-  
-    .Login form {
-      margin: auto;
-      border: 3px solid #f1f1f1;
-    }
-    /* Set a style for all buttons */
-    .Login Button {
-      background-color: #ff9900;
-      color: white;
-      padding: 14px 20px;
-      margin: 8px 0;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-    }
+  .Login {
+    padding: 60px 0;
+    margin-left: 150px;
+  }
+
+  .Login form {
+    margin: auto;
+    border: 3px solid #f1f1f1;
+  }
+  /* Set a style for all buttons */
+  .Login Button {
+    background-color: #ff9900;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+  }
 }

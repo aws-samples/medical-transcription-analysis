@@ -10,7 +10,7 @@ $input-color-default: color(black, core);
 $input-color-focus: color(black, core);
 $input-color-disabled: color(gray, 40);
 
-$input-background-default: color(white,core);
+$input-background-default: color(white, core);
 $input-background-disabled: color(gray, 30);
 $input-background-error: rgba($input-border-error, 0.05);
 
@@ -20,11 +20,11 @@ $input-background-error: rgba($input-border-error, 0.05);
   font-weight: 500;
   line-height: (20/16);
   width: 100%;
-  padding:0px;
+  padding: 0px;
 }
 
 // Single line text, textarea, and search inputs
-  .App .Login input {
+.App .Login input {
   @include type-body-primary($input-color-default);
   display: block;
   color: black;

@@ -5,20 +5,20 @@ $button-palettes: (
     background: color(gray, 60),
     background-alternate: color(gray, 50),
     highlight: color(gray, 50),
-    foreground: color(white)
+    foreground: color(white),
   ),
   blue: (
     background: color(blue, 20),
     background-alternate: color(blue, 30),
     highlight: color(blue, 10),
-    foreground: color(white)
+    foreground: color(white),
   ),
   orange: (
     background: color(orange, 20),
     background-alternate: color(orange, 30),
     highlight: color(orange, 10),
-    foreground: color(gray, 70)
-  )
+    foreground: color(gray, 70),
+  ),
 );
 
 // Button
@@ -88,7 +88,6 @@ $button-palettes: (
         background-color: map-get($colors, 'background-alternate');
       }
     }
-
 
     &.inverted {
       padding: rem(5) rem(15);

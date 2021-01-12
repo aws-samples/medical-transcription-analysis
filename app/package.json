@@ -29,7 +29,11 @@
     "watch": "tsc -w",
     "cdk": "cdk",
     "start": "react-scripts start",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src --ext .ts,.js,.jsx",
+    "lint:fix": "yarn lint --fix",
+    "format": "prettier --write **/*.{ts,js,json,css,scss,md}",
+    "fix": "yarn lint:fix && yarn format"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.42.0",
@@ -124,7 +128,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": "eslint --cache --fix",
-    "*.{js,jsx,json,css,scss,md}": "prettier --write"
+    "*.{ts,js,jsx}": "eslint --cache --fix",
+    "*.{ts,js,json,css,scss,md}": "prettier --write"
   }
 }
