@@ -16,17 +16,13 @@ import ExportPane from './components/ExportPane';
 import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
 
 import sampleAudio from './sampleAudio';
-import getCredentials from './audio-utils/getTranscribeCredentials';
+import getTranscribeCreds from './audio-utils/getTranscribeCredentials';
 
 import { API, Storage, Auth } from 'aws-amplify';
 import { generate } from 'short-uuid';
 import { useHistory } from 'react-router-dom';
 import { Form, Button, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
 
-async function getTranscribeCreds() {
-  const result = await getCredentials();
-  return result;
-}
 // React hook to take an audio file and return a mediastream of its audio
 // The magic value of 0 for `sample` is used to trigger a microphone capture stream
 // stopCallback is called when a recorded audio sample finishes
