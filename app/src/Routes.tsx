@@ -7,7 +7,7 @@ import Export from './export';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import UnauthenticatedRoute from './UnauthenticatedRoute';
 
-export default function Routes() {
+const Routes: React.FC = () => {
   return (
     <Switch>
       <UnauthenticatedRoute exact path='/'>
@@ -24,4 +24,6 @@ export default function Routes() {
       </AuthenticatedRoute>
     </Switch>
   );
-}
+};
+
+export default Routes;
