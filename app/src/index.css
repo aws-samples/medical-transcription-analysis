@@ -1,27 +1,25 @@
 body {
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-      sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-  
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-      monospace;
-  }
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
 select.form-control,
 textarea.form-control,
 input.form-control {
   font-size: 16px;
 }
-input[type=file] {
+input[type='file'] {
   width: 100%;
 }
-h1 { 
+h1 {
   display: block;
   font-size: 2em;
   margin-top: 0.67em;
@@ -39,7 +37,7 @@ h2 {
   margin-right: 0;
   font-weight: bold;
 }
-h3 { 
+h3 {
   display: block;
   font-size: 1.17em;
   margin-top: 1em;
@@ -48,7 +46,7 @@ h3 {
   margin-right: 0;
   font-weight: bold;
 }
-h4 { 
+h4 {
   display: block;
   font-size: 1em;
   margin-top: 1.33em;
@@ -57,18 +55,18 @@ h4 {
   margin-right: 0;
   font-weight: bold;
 }
-h5 { 
+h5 {
   display: block;
-  font-size: .83em;
+  font-size: 0.83em;
   margin-top: 1.67em;
   margin-bottom: 1.67em;
   margin-left: 0;
   margin-right: 0;
   font-weight: bold;
 }
-h6 { 
+h6 {
   display: block;
-  font-size: .67em;
+  font-size: 0.67em;
   margin-top: 2.33em;
   margin-bottom: 2.33em;
   margin-left: 0;
@@ -79,40 +77,43 @@ button {
   line-height: 18px;
 }
 
-#formSessionName{
+#formSessionName {
   margin-top: 30px;
 }
 
-#formSessionName, #formPatientId, #formHealthCareProfessionalId{
+#formSessionName,
+#formPatientId,
+#formHealthCareProfessionalId {
   margin-left: -100px;
 }
 
-#formPatientName, #formHealthCareProfessionalName{
+#formPatientName,
+#formHealthCareProfessionalName {
   margin-top: 30px;
 }
 
-#formPatientName{
+#formPatientName {
   margin-left: -250px;
 }
 
-#formHealthCareProfessionalName{
+#formHealthCareProfessionalName {
   margin-left: -50px;
 }
 
-#sessionName{
+#sessionName {
   cursor: pointer;
 }
 
-#searchOptions{
+#searchOptions {
   margin-left: 0;
   padding-left: 26px;
 }
 
-#searchCol{
+#searchCol {
   padding-left: 70px;
 }
 
-#i2{
+#i2 {
   background-color: #ff9900;
   padding: 10px 20px;
   line-height: 1.25rem;
@@ -130,7 +131,7 @@ button {
   left: 44%;
 }
 
-#i3{
+#i3 {
   background-color: #ff9900;
   padding: 10px 20px;
   line-height: 1.25rem;
@@ -147,5 +148,3 @@ button {
   bottom: 5%;
   left: 20%;
 }
-
-

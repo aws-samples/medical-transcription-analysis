@@ -8,51 +8,152 @@ $type-color-code-block: color(gray, 80);
 $type-selection-color: color(gray, 80);
 $type-selection-background: lighten(color(blue), 50);
 
-
 $type-size-presets: (
   type-heading-h1: (
-    default:                  (font-size: rem(24), line-height: (48.01/36)),
-    '<=tabletLandscape':      (font-size: rem(24), line-height: (40.01/28)),
-    '<=tabletLandscapeSmall': (font-size: rem(22), line-height: (32/26)),
-    '<=mobileLandscapeLarge': (font-size: rem(20), line-height: (28/24)),
-    '<=tabletPortrait':       (font-size: rem(18), line-height: (28/22)),
+    default: (
+      font-size: rem(24),
+      line-height: (
+        48.01/36,
+      ),
+    ),
+    '<=tabletLandscape': (
+      font-size: rem(24),
+      line-height: (
+        40.01/28,
+      ),
+    ),
+    '<=tabletLandscapeSmall': (
+      font-size: rem(22),
+      line-height: (
+        32/26,
+      ),
+    ),
+    '<=mobileLandscapeLarge': (
+      font-size: rem(20),
+      line-height: (
+        28/24,
+      ),
+    ),
+    '<=tabletPortrait': (
+      font-size: rem(18),
+      line-height: (
+        28/22,
+      ),
+    ),
   ),
   type-heading-h2: (
-    default:                  (font-size: rem(36), line-height: (48.01/36)),
-    '<=tabletLandscape':      (font-size: rem(28), line-height: (40.01/28)),
-    '<=tabletLandscapeSmall': (font-size: rem(26), line-height: (32/26)),
-    '<=mobileLandscapeLarge': (font-size: rem(24), line-height: (28/24)),
-    '<=tabletPortrait':       (font-size: rem(22), line-height: (28/22)),
+    default: (
+      font-size: rem(36),
+      line-height: (
+        48.01/36,
+      ),
+    ),
+    '<=tabletLandscape': (
+      font-size: rem(28),
+      line-height: (
+        40.01/28,
+      ),
+    ),
+    '<=tabletLandscapeSmall': (
+      font-size: rem(26),
+      line-height: (
+        32/26,
+      ),
+    ),
+    '<=mobileLandscapeLarge': (
+      font-size: rem(24),
+      line-height: (
+        28/24,
+      ),
+    ),
+    '<=tabletPortrait': (
+      font-size: rem(22),
+      line-height: (
+        28/22,
+      ),
+    ),
   ),
   type-heading-h3: (
-    default:                  (font-size: rem(28), line-height: (40.01/28)),
-    '<=tabletLandscape':      (font-size: rem(22), line-height: (32/22)),
-    '<=mobileLandscapeLarge': (font-size: rem(20), line-height: (28/20)),
+    default: (
+      font-size: rem(28),
+      line-height: (
+        40.01/28,
+      ),
+    ),
+    '<=tabletLandscape': (
+      font-size: rem(22),
+      line-height: (
+        32/22,
+      ),
+    ),
+    '<=mobileLandscapeLarge': (
+      font-size: rem(20),
+      line-height: (
+        28/20,
+      ),
+    ),
   ),
   type-heading-h4: (
-    default:                  (font-size: rem(18), line-height: (32/22)),
-    '<=tabletLandscape':      (font-size: rem(16), line-height: (28/18)),
+    default: (
+      font-size: rem(18),
+      line-height: (
+        32/22,
+      ),
+    ),
+    '<=tabletLandscape': (
+      font-size: rem(16),
+      line-height: (
+        28/18,
+      ),
+    ),
   ),
   type-heading-h5: (
-    default:                  (font-size: rem(16), line-height: (24/16)),
+    default: (
+      font-size: rem(16),
+      line-height: (
+        24/16,
+      ),
+    ),
   ),
   type-body-lead: (
-    default:                  (font-size: rem(22), line-height: (34.01/22)),
-    '<=tabletLandscape':      (font-size: rem(18), line-height: (28/18)),
+    default: (
+      font-size: rem(22),
+      line-height: (
+        34.01/22,
+      ),
+    ),
+    '<=tabletLandscape': (
+      font-size: rem(18),
+      line-height: (
+        28/18,
+      ),
+    ),
   ),
   type-body-primary: (
-    default:                  (font-size: rem(16), line-height: (24/16)),
+    default: (
+      font-size: rem(16),
+      line-height: (
+        24/16,
+      ),
+    ),
   ),
   type-body-secondary: (
-    default:                  (font-size: rem(14), line-height: (20.01/14)),
+    default: (
+      font-size: rem(14),
+      line-height: (
+        20.01/14,
+      ),
+    ),
   ),
   type-body-supplemental: (
-    default:                  (font-size: rem(12), line-height: (16.01/12)),
+    default: (
+      font-size: rem(12),
+      line-height: (
+        16.01/12,
+      ),
+    ),
   ),
 );
-
-
-
 
 // Output CSS for font-size and line-height
 // @type {Number} $font-size    The font-size in px
@@ -61,7 +162,6 @@ $type-size-presets: (
   font-size: $font-size;
   line-height: $line-height;
 }
-
 
 // Generate responsive CSS for font-size and line-height with the configurations
 // in $type-size-presets.
@@ -76,17 +176,15 @@ $type-size-presets: (
   @each $breakpoint, $styles in $preset-breakpoints {
     @if $breakpoint == default {
       // Default Styles
-      @include type-size($styles...)
-
+      @include type-size($styles...);
     } @else {
       // Media Queries
       @include media($breakpoint) {
-        @include type-size($styles...)
+        @include type-size($styles...);
       }
     }
   }
 }
-
 
 // HEADING TYPE MIXINS
 // =================================================================================================
@@ -119,8 +217,6 @@ $type-size-presets: (
   font-weight: bold;
   color: $color;
 }
-
-
 
 // BODY TYPE MIXINS
 // =================================================================================================
@@ -164,7 +260,6 @@ $type-size-presets: (
     background: $type-selection-background;
   }
 }
-
 
 // MISCELLANEOUS MIXINS
 // =================================================================================================
