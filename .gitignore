@@ -46,7 +46,5 @@ yarn-debug.log*
 yarn-error.log*
 
 jest.config.js
-*.d.ts
-node_modules
 
 .eslintcache

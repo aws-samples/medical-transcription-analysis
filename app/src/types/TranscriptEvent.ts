@@ -1,5 +1,6 @@
 // https://docs.aws.amazon.com/transcribe/latest/dg/streaming-med.html
 export interface Item {
+  Confidence?: number;
   Content: string;
   EndTime: number;
   StartTime: number;

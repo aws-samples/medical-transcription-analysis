@@ -3,12 +3,13 @@ import sample2 from './audio/sample-2.mp4';
 import sample3 from './audio/sample-3.mp4';
 import sample4 from './audio/sample-4.mp4';
 
-import responses1 from './recorded-responses/sample-1.json';
-import responses2 from './recorded-responses/sample-2.json';
-import responses3 from './recorded-responses/sample-3.json';
-import responses4 from './recorded-responses/sample-4.json';
+import responses1 from './recorded-responses/sample-1';
+import responses2 from './recorded-responses/sample-2';
+import responses3 from './recorded-responses/sample-3';
+import responses4 from './recorded-responses/sample-4';
+import { AudioElementWithBoost } from './types/audioElementWithModifiers';
 
-const sampleAudio = {
+const sampleAudio: Record<string, AudioElementWithBoost> = {
   sample1: new Audio(sample1),
   sample2: new Audio(sample2),
   sample3: new Audio(sample3),
