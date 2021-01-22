@@ -9,7 +9,7 @@ import { useAppContext } from './libs/contextLib';
 
 export default function Login() {
   const history = useHistory();
-  const { userHasAuthenticated } = useAppContext();
+  const { setIsAuthenticated } = useAppContext();
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -40,7 +40,7 @@ export default function Login() {
           setIsLoading(false);
           console.log('password reset');
         } else {
-          userHasAuthenticated(true);
+          setIsAuthenticated(true);
           userInit.signInUserSession && history.push('/home');
         }
       } catch ({ message }) {
@@ -49,7 +49,7 @@ export default function Login() {
         console.log(message);
       }
     },
-    [username, password, history, userHasAuthenticated],
+    [username, password, history, setIsAuthenticated],
   );
 
   const handlePasswordResetSubmit = useCallback(
@@ -58,14 +58,14 @@ export default function Login() {
       setIsLoading(true);
       try {
         const user = await Auth.completeNewPassword(userInit, newPassword);
-        userHasAuthenticated(true);
+        setIsAuthenticated(true);
         user.signInUserSession && history.push('/home');
       } catch ({ message }) {
         setError(message);
         setIsLoading(false);
       }
     },
-    [userInit, newPassword, history, userHasAuthenticated],
+    [userInit, newPassword, history, setIsAuthenticated],
   );
 
   const handleFormChange = useCallback((e) => {

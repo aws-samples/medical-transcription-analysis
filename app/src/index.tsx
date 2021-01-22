@@ -4,7 +4,6 @@ import './bootstrap.min.css';
 import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
 import Amplify from 'aws-amplify';
-import * as serviceWorker from './serviceWorker';
 import App from './App';
 
 require('dotenv').config();
@@ -43,5 +42,3 @@ ReactDOM.render(
   </Router>,
   document.getElementById('root'),
 );
-
-serviceWorker.register();

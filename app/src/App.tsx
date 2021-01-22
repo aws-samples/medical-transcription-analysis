@@ -6,7 +6,7 @@ import './App.css';
 import Routes from './Routes';
 
 function App() {
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function App() {
   async function onLoad() {
     try {
       await Auth.currentSession();
-      userHasAuthenticated(true);
+      setIsAuthenticated(true);
     } catch (e) {
       if (e !== 'No current user') {
         alert(e);
@@ -29,7 +29,7 @@ function App() {
   return (
     !isAuthenticating && (
       <div className='App'>
-        <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+        <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated }}>
           <Routes />
         </AppContext.Provider>
       </div>
