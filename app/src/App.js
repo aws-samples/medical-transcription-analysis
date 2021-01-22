@@ -1,6 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
-import { Navbar, Nav, NavItem, Container } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
 import { AppContext } from "./libs/contextLib";
 import { Auth } from "aws-amplify";
 
@@ -8,7 +6,6 @@ import "./App.css";
 import Routes from './Routes';
 
 function App() {
-  const history = useHistory();
   const [isAuthenticated, userHasAuthenticated] = useState(false);
   const [isAuthenticating, setIsAuthenticating] = useState(true);
 

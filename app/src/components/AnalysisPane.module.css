@@ -134,6 +134,7 @@
 
 .removeButton {
   cursor: pointer;
+  border: none;
   background: url(../img/icon_show_01.svg);
   width: 20px;
   height: 20px;

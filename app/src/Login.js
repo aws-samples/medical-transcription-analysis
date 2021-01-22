@@ -1,8 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { Form } from "react-bootstrap";
 import { Auth } from "aws-amplify";
-import { LinkContainer } from "react-router-bootstrap";
-import { BrowserRouter as Router, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./Login.module.css";
 import Loading from "./components/Loading/Loading";
 import FormInput from "./components/FormInput/FormInput";
@@ -57,7 +55,7 @@ export default function Login() {
         console.log(message);
     }
   },
-  [username, password, passwordChangeRequired, userInit]
+  [username, password, history, userHasAuthenticated]
 );
 
 const handlePasswordResetSubmit = useCallback(
@@ -73,7 +71,7 @@ const handlePasswordResetSubmit = useCallback(
         setIsLoading(false);
       }
     },
-    [userInit, newPassword]
+    [userInit, newPassword, history, userHasAuthenticated]
   );
 
   const handleFormChange = useCallback(
@@ -81,7 +79,7 @@ const handlePasswordResetSubmit = useCallback(
       const { name, value } = e.target;
       setCredentials(credentials => ({ ...credentials, [name]: value }));
     },
-    [username, password, passwordChangeRequired, newPassword, userInit]
+    []
   );
 
   const loginForm = () => {

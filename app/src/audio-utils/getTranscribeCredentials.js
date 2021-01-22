@@ -1,6 +1,5 @@
 
-import { API, Storage, Auth } from "aws-amplify";
-import { createAction } from "redux-actions";
+import { API, Auth } from "aws-amplify";
 
 async function getTranscribeCredentials() {
     const apiName = 'MTADemoAPI';

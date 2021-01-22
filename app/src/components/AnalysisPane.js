@@ -81,7 +81,7 @@ function ResultRow({
 
   return (
     <div className={cs(s.result, isExcluded && s.excluded)}>
-      <a className={s.removeButton} onClick={onHide} title="Exclude this item from the export" />
+      <button className={s.removeButton} onClick={onHide} aria-label="Exclude this item from the export" />
       <h4>{result.Text}</h4>
 
       <dl>

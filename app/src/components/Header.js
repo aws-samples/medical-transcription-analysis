@@ -5,7 +5,7 @@ import s from './Header.module.css';
 import awsmllogo from '../img/logo_awsml_01.svg';
 
 import { STAGE_HOME, STAGE_TRANSCRIBING, STAGE_TRANSCRIBED, STAGE_SUMMARIZE, STAGE_EXPORT, STAGE_SEARCH_EXPORT, STAGE_SEARCH } from '../consts';
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Auth } from "aws-amplify";
 
 export default function Header({
@@ -38,7 +38,7 @@ export default function Header({
             <button onClick={onHideExport}><span />Back</button>
           : null}
 
-          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={awsmllogo} /></a>
+          <a href="https://aws.amazon.com/machine-learning/ "><img className={s.logo} src={awsmllogo} alt="AWS machine learning"/></a>
         </div>
         <div className={s.headings}>
         <h1>Medical Transcription Analysis</h1> 
