@@ -137,6 +137,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
                 </p>`,
       },
     });
+    new cdk.CfnOutput(this, 'MTAUserPoolId', { value: mtaUserPool.userPoolId });
 
     // Depends upon all other parts of the stack having been created.
     const mtaUserPoolUser = new CfnUserPoolUser(this, 'mta-user-pool-user', {
