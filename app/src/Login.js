@@ -30,7 +30,6 @@ export default function Login() {
       e.preventDefault();
       setIsLoading(true);
       try {
-        console.log('in try');
         const userInit = await Auth.signIn(username, password);
         if (userInit && userInit.challengeName === 'NEW_PASSWORD_REQUIRED') {
           setCredentials({
@@ -38,7 +37,6 @@ export default function Login() {
             userInit: userInit,
           });
           setIsLoading(false);
-          console.log('password reset');
         } else {
           userHasAuthenticated(true);
           userInit.signInUserSession && history.push('/home');
