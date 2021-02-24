@@ -32,8 +32,32 @@ function ResultRow({ result }) {
   );
 }
 
+<<<<<<< HEAD
 function ResultTable({ results, category }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
+=======
+function ResultTable({
+  results,
+  category
+}) {
+  const filteredResults = useMemo(() => results.filter(r => r.Category === category), [ results, category ]);
+  return <div className={s.resultTable}>
+    {filteredResults.map((r, i) => (
+      <ResultRow result={r} key={i} />
+    ))}
+  </div>
+}
+
+
+
+
+export default function ExportPane({
+  transcriptChunks,
+  resultChunks,
+  visible,
+  excludedItems
+}) {
+>>>>>>> Fixing issues around adding unique key for Reactfragments
 
   return (
     <div className={s.resultTable}>

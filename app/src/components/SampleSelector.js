@@ -46,17 +46,16 @@ export default function SampleSelector({
     const audio = new Audio(url);
     onSelect(audio);
   }, [ onSelect ]);
-
   return (
     <div className={cs(s.base, hidden && s.hidden)}>
       <button className={cs(s.dictateAudio)} onClick={startMic}>Dictate Audio</button>
       <FilePicker onSubmit={filesSubmitted} />
       <div className={s.presets}>
         {Object.keys(samples).map((s, i) => (
-          <SampleButton idx={i + 1} sample={samples[s]} active={activeSample === samples[s]} onSelect={onSelect} onStop={onStop} />
+          <SampleButton idx={i + 1} key={i} sample={samples[s]} active={activeSample === samples[s]} onSelect={onSelect} onStop={onStop} />
         ))}
       </div>
-      <div class={s.credit}>
+      <div className={s.credit}>
         <small>Note: Samples were synthesized using data from <a href="https://www.mtsamples.com">MTSamples.com</a></small>
       </div>
     </div>
