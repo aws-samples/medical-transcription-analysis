@@ -104,7 +104,7 @@ function ResultTable({
 }) {
   const filteredResults = useMemo(() => results.filter(r => r.Category === category), [ results, category ]);
   const [ open, setOpen ] = useState(false);
-
+  
 
   return <div className={s.resultTable}>
     <h3 className={open ? s.expanded : s.contracted} onClick={() => setOpen(x => !x)}>{displayNames[category]}</h3>
@@ -115,7 +115,7 @@ function ResultTable({
           {filteredResults.map((r, i) => (
             <ResultRow
               result={r}
-              key={r.id}
+              key={i}
               onToggleItem={onToggleItem}
               excludedItems={excludedItems}
             />
@@ -139,8 +139,8 @@ export default function AnalysisPane({
 
   return (
     <div className={cs(s.base, visible && s.visible)}>
-      { CATEGORIES.map(cat => (
-        <ResultTable results={allResults} category={cat} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+      { CATEGORIES.map((cat,i)  => (
+        <ResultTable results={allResults} category={cat} key={i}onToggleItem={onToggleItem} excludedItems={excludedItems} />
       ))}
     </div>
   )
