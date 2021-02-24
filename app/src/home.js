@@ -176,15 +176,14 @@ export default function Home() {
 
   const history = useHistory();
 
-  let addSpeakerLabel = true;
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-  let text =" "
+  let addSpeakerLabel = true;
+  let text = '';
   Alternatives[0].Items.forEach( (item) => {
       if (item.Type === "speaker-change"){
         addSpeakerLabel = true;
       }
       else if (addSpeakerLabel && 'Speaker' in item){     
-        console.log(item.Speaker)
         text +=  '\nSpeaker '+item.Speaker+':   ';
         addSpeakerLabel = false;
       }
@@ -202,7 +201,6 @@ export default function Home() {
     } else {
       setPartialTranscript(null);
       setTranscripts((t) => [...t, { text, time: StartTime }]);
-      addSpeakerLabel = true;
     }
   }, []);
 
