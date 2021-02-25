@@ -4,7 +4,7 @@ import s from './AnalysisPane.module.css';
 import cs from 'clsx';
 
 import displayNames from '../displayNames';
-import HeightSlider from './HeightSlider';
+import { Collapse, useDisclosure, Select } from '@chakra-ui/react';
 
 const CATEGORIES = [
   'PROTECTED_HEALTH_INFORMATION',
@@ -15,96 +15,64 @@ const CATEGORIES = [
 ];
 
 function ConceptTable({ rows }) {
-  const [open, setOpen] = useState(false);
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <HeightSlider>
-      {open ? (
-        <>
-          <span className={cs(s.toggleLink, s.expanded)} onClick={() => setOpen(false)}>
-            {rows.length} detected
-          </span>
-          <dl>
-            {rows.map((c, i) => (
-              <>
-                <dt>{c.Code}</dt>
-                <dd>{c.Description}</dd>
-              </>
-            ))}
-          </dl>
-        </>
-      ) : (
-        <span className={cs(s.toggleLink, s.contracted)} onClick={() => setOpen(true)}>
-          {rows.length} detected
-        </span>
-      )}
-    </HeightSlider>
+    <>
+      <span className={cs(s.toggleLink, isOpen ? s.expanded : s.contracted)} onClick={onToggle}>
+        {rows.length} detected
+      </span>
+      <Collapse in={isOpen}>
+        <dl>
+          {rows.map((c, i) => (
+            <React.Fragment key={i}>
+              <dt>{c.Code}</dt>
+              <dd>{c.Description}</dd>
+            </React.Fragment>
+          ))}
+        </dl>
+      </Collapse>
+    </>
   );
 }
 
 function ResultRow({ result, onToggleItem, excludedItems }) {
-  const onHide = useCallback(() => {
-    onToggleItem(result.id);
-  }, [onToggleItem, result.id]);
-
-  const isExcluded = useMemo(() => excludedItems.includes(result.id), [excludedItems, result.id]);
-
-  const attrs = useMemo(() => {
-    const a = [['Type', displayNames[result.Type]]];
-
-    (result.Attributes || []).forEach((attr) => {
-      a.push([displayNames[attr.Type], attr.Text]);
-    });
-
-    if (result.ICD10CMConcepts) {
-      a.push(['ICD-10-CM Concepts', <ConceptTable rows={result.ICD10CMConcepts} />]);
-      // Code, Description, Score
-    }
-
-    if (result.RxNormConcepts) {
-      // Code, Descroption, Score
-      a.push(['RxNorm Concepts', <ConceptTable rows={result.RxNormConcepts} />]);
-    }
-
-    return a;
-  }, [result]);
-
+  if (!result.ICD10CMConcepts && !result.RxNormConcepts) {
+    return <div>{result.Text}</div>;
+  }
+  const concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
+  concepts.sort(function (concept1, concept2) {
+    return concept1.Score - concept2.Score;
+  });
+  console.log(result);
   return (
-    <div className={cs(s.result, isExcluded && s.excluded)}>
-      <button className={s.removeButton} onClick={onHide} aria-label='Exclude this item from the export' />
-      <h4>{result.Text}</h4>
-
-      <dl>
-        {attrs.map(([key, value]) => (
-          <>
-            <dt>{key}</dt>
-            <dd>{value}</dd>
-          </>
-        ))}
-      </dl>
-    </div>
+    <Select bg='white'>
+      {concepts.map((concept) => (
+        <option key={concept.Code} value={concept.Code}>
+          {result.Text} | {concept.Code} | {concept.Description}
+        </option>
+      ))}
+    </Select>
   );
 }
 
 function ResultTable({ results, category, onToggleItem, excludedItems }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
-  const [open, setOpen] = useState(false);
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
     <div className={s.resultTable}>
-      <h3 className={open ? s.expanded : s.contracted} onClick={() => setOpen((x) => !x)}>
+      <h3 className={isOpen ? s.expanded : s.contracted} onClick={onToggle}>
         {displayNames[category]}
       </h3>
 
-      <HeightSlider>
-        {open ? (
-          <div>
-            {filteredResults.map((r) => (
-              <ResultRow result={r} key={r.Id} onToggleItem={onToggleItem} excludedItems={excludedItems} />
-            ))}
-          </div>
-        ) : null}
-      </HeightSlider>
+      <Collapse in={isOpen}>
+        <div>
+          {filteredResults.map((r, i) => (
+            <ResultRow result={r} key={r.id} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+          ))}
+        </div>
+      </Collapse>
     </div>
   );
 }
@@ -115,13 +83,7 @@ export default function AnalysisPane({ resultChunks, visible, excludedItems, onT
   return (
     <div className={cs(s.base, visible && s.visible)}>
       {CATEGORIES.map((cat) => (
-        <ResultTable
-          results={allResults}
-          category={cat}
-          key={cat}
-          onToggleItem={onToggleItem}
-          excludedItems={excludedItems}
-        />
+        <ResultTable results={allResults} category={cat} onToggleItem={onToggleItem} excludedItems={excludedItems} />
       ))}
     </div>
   );
