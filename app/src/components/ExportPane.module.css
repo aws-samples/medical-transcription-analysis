@@ -25,6 +25,7 @@
     height: 90vw;
     background: #fff;
     padding: 5vw;
+    text-align: left;
     box-sizing: border-box;
     box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.3);
     font-size: .88vw;
