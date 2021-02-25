@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './bootstrap.min.css';
 import './index.css';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { ChakraProvider } from '@chakra-ui/react';
 import Amplify from 'aws-amplify';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
@@ -38,7 +39,9 @@ Amplify.configure({
 
 ReactDOM.render(
   <Router>
-    <App />
+    <ChakraProvider>
+      <App />
+    </ChakraProvider>
   </Router>,
   document.getElementById('root'),
 );
