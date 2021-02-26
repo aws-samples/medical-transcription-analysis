@@ -257,7 +257,7 @@ export default function Home() {
     setShowAnalysis(false);
   }, []);
 
-  const [comprehendResults] = useComprehension(transcripts || [], transcribeCredential);
+  const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
 
   const reset = useCallback(() => {
     setTranscripts(false);
@@ -590,6 +590,18 @@ export default function Home() {
     stage = STAGE_EXPORT;
   }
 
+  const onComprehendResultDelete = (r) => {
+    setComprehendResults((prevResults) =>
+      prevResults.map((prevResult) => {
+        const a = prevResult.findIndex((result) => result.id === r.id);
+
+        if (a === -1) return prevResult;
+
+        return [...prevResult.slice(0, a), ...prevResult.slice(a + 1)];
+      }),
+    );
+  };
+
   return (
     <div className={s.base}>
       <Header
@@ -633,6 +645,7 @@ export default function Home() {
           excludedItems={excludedItems}
           onToggleItem={toggleResultItemVisibility}
           visible={stage === STAGE_SUMMARIZE || stage === STAGE_EXPORT}
+          onResultDelete={onComprehendResultDelete}
         />
 
         <ExportPane
