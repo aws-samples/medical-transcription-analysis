@@ -14,48 +14,39 @@ const CATEGORIES = [
   'MEDICAL_CONDITION',
   'ANATOMY',
   'MEDICATION',
-  'TEST_TREATMENT_PROCEDURE'
+  'TEST_TREATMENT_PROCEDURE',
 ];
 
-export default function TranscriptPane({
-  transcriptChunks,
-  resultChunks,
-  partialTranscript,
-  inProgress,
-}) {
+export default function TranscriptPane({ transcriptChunks, resultChunks, partialTranscript, inProgress }) {
   const container = useRef();
 
   // Always scroll down as far as possible when receiving new transcripts
   // This keeps the current in-progress line level with the floating microphone graphic
   useEffect(() => {
     container.current.scrollTop = container.current.scrollHeight;
-  }, [ transcriptChunks, partialTranscript ]);
+  }, [transcriptChunks, partialTranscript]);
 
-  const [ enabledCategories, setEnabledCategories ] = useState(CATEGORIES);
+  const [enabledCategories, setEnabledCategories] = useState(CATEGORIES);
 
   const toggleCategory = useCallback((on, cat) => {
     if (on) {
-      setEnabledCategories(c => [ ...c, cat ]);
+      setEnabledCategories((c) => [...c, cat]);
     } else {
-      setEnabledCategories(c => c.filter(x => x !== cat));
+      setEnabledCategories((c) => c.filter((x) => x !== cat));
     }
   }, []);
 
-  const [ showToggles, setShowToggles ] = useState(true);
+  const [showToggles, setShowToggles] = useState(true);
 
   return (
     <div className={s.base}>
       <div className={cs(s.toggles, transcriptChunks && s.visible, !showToggles && s.collapse)}>
-        <button className={s.hideToggleButton} onClick={() => setShowToggles(false)} aria-label="close"/>
+        <button className={s.hideToggleButton} onClick={() => setShowToggles(false)} aria-label='close' />
         <h4>Highlight on transcript</h4>
-        {CATEGORIES.map(c => (
-           <div key={c} align="left">
+        {CATEGORIES.map((c) => (
+          <div key={c} align='left'>
             <span className={s.toggleWrapper}>
-              <Toggle
-                value={enabledCategories.includes(c)}
-                name={c}
-                onValueChange={toggleCategory}
-              />
+              <Toggle value={enabledCategories.includes(c)} name={c} onValueChange={toggleCategory} />
             </span>
 
             <span className={highlightClasses[c]}>{displayNames[c]}</span>
@@ -63,18 +54,20 @@ export default function TranscriptPane({
         ))}
       </div>
 
-      <div className={cs(s.showToggleButton, transcriptChunks && s.visible, !showToggles && s.show)} onClick={() => setShowToggles(true)} />
-
+      <div
+        className={cs(s.showToggleButton, transcriptChunks && s.visible, !showToggles && s.show)}
+        onClick={() => setShowToggles(true)}
+      />
 
       <div className={s.scrollable} ref={container}>
         <div className={cs(s.inner, inProgress && s.inProgress)}>
           {(transcriptChunks || []).map((x, i) => (
-            <TranscriptLine key={i} chunk={x} results={resultChunks[i]} enabledCategories={enabledCategories} />
+            <TranscriptLine key={i} chunk={x} results={resultChunks[i] ?? []} enabledCategories={enabledCategories} />
           ))}
 
-          <InProgressTranscriptLine key={transcriptChunks ? transcriptChunks.length: 0} text={partialTranscript} />
+          <InProgressTranscriptLine key={transcriptChunks ? transcriptChunks.length : 0} text={partialTranscript} />
         </div>
       </div>
     </div>
-  )
+  );
 }
