@@ -42,7 +42,7 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
 
   const concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
   concepts.sort(function (concept1, concept2) {
-    return concept1.Score - concept2.Score;
+    return concept2.Score - concept1.Score;
   });
 
   return (
