@@ -14,12 +14,13 @@ const CATEGORIES = [
   'TEST_TREATMENT_PROCEDURE',
 ];
 
-function ResultRow({ result, onToggleItem, excludedItems }) {
+function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
   const closeIcon = (
     <IconButton
       aria-label='Delete'
-      size='sm'
       icon={<span>x</span>}
+      onClick={onDeleteClick}
+      size='sm'
       border='1px solid black'
       borderRadius='50%'
       background='grey'
@@ -45,7 +46,7 @@ function ResultRow({ result, onToggleItem, excludedItems }) {
   });
 
   return (
-    <Flex alignItems='center'>
+    <Flex width='100%' alignItems='center'>
       <Select
         mr={2}
         border='1px solid'
@@ -66,7 +67,7 @@ function ResultRow({ result, onToggleItem, excludedItems }) {
   );
 }
 
-function ResultTable({ results, category, onToggleItem, excludedItems }) {
+function ResultTable({ results, category, onToggleItem, excludedItems, onResultDelete }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
 
   return (
@@ -77,20 +78,33 @@ function ResultTable({ results, category, onToggleItem, excludedItems }) {
 
       <VStack spacing={2}>
         {filteredResults.map((r) => (
-          <ResultRow result={r} key={r.id} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+          <ResultRow
+            result={r}
+            key={r.id}
+            onToggleItem={onToggleItem}
+            excludedItems={excludedItems}
+            onDeleteClick={() => onResultDelete(r)}
+          />
         ))}
       </VStack>
     </Box>
   );
 }
 
-export default function AnalysisPane({ resultChunks, visible, excludedItems, onToggleItem }) {
+export default function AnalysisPane({ resultChunks, visible, excludedItems, onToggleItem, onResultDelete }) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
 
   return (
     <div className={cs(s.base, visible && s.visible)}>
       {CATEGORIES.map((cat) => (
-        <ResultTable results={allResults} category={cat} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+        <ResultTable
+          key={cat}
+          results={allResults}
+          category={cat}
+          onToggleItem={onToggleItem}
+          excludedItems={excludedItems}
+          onResultDelete={onResultDelete}
+        />
       ))}
     </div>
   );
