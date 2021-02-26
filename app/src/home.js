@@ -257,9 +257,7 @@ export default function Home() {
     setShowAnalysis(false);
   }, []);
 
-  console.log({ transcripts });
-
-  const comprehendResults = useComprehension(transcripts || [], transcribeCredential);
+  const [comprehendResults] = useComprehension(transcripts || [], transcribeCredential);
 
   const reset = useCallback(() => {
     setTranscripts(false);

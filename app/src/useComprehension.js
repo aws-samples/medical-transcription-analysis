@@ -19,42 +19,42 @@ const resultMap = new WeakMap();
 // React hook to take an array of transcript chunks and return a corresponding array of Comprehend results, one for each
 export default function useComprehension(transcriptChunks, clientParams) {
   // Dummy state variable so we can force a refresh when we receive an update
-  const [counter, setCounter] = useState(0);
-
-  const addResult = useCallback((chunk, entities, cacheKey) => {
-    const prev = resultMap.get(chunk);
-    let next = [...prev];
-
-    entities.forEach((e) => {
-      const matching = prev.find((x) => {
-        return (
-          x.BeginOffset === e.BeginOffset &&
-          x.EndOffset === e.EndOffset &&
-          x.Type === e.Type &&
-          x.Category === e.Category
-        );
-      });
-
-      // If there's already an entity with these exact properties, extend it.
-      // Specifically, for ICD10CM and RxNorm, there's usually a pre-existing
-      // entity returned by the general comprehend response, and we're attaching
-      // the concepts to it.
-      if (matching) {
-        next = next.filter((y) => y !== matching);
-        next.push({ ...matching, ...e });
-      } else {
-        e.id = uuid();
-        next.push(e);
-      }
-    });
-
-    cache[cacheKey] = next;
-
-    resultMap.set(chunk, next);
-    setCounter((c) => c + 1);
-  }, []);
+  const [result, setResult] = useState([]);
 
   useEffect(() => {
+    const addResult = (chunk, entities, cacheKey) => {
+      const prev = resultMap.get(chunk);
+      let next = [...prev];
+
+      entities.forEach((e) => {
+        const matching = prev.find((x) => {
+          return (
+            x.BeginOffset === e.BeginOffset &&
+            x.EndOffset === e.EndOffset &&
+            x.Type === e.Type &&
+            x.Category === e.Category
+          );
+        });
+
+        // If there's already an entity with these exact properties, extend it.
+        // Specifically, for ICD10CM and RxNorm, there's usually a pre-existing
+        // entity returned by the general comprehend response, and we're attaching
+        // the concepts to it.
+        if (matching) {
+          next = next.filter((y) => y !== matching);
+          next.push({ ...matching, ...e });
+        } else {
+          e.id = uuid();
+          next.push(e);
+        }
+      });
+
+      cache[cacheKey] = next;
+
+      resultMap.set(chunk, next);
+      setResult(transcriptChunks.map((chunk) => resultMap.get(chunk) ?? []));
+    };
+
     for (const chunk of transcriptChunks) {
       const existing = resultMap.get(chunk);
       if (!existing) {
@@ -81,11 +81,7 @@ export default function useComprehension(transcriptChunks, clientParams) {
         });
       }
     }
-  }, [addResult, transcriptChunks, clientParams]);
+  }, [transcriptChunks, clientParams]);
 
-  const results = useMemo(() => {
-    return transcriptChunks.map((chunk) => resultMap.get(chunk) || []);
-  }, [transcriptChunks, counter]); //eslint-disable-line react-hooks/exhaustive-deps
-
-  return results;
+  return [result, setResult];
 }
