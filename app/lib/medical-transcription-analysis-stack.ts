@@ -355,6 +355,13 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
         resources: [transcriberRole.roleArn],
       }),
     );
+    apiProcessor.addToRolePolicy(
+      new iam.PolicyStatement({
+        actions: ['translate:TranslateText'],
+        effect: iam.Effect.ALLOW,
+        resources: ['*'], // * permsissions needs to be provided for Translate APIs : https://docs.aws.amazon.com/translate/latest/dg/translate-api-permissions-ref.html
+      }),
+    );
 
     apiProcessor.addLayers(boto3Layer);
 
@@ -453,6 +460,9 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
 
     const getTranscriptionComprehendResource = api.root.addResource('getTranscriptionComprehend');
     addCorsOptionsAndMethods(getTranscriptionComprehendResource, ['GET']);
+
+    const getTranscriptionTranslationResource = api.root.addResource('getTranscriptionTranslation');
+    addCorsOptionsAndMethods(getTranscriptionTranslationResource, ['GET']);
 
     cognitoPolicy.addStatements(
       new iam.PolicyStatement({
