@@ -57,7 +57,11 @@ function CategorySummary({ results, category }) {
       suffixString = '.';
     } else if (category === 'MEDICAL_CONDITION') {
       prefixString = 'During the visit we you discussed diagnoses of ';
+<<<<<<< HEAD
       suffixString = '.'; 
+=======
+      suffixString = '.';
+>>>>>>> Summary generation edits
     } else if (category === 'MEDICATION') {
       prefixString = 'We discussed ';
       suffixString =
@@ -77,13 +81,12 @@ function CategorySummary({ results, category }) {
   );
 }
 
-export default function ExportPane({ transcriptChunks, resultChunks, visible, excludedItems, soapSummary }) {
+export default function ExportPane({ transcriptChunks, resultChunks, visible, excludedItems }) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
   const filteredResults = useMemo(() => allResults.filter((x) => !excludedItems.includes(x.id)), [
     allResults,
     excludedItems,
   ]);
-  
   return (
     <div className={cs(s.base, visible && s.visible)}>
       <div className={s.page}>
@@ -97,7 +100,6 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
             {soapSummary}
           </p>
           <h2>Visit Recap</h2>
-          
           <p>
             {' '}
             Thank you for visitng the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to

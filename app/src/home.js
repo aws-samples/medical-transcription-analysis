@@ -195,11 +195,10 @@ export default function Home() {
 
   let addSpeakerLabel = true;
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-  let addSpeakerLabel = true;
-  let text = '';
-  Alternatives[0].Items.forEach( (item) => {
-      console.log(item)
-      if (item.Type === "speaker-change"){
+    let addSpeakerLabel = true;
+    let text = '';
+    Alternatives[0].Items.forEach((item) => {
+      if (item.Type === 'speaker-change') {
         addSpeakerLabel = true;
       } else if (addSpeakerLabel && 'Speaker' in item) {
         text += '\nSpeaker ' + (parseInt(item.Speaker) + 1).toString() + ':\n';
