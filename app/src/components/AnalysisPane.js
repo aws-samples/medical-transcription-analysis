@@ -4,7 +4,7 @@ import s from './AnalysisPane.module.css';
 import cs from 'clsx';
 
 import displayNames from '../displayNames';
-import { Select, VStack, Box, Flex, IconButton } from '@chakra-ui/react';
+import { VStack, Box, Flex, IconButton, Select } from '@chakra-ui/react';
 
 const CATEGORIES = [
   'PROTECTED_HEALTH_INFORMATION',
@@ -28,11 +28,51 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
     />
   );
 
-  if (!result.ICD10CMConcepts && !result.RxNormConcepts) {
+  const attrs = useMemo(() => {
+    const a = [];
+
+    (result.Attributes || []).forEach((attr) => {
+      a.push([displayNames[attr.Type], attr.Text]);
+    });
+    return a;
+  }, [result]);
+
+  if (!result.ICD10CMConcepts && !result.RxNormConcepts && !result.Attributes) {
     return (
       <Flex width='100%' alignItems='center'>
-        <Flex flex='1' mr={2} height='2.5rem' border='1px solid grey' bg='white' px={4} alignItems='center'>
-          {result.Text}
+        <Flex
+          flex='1'
+          mr={2}
+          height='2.5rem'
+          border={result.Score > 0.5 ? '1px solid green' : '1px solid red'}
+          bg='white'
+          px={4}
+          alignItems='center'
+        >
+          {result.Text} | {displayNames[result.Type]}
+        </Flex>
+        {closeIcon}
+      </Flex>
+    );
+  }
+
+  if (!result.ICD10CMConcepts && !result.RxNormConcepts && result.Attributes) {
+    return (
+      <Flex width='100%' alignItems='center'>
+        <Flex
+          flex='1'
+          mr={2}
+          height='2.5rem'
+          border={result.Score > 0.5 ? '1px solid green' : '1px solid red'}
+          bg='white'
+          px={4}
+          alignItems='center'
+        >
+          {attrs.map(([key, value]) => (
+            <React.Fragment>
+              {result.Text} | {value}
+            </React.Fragment>
+          ))}
         </Flex>
 
         {closeIcon}
@@ -50,14 +90,14 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
       <Select
         mr={2}
         border='1px solid'
-        borderColor='grey'
+        borderColor={concepts[0].Score > 0.5 ? 'green' : 'red'}
         borderRadius='0'
         bg='white'
-        _hover={{ borderColor: 'grey', boxShadow: 'none' }}
+        _hover={{ borderColor: concepts[0].Score > 0.5 ? 'green' : 'red', boxShadow: 'none' }}
       >
         {concepts.map((concept) => (
           <option key={concept.Code} value={concept.Code}>
-            {result.Text} | {concept.Code} | {concept.Description}
+            {result.Text} | {concept.Code} | {concept.Description} &nbsp;&nbsp; {(concept.Score * 100).toPrecision(4)}%
           </option>
         ))}
       </Select>

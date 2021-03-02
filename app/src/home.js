@@ -176,6 +176,15 @@ export default function Home() {
 
   const history = useHistory();
 
+  const onTranscriptChange = (i, value) => {
+    setTranscripts((t) => {
+      t[i].text = value;
+      return t;
+    });
+    console.log({ transcripts });
+    console.log({ value });
+  };
+
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const text = Alternatives[0].Transcript;
     if (IsPartial) {
@@ -623,6 +632,7 @@ export default function Home() {
           resultChunks={comprehendResults}
           partialTranscript={partialTranscript}
           inProgress={audioStream}
+          handleTranscriptChange={onTranscriptChange}
         />
 
         <AnalysisPane
