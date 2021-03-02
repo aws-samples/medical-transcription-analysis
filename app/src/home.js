@@ -177,26 +177,24 @@ export default function Home() {
   const history = useHistory();
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-  let addSpeakerLabel = true;
-  let text = '';
-  Alternatives[0].Items.forEach( (item) => {
-      if (item.Type === "speaker-change"){
+    let addSpeakerLabel = true;
+    let text = '';
+    Alternatives[0].Items.forEach((item) => {
+      if (item.Type === 'speaker-change') {
         addSpeakerLabel = true;
-      }
-      else if (addSpeakerLabel && 'Speaker' in item){     
-        text +=  '\nSpeaker '+item.Speaker+':   ';
+      } else if (addSpeakerLabel && 'Speaker' in item) {
+        text += '\nSpeaker ' + item.Speaker + ':\n';
         addSpeakerLabel = false;
       }
-      if (item.Type === "pronunciation"){   
-        text+= item.Content + " ";
+      if (item.Type === 'pronunciation') {
+        text += item.Content + ' ';
       }
-      if (item.Type === "punctuation"){
-        text+= item.Content;
+      if (item.Type === 'punctuation') {
+        text += item.Content;
       }
-    }
-  );
-    
-  if (IsPartial) {  
+    });
+
+    if (IsPartial) {
       setPartialTranscript(text);
     } else {
       setPartialTranscript(null);
