@@ -17,7 +17,13 @@ const CATEGORIES = [
   'TEST_TREATMENT_PROCEDURE',
 ];
 
-export default function TranscriptPane({ transcriptChunks, resultChunks, partialTranscript, inProgress }) {
+export default function TranscriptPane({
+  transcriptChunks,
+  resultChunks,
+  partialTranscript,
+  inProgress,
+  handleTranscriptChange,
+}) {
   const container = useRef();
 
   // Always scroll down as far as possible when receiving new transcripts
@@ -62,7 +68,13 @@ export default function TranscriptPane({ transcriptChunks, resultChunks, partial
       <div className={s.scrollable} ref={container}>
         <div className={cs(s.inner, inProgress && s.inProgress)}>
           {(transcriptChunks || []).map((x, i) => (
-            <TranscriptLine key={i} chunk={x} results={resultChunks[i] ?? []} enabledCategories={enabledCategories} />
+            <TranscriptLine
+              key={i}
+              chunk={x}
+              results={resultChunks[i] ?? []}
+              enabledCategories={enabledCategories}
+              handleTranscriptChange={(value) => handleTranscriptChange(i, value)}
+            />
           ))}
 
           <InProgressTranscriptLine key={transcriptChunks ? transcriptChunks.length : 0} text={partialTranscript} />
