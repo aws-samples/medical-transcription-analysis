@@ -178,11 +178,13 @@ export default function Home() {
 
   const onTranscriptChange = (i, value) => {
     setTranscripts((t) => {
-      t[i].text = value;
-      return t;
+      const newChunk = {
+        ...t[i],
+        text: value,
+      };
+
+      return [...t.slice(0, i), newChunk, ...t.slice(i + 1)];
     });
-    console.log({ transcripts });
-    console.log({ value });
   };
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
