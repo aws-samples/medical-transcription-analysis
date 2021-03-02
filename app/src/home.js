@@ -201,7 +201,7 @@ export default function Home() {
       if (item.Type === 'speaker-change') {
         addSpeakerLabel = true;
       } else if (addSpeakerLabel && 'Speaker' in item) {
-        text += '\nSpeaker ' + item.Speaker + ':\n';
+        text += '\nSpeaker ' + (parseInt(item.Speaker) + 1).toString() + ':\n';
         addSpeakerLabel = false;
       }
       if (item.Type === 'pronunciation') {
