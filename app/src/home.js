@@ -22,6 +22,7 @@ import { API, Storage, Auth } from 'aws-amplify';
 import { generate } from 'short-uuid';
 import { useHistory } from 'react-router-dom';
 import { Form, Button, Row, Col, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 
 async function getTranscribeCreds() {
   const result = await getCredentials();
@@ -613,6 +614,17 @@ export default function Home() {
     );
   };
 
+  const onComprehendResultAddition = (val, category) => {
+    setComprehendResults((prevResults) => {
+      const newItem = {
+        id: uuidv4(),
+        Category: category,
+        Text: val,
+      };
+      return [...prevResults, [newItem]];
+    });
+  };
+
   return (
     <div className={s.base}>
       <Header
@@ -658,6 +670,7 @@ export default function Home() {
           onToggleItem={toggleResultItemVisibility}
           visible={stage === STAGE_SUMMARIZE || stage === STAGE_EXPORT}
           onResultDelete={onComprehendResultDelete}
+          onResultAdd={onComprehendResultAddition}
         />
 
         <ExportPane
