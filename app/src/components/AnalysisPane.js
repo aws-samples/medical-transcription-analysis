@@ -4,14 +4,15 @@ import s from './AnalysisPane.module.css';
 import cs from 'clsx';
 
 import displayNames from '../displayNames';
-import { VStack, Box, Flex, IconButton, Select } from '@chakra-ui/react';
+import { VStack, Box, Flex, IconButton, Select, Input } from '@chakra-ui/react';
+import { AddIcon } from '@chakra-ui/icons';
 
 const CATEGORIES = [
-  'PROTECTED_HEALTH_INFORMATION',
   'MEDICAL_CONDITION',
   'ANATOMY',
   'MEDICATION',
   'TEST_TREATMENT_PROCEDURE',
+  'PROTECTED_HEALTH_INFORMATION',
 ];
 
 function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
@@ -49,7 +50,7 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
           px={4}
           alignItems='center'
         >
-          {result.Text} | {displayNames[result.Type]}
+          {result.Text} {result.Type ? '|' : null} {displayNames[result.Type]}
         </Flex>
         {closeIcon}
       </Flex>
@@ -70,7 +71,7 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
         >
           {attrs.map(([key, value]) => (
             <React.Fragment>
-              {result.Text} | {value}
+              {result.Text} {value ? '|' : null} {value}
             </React.Fragment>
           ))}
         </Flex>
@@ -97,7 +98,8 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
       >
         {concepts.map((concept) => (
           <option key={concept.Code} value={concept.Code}>
-            {result.Text} | {concept.Code} | {concept.Description} &nbsp;&nbsp; {(concept.Score * 100).toPrecision(4)}%
+            {result.Text} {concept.Code ? ' | ' : null} {concept.Code} {concept.Description ? ' | ' : null}{' '}
+            {concept.Description} &nbsp;&nbsp; {(concept.Score * 100).toPrecision(4)}%
           </option>
         ))}
       </Select>
@@ -107,8 +109,21 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
   );
 }
 
-function ResultTable({ results, category, onToggleItem, excludedItems, onResultDelete }) {
+function ResultTable({ results, category, onToggleItem, excludedItems, onResultDelete, onResultAdd }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
+  const [inputValue, setInputValue] = React.useState('');
+  const handleInputChange = (event) => setInputValue(event.target.value);
+
+  const addIcon = (
+    <IconButton
+      aria-label='Add'
+      icon={<AddIcon />}
+      onClick={() => [onResultAdd(inputValue, category), setInputValue('')]}
+      size='sm'
+      borderRadius='0'
+      color='grey'
+    />
+  );
 
   return (
     <Box className={s.resultTable} mb={4}>
@@ -117,6 +132,20 @@ function ResultTable({ results, category, onToggleItem, excludedItems, onResultD
       </Box>
 
       <VStack spacing={2}>
+        <Flex width='100%' alignItems='center'>
+          <Input
+            mr={2}
+            border='1px solid'
+            borderColor='grey'
+            borderRadius='0'
+            bg='white'
+            placeholder={'Add ' + displayNames[category]}
+            value={inputValue}
+            onChange={handleInputChange}
+          ></Input>
+          {addIcon}
+        </Flex>
+
         {filteredResults.map((r) => (
           <ResultRow
             result={r}
@@ -131,7 +160,14 @@ function ResultTable({ results, category, onToggleItem, excludedItems, onResultD
   );
 }
 
-export default function AnalysisPane({ resultChunks, visible, excludedItems, onToggleItem, onResultDelete }) {
+export default function AnalysisPane({
+  resultChunks,
+  visible,
+  excludedItems,
+  onToggleItem,
+  onResultDelete,
+  onResultAdd,
+}) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
 
   return (
@@ -144,6 +180,7 @@ export default function AnalysisPane({ resultChunks, visible, excludedItems, onT
           onToggleItem={onToggleItem}
           excludedItems={excludedItems}
           onResultDelete={onResultDelete}
+          onResultAdd={onResultAdd}
         />
       ))}
     </div>
