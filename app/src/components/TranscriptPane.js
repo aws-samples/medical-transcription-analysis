@@ -22,6 +22,7 @@ export default function TranscriptPane({
   resultChunks,
   partialTranscript,
   inProgress,
+  enableEditing,
   handleTranscriptChange,
 }) {
   const container = useRef();
@@ -73,6 +74,7 @@ export default function TranscriptPane({
               chunk={x}
               results={resultChunks[i] ?? []}
               enabledCategories={enabledCategories}
+              enableEditing={enableEditing}
               handleTranscriptChange={(value) => handleTranscriptChange(i, value)}
             />
           ))}

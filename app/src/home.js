@@ -179,6 +179,9 @@ export default function Home() {
 
   const onTranscriptChange = (i, value) => {
     setTranscripts((t) => {
+      if (t[i].text === value) {
+        return t;
+      }
       const newChunk = {
         ...t[i],
         text: value,
@@ -247,13 +250,6 @@ export default function Home() {
     };
   }, [addTranscriptChunk, audioStream, offlineEnabled]);
 
-  const enableAnanlysis = useCallback(() => {
-    setShowAnalysis(true);
-  }, []);
-  const disableAnalysis = useCallback(() => {
-    setShowAnalysis(false);
-  }, []);
-
   const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
 
   const reset = useCallback(() => {
@@ -264,6 +260,7 @@ export default function Home() {
     setShowExport(false);
     setExcludedItems([]);
     setShowForm(false);
+    setComprehendResults([]);
   }, []);
 
   const toHome = useCallback(() => {
@@ -274,6 +271,7 @@ export default function Home() {
     setShowExport(false);
     setExcludedItems([]);
     setShowForm(false);
+    setComprehendResults([]);
     history.push('/home');
   }, [history]);
 
@@ -579,7 +577,7 @@ export default function Home() {
     stage = STAGE_HOME;
   } else if (audioStream && !showAnalysis) {
     stage = STAGE_TRANSCRIBING;
-  } else if (!showAnalysis) {
+  } else if (showAnalysis) {
     stage = STAGE_TRANSCRIBED;
   } else if (!showExport) {
     stage = STAGE_SUMMARIZE;
@@ -616,8 +614,6 @@ export default function Home() {
         stage={stage}
         onSearch={toSearch}
         onHome={toHome}
-        onAnalyze={enableAnanlysis}
-        onHideAnalysis={disableAnalysis}
         onShowExport={() => setShowExport(true)}
         onHideExport={() => setShowExport(false)}
         onReset={reset}
@@ -646,6 +642,7 @@ export default function Home() {
           resultChunks={comprehendResults}
           partialTranscript={partialTranscript}
           inProgress={audioStream}
+          enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE}
           handleTranscriptChange={onTranscriptChange}
         />
 
@@ -653,7 +650,7 @@ export default function Home() {
           resultChunks={comprehendResults}
           excludedItems={excludedItems}
           onToggleItem={toggleResultItemVisibility}
-          visible={stage === STAGE_SUMMARIZE || stage === STAGE_EXPORT}
+          visible={stage === STAGE_SUMMARIZE || stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           onResultDelete={onComprehendResultDelete}
           onResultAdd={onComprehendResultAddition}
         />
