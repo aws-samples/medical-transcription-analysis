@@ -1,0 +1,49 @@
+.base {
+  font-size: 16px;
+  overflow: auto;
+  display: flex;
+  flex: 0 0 0px;
+  overflow: auto;
+  flex-direction: column;
+  position: relative;
+  transition: flex-grow 1000ms ease;
+  box-sizing: border-box;
+  background: #eee;
+}
+
+.visible {
+  flex-grow: 1;
+}
+
+.base h3 {
+  margin-top: 2em;
+  margin-bottom: 0.25em;
+}
+
+.base dt {
+  font-weight: bold;
+  text-align: right;
+  padding-right: 1em;
+  font-size: 0.75em;
+  /* padding-top: .6em; */
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.base dd {
+  flex: 0 0 70%;
+}
+
+.base textarea {
+  word-wrap: break-word;
+  width: 90%;
+  white-space: pre-wrap;
+  min-height: 90%;
+}
+@media print {
+  .base {
+    display: none;
+  }
+}

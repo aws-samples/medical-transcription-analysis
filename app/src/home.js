@@ -12,8 +12,16 @@ import TranscriptPane from './components/TranscriptPane';
 import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
+import SOAPReviewPane from './components/SOAPReviewPane';
 
-import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
+import {
+  STAGE_HOME,
+  STAGE_TRANSCRIBED,
+  STAGE_TRANSCRIBING,
+  STAGE_SUMMARIZE,
+  STAGE_EXPORT,
+  STAGE_SOAP_REVIEW,
+} from './consts';
 
 import sampleAudio from './sampleAudio';
 import getCredentials from './audio-utils/getTranscribeCredentials';
@@ -128,6 +136,7 @@ export default function Home() {
 
   const [showAnalysis, setShowAnalysis] = useState(false);
   const [showExport, setShowExport] = useState(false);
+  const [showSOAPReview, setShowSOAPReview] = useState(false);
 
   const playSample = useCallback((sample) => {
     setActiveSample(sample);
@@ -150,6 +159,7 @@ export default function Home() {
   const [excludedItems, setExcludedItems] = useState([]);
   const [transcribeCredential, setTranscribeCredential] = useState(null);
   const [comprehendCustomEntities, setComprehendCustomEntities] = useState([]);
+  const [soapSummary, setSOAPSummary] = useState('');
 
   const [timeStampStart, setTimeStampStart] = useState(0);
   const [timeStampEnd, setTimeStampEnd] = useState(0);
@@ -177,7 +187,6 @@ export default function Home() {
   var sessionId = '';
 
   const history = useHistory();
-
 
   const onTranscriptChange = (i, value) => {
     setTranscripts((t) => {
@@ -277,6 +286,7 @@ export default function Home() {
     setActiveSample(null);
     setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
@@ -289,6 +299,7 @@ export default function Home() {
     setActiveSample(null);
     setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
@@ -302,6 +313,7 @@ export default function Home() {
     setActiveSample(null);
     setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     history.push('/search');
@@ -337,6 +349,9 @@ export default function Home() {
     }
   };
 
+  function updateSOAPSummary(e) {
+    setSOAPSummary(e.target.value);
+  }
   async function createPatient() {
     const apiName = 'MTADemoAPI';
     const path = 'createPatient';
@@ -593,15 +608,14 @@ export default function Home() {
   );
 
   let stage;
-
   if (!transcripts) {
     stage = STAGE_HOME;
   } else if (audioStream) {
     stage = STAGE_TRANSCRIBING;
-  } else if (showAnalysis) {
+  } else if (!showSOAPReview) {
     stage = STAGE_TRANSCRIBED;
   } else if (!showExport) {
-    stage = STAGE_SUMMARIZE;
+    stage = STAGE_SOAP_REVIEW;
   } else {
     stage = STAGE_EXPORT;
   }
@@ -667,6 +681,8 @@ export default function Home() {
         stage={stage}
         onSearch={toSearch}
         onHome={toHome}
+        onShowSOAPReview={() => setShowSOAPReview(true)}
+        onHideSOAPReview={() => setShowSOAPReview(false)}
         onShowExport={() => setShowExport(true)}
         onHideExport={() => setShowExport(false)}
         onReset={reset}
@@ -695,8 +711,7 @@ export default function Home() {
           resultChunks={comprehendResults}
           partialTranscript={partialTranscript}
           inProgress={audioStream}
-          enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE}
-          handleTranscriptChange={onTranscriptChange}
+          visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
         />
 
         <AnalysisPane
@@ -708,12 +723,21 @@ export default function Home() {
           onResultDelete={onComprehendResultDelete}
           onResultAdd={onComprehendResultAddition}
           onSelectedConceptChange={onSelectedConceptChange}
+          visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
+        />
+
+        <SOAPReviewPane
+          resultChunks={comprehendResults}
+          excludedItems={excludedItems}
+          visible={stage === STAGE_SOAP_REVIEW}
+          onTextAreaEdit={updateSOAPSummary}
         />
 
         <ExportPane
           transcriptChunks={transcripts}
           resultChunks={comprehendResults}
           excludedItems={excludedItems}
+          soapSummary={soapSummary}
           visible={stage === STAGE_EXPORT}
         />
 
@@ -812,9 +836,7 @@ export default function Home() {
                       disabled={healthCareProfessionalIdDisabled}
                       value={healthCareProfessionalId}
                       onChange={(e) => {
-                        console.log(e.target.value);
                         setHealthCareProfessionalId(e.target.value);
-                        console.log(healthCareProfessionalName);
                       }}
                       onClick={listHealthCareProfessionals}
                     >

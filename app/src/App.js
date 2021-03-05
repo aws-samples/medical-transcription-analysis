@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AppContext } from './libs/contextLib';
 import { Auth } from 'aws-amplify';
-
 import './App.css';
 import Routes from './Routes';
 
