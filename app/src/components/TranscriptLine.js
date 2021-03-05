@@ -86,6 +86,8 @@ export default function TranscriptLine({
   // List of enabled categories to highlight
   enabledCategories,
 
+  enableEditing,
+
   handleTranscriptChange,
 }) {
   const filteredResults = useMemo(() => results.filter((r) => enabledCategories.includes(r.Category)), [
@@ -97,26 +99,40 @@ export default function TranscriptLine({
   const ranges = useMemo(() => applySegmentsToWords(chunk.text, splitSegments), [chunk, splitSegments]);
 
   return (
-    <Editable
-      defaultValue={chunk.text}
-      onChange={(nextValue) => {
-        handleTranscriptChange(nextValue);
-      }}
-    >
-      {({ isEditing, onEdit }) => (
-        <>
-          <EditableInput />
-          {!isEditing && (
-            <p className={s.base} onClick={onEdit}>
-              {ranges.map((r, i) => (
-                <span key={i} className={cs(r.matches.map((x) => classMap[x.Category]))}>
-                  {r.text}
-                </span>
-              ))}
-            </p>
+    <React.Fragment>
+      {enableEditing && (
+        <Editable
+          defaultValue={chunk.text}
+          onSubmit={(nextValue) => {
+            handleTranscriptChange(nextValue);
+          }}
+        >
+          {({ isEditing, onEdit }) => (
+            <>
+              <EditableInput />
+              {!isEditing && (
+                <p className={s.base} onClick={onEdit}>
+                  {ranges.map((r, i) => (
+                    <span key={i} className={cs(r.matches.map((x) => classMap[x.Category]))}>
+                      {r.text}
+                    </span>
+                  ))}
+                </p>
+              )}
+            </>
           )}
-        </>
+        </Editable>
       )}
-    </Editable>
+
+      {!enableEditing && (
+        <p className={s.base}>
+          {ranges.map((r, i) => (
+            <span key={i} className={cs(r.matches.map((x) => classMap[x.Category]))}>
+              {r.text}
+            </span>
+          ))}
+        </p>
+      )}
+    </React.Fragment>
   );
 }
