@@ -6,6 +6,7 @@ import cs from 'clsx';
 import displayNames from '../displayNames';
 import { VStack, Box, Flex, IconButton, Select, Input } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { DeleteIcon } from './DeleteIcon/DeleteIcon';
 
 const CATEGORIES = [
   'MEDICAL_CONDITION',
@@ -19,13 +20,17 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
   const closeIcon = (
     <IconButton
       aria-label='Delete'
-      icon={<span>x</span>}
+      icon={<DeleteIcon />}
       onClick={onDeleteClick}
       size='sm'
-      border='1px solid black'
-      borderRadius='50%'
-      background='grey'
-      color='white'
+      isRound
+      border='1px solid #545b64'
+      _hover={{ bg: '#545b64' }}
+      sx={{
+        '&:hover svg': {
+          color: '#fff',
+        },
+      }}
     />
   );
 
@@ -45,7 +50,7 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score > 0.5 ? '1px solid green' : '1px solid red'}
+          border={result.Score && result.Score < 0.5 ? '1px solid red' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
@@ -64,13 +69,13 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score > 0.5 ? '1px solid green' : '1px solid red'}
+          border={result.Score && result.Score < 0.5 ? '1px solid red' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
         >
           {attrs.map(([key, value]) => (
-            <React.Fragment>
+            <React.Fragment key={key}>
               {result.Text} {value ? '|' : null} {value}
             </React.Fragment>
           ))}
@@ -91,10 +96,10 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
       <Select
         mr={2}
         border='1px solid'
-        borderColor={concepts[0].Score > 0.5 ? 'green' : 'red'}
+        borderColor={concepts[0].Score < 0.5 ? 'red' : 'grey'}
         borderRadius='0'
         bg='white'
-        _hover={{ borderColor: concepts[0].Score > 0.5 ? 'green' : 'red', boxShadow: 'none' }}
+        _hover={{ borderColor: concepts[0].Score < 0.5 ? 'red' : 'grey', boxShadow: 'none' }}
       >
         {concepts.map((concept) => (
           <option key={concept.Code} value={concept.Code}>
@@ -118,7 +123,7 @@ function ResultTable({ results, category, onToggleItem, excludedItems, onResultD
     <IconButton
       aria-label='Add'
       icon={<AddIcon />}
-      onClick={() => [onResultAdd(inputValue, category), setInputValue('')]}
+      onClick={() => [inputValue.trim() !== '' ? onResultAdd(inputValue, category) : null, setInputValue('')]}
       size='sm'
       borderRadius='0'
       color='grey'
@@ -135,6 +140,7 @@ function ResultTable({ results, category, onToggleItem, excludedItems, onResultD
         <Flex width='100%' alignItems='center'>
           <Input
             mr={2}
+            mb={4}
             border='1px solid'
             borderColor='grey'
             borderRadius='0'
