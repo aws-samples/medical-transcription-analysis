@@ -2,77 +2,46 @@ import React, { useMemo } from 'react';
 
 import s from './ExportPane.module.css';
 import cs from 'clsx';
+import { Divider, Heading } from '@chakra-ui/react';
 
-import displayNames from '../displayNames';
-
-function ResultRow({ result }) {
-  const attrs = useMemo(() => {
-    const a = [];
-
-    (result.Attributes || []).forEach((attr) => {
-      a.push([displayNames[attr.Type], attr.Text]);
-    });
-
-    return a;
-  }, [result]);
-
-  return (
-    <div className={s.result}>
-      <h4>{result.Text}</h4>
-
-      <dl>
-        {attrs.map(([key, value]) => (
-          <>
-            <dt>{key}</dt>
-            <dd>{value}</dd>
-          </>
-        ))}
-      </dl>
-    </div>
-  );
-}
-
-function ResultTable({ results, category }) {
-  const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
-  return (
-    <div className={s.resultTable}>
-      {filteredResults.map((r, i) => (
-        <ResultRow result={r} key={i} />
-      ))}
-    </div>
-  );
+function conceptScoreSort(conceptArray) {
+  conceptArray.sort(function (concept1, concept2) {
+    return concept2.Score - concept1.Score;
+  });
+  return conceptArray;
 }
 
 function CategorySummary({ results, category }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
-  let prefixString,
-    resultString,
-    suffixString = '';
-
-  if (filteredResults.length === 0) {
-    resultString = 'N/A';
-  } else {
-    if (category === 'ANATOMY') {
-      prefixString = "Today's visit mainly focussed on your ";
-      suffixString = '.';
-    } else if (category === 'MEDICAL_CONDITION') {
-      prefixString = 'During the visit we you discussed diagnoses of ';
-      suffixString = '.';
-    } else if (category === 'MEDICATION') {
-      prefixString = 'We discussed ';
-      suffixString =
-        ' during the visit. Taking appropritate medications according to the instructions are important for your recovery and wellness. Please feel free to follow up regarding the them or any other medications.';
-    } else if (category === 'TEST_TREATMENT_PROCEDURE') {
-      prefixString = 'We discussed ';
-      suffixString =
-        ' during the visit. Please dont hesitate to reach out with the clinic administrator for questions around the procedures or scheduling them.';
+  let formattedResult = '';
+  if (category === 'MEDICAL_CONDITION') {
+    for (let i = 0; i < filteredResults.length; i++) {
+      formattedResult = filteredResults[i].Text;
+      if (filteredResults[i].ICD10CMConcepts) {
+        let concept = conceptScoreSort(filteredResults[i].ICD10CMConcepts);
+        formattedResult += '|' + concept[0].Code + '|' + concept[0].Description + '\n';
+      }
     }
-    resultString = prefixString + [...new Set(filteredResults.map((r) => r.Text))].join(', ') + suffixString;
+  } else if (category === 'MEDICATION') {
+    for (let i = 0; i < filteredResults.length; i++) {
+      formattedResult = filteredResults[i].Text;
+      if (filteredResults[i].RxNormConcepts) {
+        let concept = conceptScoreSort(filteredResults[i].RxNormConcepts);
+        formattedResult += '|' + concept[0].Code + '|' + concept[0].Description + '\n';
+      }
+    }
+  } else {
+    formattedResult =
+      filteredResults.length > 0
+        ? filteredResults.map(
+            (result) => result.Text + (result.Attributes ? result.Attributes.map((key) => '|' + key.Text) : '') + '\n',
+          )
+        : 'N/A\n';
   }
 
   return (
     <div>
-      <p>{resultString}</p>
+      <p>{formattedResult}</p>
     </div>
   );
 }
@@ -91,38 +60,48 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
         </header>
 
         <main>
-          <h2>Apna summary</h2>
-          <p>{soapSummary}</p>
-          <h2>Visit Recap</h2>
-
+          <Heading as='h2' size='lg'>
+            Summary
+          </Heading>
           <p>
-            {' '}
             Thank you for visitng the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to
             review the following important information from today's consultation and reach out to us at +12345678910 if
-            you have any questions
+            you have any questions.
           </p>
+          <p>{soapSummary}</p>
 
-          <h4>Medications</h4>
-          <div className={s.meds}>
+          <Heading marginTop='1%' as='h4' size='md'>
+            Medications
+          </Heading>
+          <div>
             <CategorySummary results={filteredResults} category='MEDICATION' />
           </div>
 
-          <h4>Anatomy</h4>
-          <div className={s.conds}>
+          <Heading marginTop='1%' as='h4' size='md'>
+            Anatomy
+          </Heading>
+          <div>
             <CategorySummary results={filteredResults} category='ANATOMY' />
           </div>
 
-          <h4>Medical Conditions</h4>
-          <div className={s.conds}>
+          <Heading marginTop='1%' as='h4' size='md'>
+            Medical Conditions
+          </Heading>
+          <div>
             <CategorySummary results={filteredResults} category='MEDICAL_CONDITION' />
           </div>
 
-          <h4>Tests, Treatments, Procedures</h4>
-          <div className={s.tests}>
+          <Heading marginTop='1%' as='h4' size='md'>
+            Tests, Treatments, Procedures
+          </Heading>
+          <div>
             <CategorySummary results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
           </div>
 
-          <h2>Visit Transcription</h2>
+          <Heading marginTop='1%' as='h2' size='lg'>
+            Visit Transcription
+          </Heading>
+
           <div className={s.transcript}>
             <p>Below is the transcription for your visit -</p>
             {(transcriptChunks || []).map((t, i) => (

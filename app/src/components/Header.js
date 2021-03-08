@@ -8,7 +8,6 @@ import {
   STAGE_HOME,
   STAGE_TRANSCRIBING,
   STAGE_TRANSCRIBED,
-  STAGE_SUMMARIZE,
   STAGE_EXPORT,
   STAGE_SOAP_REVIEW,
   STAGE_SEARCH_EXPORT,
@@ -21,8 +20,6 @@ export default function Header({
   stage,
   onHome = () => {},
   onSearch = () => {},
-  onAnalyze = () => {},
-  onHideAnalysis = () => {},
   onShowSOAPReview = () => {},
   onHideSOAPReview = () => {},
   onShowExport = () => {},
@@ -39,11 +36,7 @@ export default function Header({
     <>
       <header className={cs(s.base, s.visible)}>
         <div className={s.left}>
-          {stage !== STAGE_HOME &&
-          stage !== STAGE_SUMMARIZE &&
-          stage !== STAGE_EXPORT &&
-          stage !== STAGE_SEARCH_EXPORT &&
-          stage !== STAGE_SEARCH ? (
+          {stage !== STAGE_HOME && stage !== STAGE_EXPORT && stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH ? (
             <button onClick={onHome}>
               <span />
               Home

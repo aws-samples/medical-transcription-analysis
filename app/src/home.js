@@ -4,7 +4,6 @@ import s from './home.module.css';
 import Header from './components/Header';
 import DebugMenu from './components/DebugMenu';
 import MicrophoneIcon from './components/MicrophoneIcon';
-
 import getMicAudioStream from './audio-utils/getMicAudioStream';
 import streamAudioToWebSocket from './audio-utils/streamAudioToWebsocket';
 import useComprehension from './useComprehension';
@@ -13,15 +12,9 @@ import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
 import SOAPReviewPane from './components/SOAPReviewPane';
+import generateSOAPSummary from './soapSummary';
 
-import {
-  STAGE_HOME,
-  STAGE_TRANSCRIBED,
-  STAGE_TRANSCRIBING,
-  STAGE_SUMMARIZE,
-  STAGE_EXPORT,
-  STAGE_SOAP_REVIEW,
-} from './consts';
+import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_EXPORT, STAGE_SOAP_REVIEW } from './consts';
 
 import sampleAudio from './sampleAudio';
 import getCredentials from './audio-utils/getTranscribeCredentials';
@@ -134,7 +127,6 @@ export default function Home() {
 
   const [activeSample, setActiveSample] = useState(null);
 
-  const [showAnalysis, setShowAnalysis] = useState(false);
   const [showExport, setShowExport] = useState(false);
   const [showSOAPReview, setShowSOAPReview] = useState(false);
 
@@ -160,7 +152,6 @@ export default function Home() {
   const [transcribeCredential, setTranscribeCredential] = useState(null);
   const [comprehendCustomEntities, setComprehendCustomEntities] = useState([]);
   const [soapSummary, setSOAPSummary] = useState('');
-
   const [timeStampStart, setTimeStampStart] = useState(0);
   const [timeStampEnd, setTimeStampEnd] = useState(0);
   const [sessionName, setSessionName] = useState('');
@@ -183,6 +174,18 @@ export default function Home() {
   const [HealthCareProfessionals, setHealthCareProfessionals] = useState([]);
   const [healthCareProfessionalIdDisabled] = useState(false);
   const [patientIdDisabled] = useState(false);
+  const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
+  const [soapSummary, setSOAPSummary] = useState(() => generateSOAPSummary([].concat(...comprehendResults)));
+
+  useEffect(() => {
+    if (!showSOAPReview) {
+      setSOAPSummary(generateSOAPSummary([].concat(...comprehendResults)));
+    }
+  }, [comprehendResults, showSOAPReview]);
+
+  function updateSOAPSummary(e) {
+    setSOAPSummary(e.target.value);
+  }
 
   var sessionId = '';
 
@@ -202,7 +205,6 @@ export default function Home() {
     });
   };
 
-  let addSpeakerLabel = true;
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     let addSpeakerLabel = true;
     let text = '';
@@ -278,13 +280,10 @@ export default function Home() {
     };
   }, [addTranscriptChunk, audioStream, offlineEnabled]);
 
-  const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
-
   const reset = useCallback(() => {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
     setShowSOAPReview(false);
     setExcludedItems([]);
@@ -297,7 +296,6 @@ export default function Home() {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
     setShowSOAPReview(false);
     setExcludedItems([]);
@@ -311,7 +309,6 @@ export default function Home() {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
     setShowSOAPReview(false);
     setExcludedItems([]);
@@ -349,9 +346,6 @@ export default function Home() {
     }
   };
 
-  function updateSOAPSummary(e) {
-    setSOAPSummary(e.target.value);
-  }
   async function createPatient() {
     const apiName = 'MTADemoAPI';
     const path = 'createPatient';
@@ -724,13 +718,14 @@ export default function Home() {
           onResultAdd={onComprehendResultAddition}
           onSelectedConceptChange={onSelectedConceptChange}
           visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
+          onResultDelete={onComprehendResultDelete}
+          onResultAdd={onComprehendResultAddition}
         />
 
         <SOAPReviewPane
-          resultChunks={comprehendResults}
-          excludedItems={excludedItems}
           visible={stage === STAGE_SOAP_REVIEW}
-          onTextAreaEdit={updateSOAPSummary}
+          onInputChange={updateSOAPSummary}
+          inputText={soapSummary}
         />
 
         <ExportPane
@@ -1027,7 +1022,7 @@ export default function Home() {
         )}
       </div>
 
-      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE) && (
+      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW) && (
         <Button className={s.SaveButton} onClick={handleSave} id={'i' + stage}>
           Save Session
         </Button>
