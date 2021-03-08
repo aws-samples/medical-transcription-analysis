@@ -11,81 +11,71 @@ const CATEGORIES = [
   'MEDICAL_CONDITION',
   'ANATOMY',
   'MEDICATION',
-  'TEST_TREATMENT_PROCEDURE'
+  'TEST_TREATMENT_PROCEDURE',
 ];
 
-function ConceptTable({rows}) {
-  const [ open, setOpen ] = useState(false);
+function ConceptTable({ rows }) {
+  const [open, setOpen] = useState(false);
 
   return (
     <HeightSlider>
-      {open ?
+      {open ? (
         <>
-          <span className={cs(s.toggleLink, s.expanded)} onClick={() => setOpen(false)}>{rows.length} detected</span>
+          <span className={cs(s.toggleLink, s.expanded)} onClick={() => setOpen(false)}>
+            {rows.length} detected
+          </span>
           <dl>
-            {rows.map((c, i) => <>
-              <dt>{c.Code}</dt>
-              <dd>{c.Description}</dd>
-            </>)}
+            {rows.map((c, i) => (
+              <>
+                <dt>{c.Code}</dt>
+                <dd>{c.Description}</dd>
+              </>
+            ))}
           </dl>
         </>
-      :
-        <span className={cs(s.toggleLink, s.contracted)} onClick={() => setOpen(true)}>{rows.length} detected</span>
-      }
+      ) : (
+        <span className={cs(s.toggleLink, s.contracted)} onClick={() => setOpen(true)}>
+          {rows.length} detected
+        </span>
+      )}
     </HeightSlider>
-  )
+  );
 }
 
-
-function ResultRow({
-  result,
-  onToggleItem,
-  excludedItems
-}) {
-
+function ResultRow({ result, onToggleItem, excludedItems }) {
   const onHide = useCallback(() => {
-    onToggleItem(result.id)
-  }, [ onToggleItem, result.id ]);
+    onToggleItem(result.id);
+  }, [onToggleItem, result.id]);
 
-  const isExcluded = useMemo(() => excludedItems.includes(result.id), [ excludedItems, result.id ]);
+  const isExcluded = useMemo(() => excludedItems.includes(result.id), [excludedItems, result.id]);
 
   const attrs = useMemo(() => {
-    const a = [ [ 'Type', displayNames[result.Type] ] ];
+    const a = [['Type', displayNames[result.Type]]];
 
-    (result.Attributes || []).forEach(attr => {
-      a.push([
-        displayNames[attr.Type],
-        attr.Text
-      ]);
+    (result.Attributes || []).forEach((attr) => {
+      a.push([displayNames[attr.Type], attr.Text]);
     });
 
     if (result.ICD10CMConcepts) {
-      a.push([
-        'ICD-10-CM Concepts',
-        <ConceptTable rows={result.ICD10CMConcepts} />
-      ]);
+      a.push(['ICD-10-CM Concepts', <ConceptTable rows={result.ICD10CMConcepts} />]);
       // Code, Description, Score
     }
 
     if (result.RxNormConcepts) {
       // Code, Descroption, Score
-      a.push([
-        'RxNorm Concepts',
-        <ConceptTable rows={result.RxNormConcepts} />
-      ]);
+      a.push(['RxNorm Concepts', <ConceptTable rows={result.RxNormConcepts} />]);
     }
 
     return a;
-  }, [ result ]);
-
+  }, [result]);
 
   return (
     <div className={cs(s.result, isExcluded && s.excluded)}>
-      <button className={s.removeButton} onClick={onHide} aria-label="Exclude this item from the export" />
+      <button className={s.removeButton} onClick={onHide} aria-label='Exclude this item from the export' />
       <h4>{result.Text}</h4>
 
       <dl>
-        {attrs.map(([ key, value ]) => (
+        {attrs.map(([key, value]) => (
           <>
             <dt>{key}</dt>
             <dd>{value}</dd>
@@ -93,55 +83,46 @@ function ResultRow({
         ))}
       </dl>
     </div>
-  )
+  );
 }
 
-function ResultTable({
-  results,
-  category,
-  onToggleItem,
-  excludedItems
-}) {
-  const filteredResults = useMemo(() => results.filter(r => r.Category === category), [ results, category ]);
-  const [ open, setOpen ] = useState(false);
+function ResultTable({ results, category, onToggleItem, excludedItems }) {
+  const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
+  const [open, setOpen] = useState(false);
 
+  return (
+    <div className={s.resultTable}>
+      <h3 className={open ? s.expanded : s.contracted} onClick={() => setOpen((x) => !x)}>
+        {displayNames[category]}
+      </h3>
 
-  return <div className={s.resultTable}>
-    <h3 className={open ? s.expanded : s.contracted} onClick={() => setOpen(x => !x)}>{displayNames[category]}</h3>
-
-    <HeightSlider>
-      {open ?
-        <div>
-          {filteredResults.map((r, i) => (
-            <ResultRow
-              result={r}
-              key={r.id}
-              onToggleItem={onToggleItem}
-              excludedItems={excludedItems}
-            />
-          ))}
-        </div>
-      : null }
-    </HeightSlider>
-  </div>
+      <HeightSlider>
+        {open ? (
+          <div>
+            {filteredResults.map((r) => (
+              <ResultRow result={r} key={r.Id} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+            ))}
+          </div>
+        ) : null}
+      </HeightSlider>
+    </div>
+  );
 }
 
-
-
-
-export default function AnalysisPane({
-  resultChunks,
-  visible,
-  excludedItems,
-  onToggleItem
-}) {
+export default function AnalysisPane({ resultChunks, visible, excludedItems, onToggleItem }) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
 
   return (
     <div className={cs(s.base, visible && s.visible)}>
-      { CATEGORIES.map(cat => (
-        <ResultTable results={allResults} category={cat} onToggleItem={onToggleItem} excludedItems={excludedItems} />
+      {CATEGORIES.map((cat) => (
+        <ResultTable
+          results={allResults}
+          category={cat}
+          key={cat}
+          onToggleItem={onToggleItem}
+          excludedItems={excludedItems}
+        />
       ))}
     </div>
-  )
+  );
 }

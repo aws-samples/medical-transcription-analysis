@@ -1,7 +1,8 @@
 .base {
   font-size: 18px;
-  overflow: hidden;
+  overflow: auto;
   position: relative;
+  text-align: left;
 }
 
 .scrollable:before, .scrollable:after {

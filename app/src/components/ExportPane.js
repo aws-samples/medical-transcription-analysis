@@ -45,7 +45,6 @@ function ResultTable({
   category
 }) {
   const filteredResults = useMemo(() => results.filter(r => r.Category === category), [ results, category ]);
-
   return <div className={s.resultTable}>
     {filteredResults.map((r, i) => (
       <ResultRow result={r} key={i} />
