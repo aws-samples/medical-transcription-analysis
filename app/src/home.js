@@ -177,23 +177,22 @@ export default function Home() {
   const history = useHistory();
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-    let addSpeakerLabel = true;
-    let text = '';
-    Alternatives[0].Items.forEach((item) => {
-      if (item.Type === 'speaker-change') {
-        addSpeakerLabel = true;
-      } else if (addSpeakerLabel && 'Speaker' in item) {
-        text += '\nSpeaker ' + (parseInt(item.Speaker) + 1).toString() + ':\n';
-        addSpeakerLabel = false;
-      }
-      if (item.Type === 'pronunciation') {
-        text += item.Content + ' ';
-      }
-      if (item.Type === 'punctuation') {
-        text += item.Content;
-      }
-    });
+    const [text] = Alternatives[0].Items.reduce(
+      ([prevText, prevAddSpeakerLabel], item) => {
+        const isSpeakerChange = item.Type === 'speaker-change';
+        const shouldAddSpeakerLabel = !isSpeakerChange && prevAddSpeakerLabel && 'Speaker' in item;
+        const isPronunciation = item.Type === 'pronunciation';
+        const isPunctuation = item.Type === 'punctuation';
+        const speakerLabel = shouldAddSpeakerLabel ? `Speaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
+        const itemContent = isPronunciation || isPunctuation ? item.Content : '';
+        const spaceAtEnd = isPronunciation ? ' ' : '';
+        const text = `${prevText}${speakerLabel}${itemContent}${spaceAtEnd}`;
+        const addSpeakerLabel = isSpeakerChange || (shouldAddSpeakerLabel ? false : prevAddSpeakerLabel);
 
+        return [text, addSpeakerLabel];
+      },
+      ['', true],
+    );
     if (IsPartial) {
       setPartialTranscript(text);
     } else {
