@@ -36,7 +36,7 @@ function CategorySummary({ results, category }) {
         ? filteredResults.map(
             (result) => result.Text + (result.Attributes ? result.Attributes.map((key) => '|' + key.Text) : '') + '\n',
           )
-        : 'N/A\n';
+        : 'N/A';
   }
 
   return (
