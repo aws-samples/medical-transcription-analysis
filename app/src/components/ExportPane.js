@@ -3,9 +3,7 @@ import React, { useMemo } from 'react';
 import s from './ExportPane.module.css';
 import cs from 'clsx';
 import { Heading } from '@chakra-ui/react';
-
-const conceptScoreSort = (conceptArray) =>
-  [...conceptArray].sort((concept1, concept2) => concept2.Score - concept1.Score);
+import { conceptScoreSort } from '../utils/concept-sort';
 
 const getFormattedResult = (category, filteredResults) => {
   const isMedicalCondition = category === 'MEDICAL_CONDITION';
@@ -61,39 +59,31 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
             Summary
           </Heading>
           <p>
-            Thank you for visitng the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to
+            Thank you for visiting the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to
             review the following important information from today's consultation and reach out to us at +12345678910 if
             you have any questions.
           </p>
           <p>{soapSummary}</p>
 
-          <Heading marginTop='1%' as='h4' size='md'>
+          <Heading marginTop='1%' as='h3' size='md'>
             Medications
           </Heading>
-          <div>
-            <CategorySummary results={filteredResults} category='MEDICATION' />
-          </div>
+          <CategorySummary results={filteredResults} category='MEDICATION' />
 
-          <Heading marginTop='1%' as='h4' size='md'>
+          <Heading marginTop='1%' as='h3' size='md'>
             Anatomy
           </Heading>
-          <div>
-            <CategorySummary results={filteredResults} category='ANATOMY' />
-          </div>
+          <CategorySummary results={filteredResults} category='ANATOMY' />
 
-          <Heading marginTop='1%' as='h4' size='md'>
+          <Heading marginTop='1%' as='h3' size='md'>
             Medical Conditions
           </Heading>
-          <div>
-            <CategorySummary results={filteredResults} category='MEDICAL_CONDITION' />
-          </div>
+          <CategorySummary results={filteredResults} category='MEDICAL_CONDITION' />
 
-          <Heading marginTop='1%' as='h4' size='md'>
+          <Heading marginTop='1%' as='h3' size='md'>
             Tests, Treatments, Procedures
           </Heading>
-          <div>
-            <CategorySummary results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
-          </div>
+          <CategorySummary results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
 
           <Heading marginTop='1%' as='h2' size='lg'>
             Visit Transcription

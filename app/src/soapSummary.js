@@ -66,24 +66,24 @@ export default function generateSOAPSummary(results) {
 
   summary += 'History of Patient Illness(s):\n';
   if (presentDiagnosedConditions.length > 0)
-    summary += 'Patient is here for ' + [...new Set(presentDiagnosedConditions.map((r) => r.Text))].join(', ') + '.';
+    summary += 'Patient is here for ' + [...new Set(presentDiagnosedConditions.map((r) => r.Text))].join(', ') + '. ';
   if (anatomy.length > 0)
     summary += 'Patient noted issues with: ' + [...new Set(anatomy.map((r) => r.Text))].join(', ');
   if (presentSymptomConditions.length > 0)
-    summary += 'with symptoms like ' + [...new Set(presentSymptomConditions.map((r) => r.Text))].join(', ') + '.';
+    summary += ' with symptoms like ' + [...new Set(presentSymptomConditions.map((r) => r.Text))].join(', ') + '. ';
   if (absentSymptomConditions.length > 0)
     summary +=
       'Additionally , noted no occurrences of ' +
       [...new Set(presentSymptomConditions.map((r) => r.Text))].join(', ') +
       '.';
   if (medications.length > 0)
-    summary += 'Current medications include ' + [...new Set(medications.map((r) => r.Text))].join(', ') + '.';
+    summary += 'Current medications include ' + [...new Set(medications.map((r) => r.Text))].join(', ') + '. ';
 
   if (absentDiagnosedConditions.length > 0)
     summary +=
       'It is not likely that the patient is sufferring from ' +
       [...new Set(absentDiagnosedConditions.map((r) => r.Text))].join(', ') +
-      '.';
+      '. ';
 
   summary += '\n\nObjective:-\n';
   summary += '\n';
