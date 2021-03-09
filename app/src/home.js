@@ -12,7 +12,7 @@ import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
 import SOAPReviewPane from './components/SOAPReviewPane';
-import generateSOAPSummary from './soapSummary';
+import generateSOAPSummary from './utils/soapSummary';
 
 import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_EXPORT, STAGE_SOAP_REVIEW } from './consts';
 
