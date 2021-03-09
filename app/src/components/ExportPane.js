@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 
 import s from './ExportPane.module.css';
 import cs from 'clsx';
-import { Heading } from '@chakra-ui/react';
 import { conceptScoreSort } from '../utils/concept-sort';
+import ExportPaneHeader from './ExportPaneHeader/ExportPaneHeader';
 
 const getFormattedResult = (category, filteredResults) => {
   const isMedicalCondition = category === 'MEDICAL_CONDITION';
@@ -55,9 +55,7 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
         </header>
 
         <main>
-          <Heading as='h2' size='lg'>
-            Summary
-          </Heading>
+          <ExportPaneHeader content='Summary' type='SECTION' />
           <p>
             Thank you for visiting the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to
             review the following important information from today's consultation and reach out to us at +12345678910 if
@@ -65,33 +63,23 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
           </p>
           <p>{soapSummary}</p>
 
-          <Heading marginTop='1%' as='h3' size='md'>
-            Medications
-          </Heading>
+          <ExportPaneHeader content='Medications' type='SUB_SECTION' />
+
           <CategorySummary results={filteredResults} category='MEDICATION' />
 
-          <Heading marginTop='1%' as='h3' size='md'>
-            Anatomy
-          </Heading>
+          <ExportPaneHeader content='Anatomy' type='SUB_SECTION' />
           <CategorySummary results={filteredResults} category='ANATOMY' />
 
-          <Heading marginTop='1%' as='h3' size='md'>
-            Medical Conditions
-          </Heading>
+          <ExportPaneHeader content='Medical Conditions' type='SUB_SECTION' />
           <CategorySummary results={filteredResults} category='MEDICAL_CONDITION' />
 
-          <Heading marginTop='1%' as='h3' size='md'>
-            Tests, Treatments, Procedures
-          </Heading>
+          <ExportPaneHeader content='Tests, Treatments, Procedures' type='SUB_SECTION' />
           <CategorySummary results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
 
-          <Heading marginTop='1%' as='h2' size='lg'>
-            Visit Transcription
-          </Heading>
-
+          <ExportPaneHeader content='Visit Transcription' type='SECTION' />
           <div className={s.transcript}>
             <p>Below is the transcription for your visit -</p>
-            {(transcriptChunks ?? []).map((t, i) => (
+            {(transcriptChunks ? transcriptChunks : []).map((t, i) => (
               <p key={i}>{t.text}</p>
             ))}
           </div>
