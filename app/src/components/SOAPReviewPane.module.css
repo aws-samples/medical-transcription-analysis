@@ -20,6 +20,10 @@
   margin-bottom: 0.25em;
 }
 
+.base main {
+  margin: 3%;
+}
+
 .base dt {
   font-weight: bold;
   text-align: right;
@@ -38,9 +42,7 @@
 
 .base textarea {
   word-wrap: break-word;
-  width: 90%;
   white-space: pre-wrap;
-  min-height: 90%;
 }
 @media print {
   .base {

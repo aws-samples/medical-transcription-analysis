@@ -20,19 +20,18 @@
 }
 
 .page {
-  margin: 5vw;
-  width: 60vw;
-  height: 90vw;
+  margin: 3vw;
+  width: 65vw;
   background: #fff;
-  padding: 5vw;
+  padding: 3vw;
   text-align: left;
   box-sizing: border-box;
   box-shadow: 0 1vw 3vw rgba(0, 0, 0, 0.3);
-  font-size: 0.65vw;
+  font-size: 0.7vw;
   transform: translateY(5vw);
   opacity: 0;
   transition: transform 600ms ease, opacity 1000ms linear;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .page p {
@@ -51,12 +50,9 @@
   height: 5.6em;
 }
 
-.transcript {
-  margin: 1em;
-}
-
 .transcript p {
   margin: 0vw;
+  padding: 0vw;
 }
 
 .actions {

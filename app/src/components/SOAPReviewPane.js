@@ -2,7 +2,6 @@ import s from './SOAPReviewPane.module.css';
 import cs from 'clsx';
 
 import { Heading, Textarea } from '@chakra-ui/react';
-import ResizeTextarea from 'react-textarea-autosize';
 
 export default function SOAPReviewPane({ visible, onInputChange, inputText }) {
   return (
@@ -13,21 +12,11 @@ export default function SOAPReviewPane({ visible, onInputChange, inputText }) {
         </header>
 
         <main>
-          <Heading m='1%' as='h4' size='lg'>
+          <Heading as='h1' mb={4} textAlign='left' fontWeight='bold' fontSize='1.4em'>
             Provider Notes
           </Heading>
 
-          <Textarea
-            value={inputText}
-            resize='none'
-            minRows={1}
-            maxRows={35}
-            minH='unset'
-            overflow='hidden'
-            as={ResizeTextarea}
-            onChange={onInputChange}
-            backgroundColor='#FFFFFF'
-          />
+          <Textarea value={inputText} rows={35} onChange={onInputChange} backgroundColor='#FFFFFF' />
         </main>
       </div>
     </div>

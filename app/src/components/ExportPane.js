@@ -2,48 +2,45 @@ import React, { useMemo } from 'react';
 
 import s from './ExportPane.module.css';
 import cs from 'clsx';
-import { Divider, Heading } from '@chakra-ui/react';
+import { Heading } from '@chakra-ui/react';
 
-function conceptScoreSort(conceptArray) {
-  conceptArray.sort(function (concept1, concept2) {
-    return concept2.Score - concept1.Score;
-  });
-  return conceptArray;
-}
+const conceptScoreSort = (conceptArray) =>
+  [...conceptArray].sort((concept1, concept2) => concept2.Score - concept1.Score);
+
+const getFormattedResult = (category, filteredResults) => {
+  const isMedicalCondition = category === 'MEDICAL_CONDITION';
+  const isMedication = category === 'MEDICATION';
+
+  if (isMedicalCondition || isMedication) {
+    const conceptProperty = isMedicalCondition ? 'ICD10CMConcepts' : 'RxNormConcepts';
+
+    return filteredResults
+      .map((result) => {
+        const text = result.Text;
+
+        const concepts = result[conceptProperty];
+
+        if (!concepts) return text;
+
+        // this should really be based on which concept was picked in the dropdown, but we don't have that state yet
+        const chosenConcept = conceptScoreSort(concepts)[0];
+
+        return `${text}|${chosenConcept.Code}|${chosenConcept.Description}`;
+      })
+      .join('\n');
+  }
+
+  return filteredResults.length > 0
+    ? filteredResults
+        .map(({ Text, Attributes }) => `${Text}${Attributes?.map((key) => `|${key.Text}`).join('') ?? ''}`)
+        .join('\n')
+    : 'N/A';
+};
 
 function CategorySummary({ results, category }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
-  let formattedResult = '';
-  if (category === 'MEDICAL_CONDITION') {
-    for (let i = 0; i < filteredResults.length; i++) {
-      formattedResult = filteredResults[i].Text;
-      if (filteredResults[i].ICD10CMConcepts) {
-        let concept = conceptScoreSort(filteredResults[i].ICD10CMConcepts);
-        formattedResult += '|' + concept[0].Code + '|' + concept[0].Description + '\n';
-      }
-    }
-  } else if (category === 'MEDICATION') {
-    for (let i = 0; i < filteredResults.length; i++) {
-      formattedResult = filteredResults[i].Text;
-      if (filteredResults[i].RxNormConcepts) {
-        let concept = conceptScoreSort(filteredResults[i].RxNormConcepts);
-        formattedResult += '|' + concept[0].Code + '|' + concept[0].Description + '\n';
-      }
-    }
-  } else {
-    formattedResult =
-      filteredResults.length > 0
-        ? filteredResults.map(
-            (result) => result.Text + (result.Attributes ? result.Attributes.map((key) => '|' + key.Text) : '') + '\n',
-          )
-        : 'N/A';
-  }
 
-  return (
-    <div>
-      <p>{formattedResult}</p>
-    </div>
-  );
+  return <p>{getFormattedResult(category, filteredResults)}</p>;
 }
 
 export default function ExportPane({ transcriptChunks, resultChunks, visible, excludedItems, soapSummary }) {

@@ -705,7 +705,9 @@ export default function Home() {
           resultChunks={comprehendResults}
           partialTranscript={partialTranscript}
           inProgress={audioStream}
+          enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW}
           visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
+          handleTranscriptChange={onTranscriptChange}
         />
 
         <AnalysisPane
