@@ -18,7 +18,6 @@ const resultMap = new WeakMap();
 
 // React hook to take an array of transcript chunks and return a corresponding array of Comprehend results, one for each
 export default function useComprehension(transcriptChunks, clientParams) {
-  // Dummy state variable so we can force a refresh when we receive an update
   const [result, setResult] = useState([]);
 
   useEffect(() => {
