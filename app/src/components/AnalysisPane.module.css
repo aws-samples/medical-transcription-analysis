@@ -49,46 +49,6 @@
   flex: 0 0 70%;
 }
 
-.resultTable {
-  margin-left: 3em;
-  margin-right: 3em;
-  width: 40vw;
-}
-
-.resultTable:first-child {
-  margin-top: 3em;
-}
-
-.resultTable:last-child {
-  margin-bottom: 3em;
-}
-
-.result {
-  display: flex;
-  flex-direction: row;
-  padding: 0.5em;
-  align-items: center;
-}
-
-.result.excluded {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.result:nth-child(odd) {
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.result:last-child {
-  margin-bottom: 2em;
-}
-
-.result h4 {
-  flex: 0 0 25%;
-  margin: 0;
-  padding: 0;
-  padding-left: 1em;
-}
-
 .toggleLink {
   color: #0095ff;
   cursor: pointer;

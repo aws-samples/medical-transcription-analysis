@@ -8,7 +8,7 @@
   transition: all 500ms ease-in-out;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 5%;
   left: calc(50% - 450px);
   opacity: 0;
   pointer-events: none;
@@ -38,7 +38,7 @@
   bottom: -1em;
   border-radius: calc(var(--mic-size) / 2 + 1em);
   border: 1em solid black;
-  box-shadow: 0 0 0 1em #fff, inset 0 0 0 .5em #fff;
+  box-shadow: 0 0 0 1em #fff, inset 0 0 0 0.5em #fff;
 }
 
 .levels:before {
@@ -67,7 +67,7 @@
   background: black;
   left: 50%;
   width: 1em;
-  margin-left: -.5em;
+  margin-left: -0.5em;
   bottom: -1em;
   height: calc(var(--mic-size) - 2em);
   position: absolute;
@@ -89,7 +89,7 @@
   width: 32px;
   height: 32px;
   background: url(../img/icon_stop_01.svg);
-  top: 50%;
+  top: 5%;
   left: calc(50% - 520px);
   transform: translateY(-50%);
   opacity: 0;
@@ -97,8 +97,6 @@
   transition: all 500ms ease-in-out;
   cursor: pointer;
 }
-
-
 
 .visible {
   opacity: 1;
