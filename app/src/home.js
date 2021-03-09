@@ -151,7 +151,6 @@ export default function Home() {
   const [excludedItems, setExcludedItems] = useState([]);
   const [transcribeCredential, setTranscribeCredential] = useState(null);
   const [comprehendCustomEntities, setComprehendCustomEntities] = useState([]);
-  const [soapSummary, setSOAPSummary] = useState('');
   const [timeStampStart, setTimeStampStart] = useState(0);
   const [timeStampEnd, setTimeStampEnd] = useState(0);
   const [sessionName, setSessionName] = useState('');
