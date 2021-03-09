@@ -104,7 +104,7 @@ export default function TranscriptLine({
         <Editable
           defaultValue={chunk.text}
           onSubmit={(nextValue) => {
-            handleTranscriptChange(nextValue);
+            handleTranscriptChange(nextValue.trim());
           }}
         >
           {({ isEditing, onEdit }) => (
