@@ -1,29 +1,33 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import s from './AnalysisPane.module.css';
 import cs from 'clsx';
 
 import displayNames from '../displayNames';
-import { VStack, Box, Flex, IconButton, Select, Input } from '@chakra-ui/react';
+import { VStack, Box, Flex, IconButton, Select, Input, FormControl, VisuallyHidden } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from './DeleteIcon/DeleteIcon';
+import highlightClasses from '../transcriptHighlights';
+import { STAGE_TRANSCRIBING } from '../consts';
 
 const CATEGORIES = [
   'MEDICAL_CONDITION',
-  'ANATOMY',
   'MEDICATION',
   'TEST_TREATMENT_PROCEDURE',
+  'ANATOMY',
   'PROTECTED_HEALTH_INFORMATION',
 ];
+const confidenceThreshold = 0.5;
 
-function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
+function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }) {
   const closeIcon = (
     <IconButton
       aria-label='Delete'
       icon={<DeleteIcon />}
       onClick={onDeleteClick}
-      size='sm'
+      size='xs'
       isRound
+      isDisabled={stage === STAGE_TRANSCRIBING && true}
       border='1px solid #545b64'
       _hover={{ bg: '#545b64' }}
       sx={{
@@ -43,40 +47,43 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
     return a;
   }, [result]);
 
-  if (!result.ICD10CMConcepts && !result.RxNormConcepts && !result.Attributes) {
+  const conceptsPresent = result.ICD10CMConcepts || result.RxNormConcepts;
+  const attributesPresent = result.Attributes && result.Attributes.length !== 0;
+
+  if (!conceptsPresent && !attributesPresent) {
     return (
       <Flex width='100%' alignItems='center'>
         <Flex
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score && result.Score < 0.5 ? '1px solid red' : '1px solid grey'}
+          border={result.Score && result.Score < confidenceThreshold ? '2px solid #B30000' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
         >
-          {result.Text} {result.Type ? '|' : null} {displayNames[result.Type]}
+          {result.Text} {result.Type && '|'} {displayNames[result.Type]}
         </Flex>
         {closeIcon}
       </Flex>
     );
   }
 
-  if (!result.ICD10CMConcepts && !result.RxNormConcepts && result.Attributes) {
+  if (!conceptsPresent && attributesPresent) {
     return (
       <Flex width='100%' alignItems='center'>
         <Flex
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score && result.Score < 0.5 ? '1px solid red' : '1px solid grey'}
+          border={result.Score && result.Score < confidenceThreshold ? '2px solid #B30000' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
         >
           {attrs.map(([key, value]) => (
             <React.Fragment key={key}>
-              {result.Text} {value ? '|' : null} {value}
+              {result.Text} {value && '|'} {value}
             </React.Fragment>
           ))}
         </Flex>
@@ -86,25 +93,24 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
     );
   }
 
-  const concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
-  concepts.sort(function (concept1, concept2) {
-    return concept2.Score - concept1.Score;
-  });
-
+  const concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)].sort(
+    (concept1, concept2) => concept2.Score - concept1.Score,
+  );
+  const borderColor = concepts[0].Score < confidenceThreshold ? '#B30000 ' : 'grey';
   return (
     <Flex width='100%' alignItems='center'>
       <Select
         mr={2}
-        border='1px solid'
-        borderColor={concepts[0].Score < 0.5 ? 'red' : 'grey'}
+        border={concepts[0].Score < confidenceThreshold ? '2px solid' : '1px solid'}
+        borderColor={borderColor}
         borderRadius='0'
         bg='white'
-        _hover={{ borderColor: concepts[0].Score < 0.5 ? 'red' : 'grey', boxShadow: 'none' }}
+        _hover={{ borderColor: borderColor, boxShadow: 'none' }}
       >
-        {concepts.map((concept) => (
-          <option key={concept.Code} value={concept.Code}>
-            {result.Text} {concept.Code ? ' | ' : null} {concept.Code} {concept.Description ? ' | ' : null}{' '}
-            {concept.Description} &nbsp;&nbsp; {(concept.Score * 100).toPrecision(4)}%
+        {concepts.map(({ Code, Description, Score }) => (
+          <option key={Code} value={Code}>
+            {result.Text} {Code && ' | '} {Code} {Description && ' | '}
+            {Description} &nbsp;&nbsp; {(Score * 100).toPrecision(4)}%
           </option>
         ))}
       </Select>
@@ -114,48 +120,79 @@ function ResultRow({ result, onToggleItem, excludedItems, onDeleteClick }) {
   );
 }
 
-function ResultTable({ results, category, onToggleItem, excludedItems, onResultDelete, onResultAdd }) {
+function ResultTable({ results, category, stage, onToggleItem, excludedItems, onResultDelete, onResultAdd }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
-  const [inputValue, setInputValue] = React.useState('');
+  const [inputValue, setInputValue] = useState('');
   const handleInputChange = (event) => setInputValue(event.target.value);
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSubmit(event);
+    }
+  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (inputValue.trim() !== '') {
+      onResultAdd(inputValue.trim(), category);
+    }
+    setInputValue('');
+  };
 
   const addIcon = (
     <IconButton
       aria-label='Add'
       icon={<AddIcon />}
-      onClick={() => [inputValue.trim() !== '' ? onResultAdd(inputValue, category) : null, setInputValue('')]}
-      size='sm'
-      borderRadius='0'
-      color='grey'
+      onClick={handleSubmit}
+      size='xs'
+      isRound
+      isDisabled={stage === STAGE_TRANSCRIBING && true}
+      border='1px solid #545b64'
+      _hover={{ bg: '#545b64' }}
+      sx={{
+        '&:hover svg': {
+          color: '#fff',
+        },
+      }}
     />
   );
 
   return (
-    <Box className={s.resultTable} mb={4}>
-      <Box as='h1' mb={4} textAlign='left' fontWeight='bold' fontSize='1.2rem'>
+    <Box mb={4} mx='3em' _first={{ marginTop: '3em' }} _last={{ marginBottom: '3em' }}>
+      <Box
+        as='h1'
+        mb={4}
+        textAlign='left'
+        width='max-content'
+        fontWeight='bold'
+        fontSize='1.2rem'
+        className={highlightClasses[category]}
+      >
         {displayNames[category]}
       </Box>
 
       <VStack spacing={2}>
-        <Flex width='100%' alignItems='center'>
-          <Input
-            mr={2}
-            mb={4}
-            border='1px solid'
-            borderColor='grey'
-            borderRadius='0'
-            bg='white'
-            placeholder={'Add ' + displayNames[category]}
-            value={inputValue}
-            onChange={handleInputChange}
-          ></Input>
-          {addIcon}
-        </Flex>
+        <FormControl>
+          <Flex width='100%' mb={4} alignItems='center'>
+            <VisuallyHidden>`Add ${displayNames[category]}`</VisuallyHidden>
+            <Input
+              mr={2}
+              border='1px solid'
+              borderColor='grey'
+              borderRadius='0'
+              bg='white'
+              placeholder={`Add ${displayNames[category]}`}
+              value={inputValue}
+              onChange={handleInputChange}
+              onKeyPress={handleKeyPress}
+            />
+            {addIcon}
+          </Flex>
+        </FormControl>
 
         {filteredResults.map((r) => (
           <ResultRow
             result={r}
             key={r.id}
+            stage={stage}
             onToggleItem={onToggleItem}
             excludedItems={excludedItems}
             onDeleteClick={() => onResultDelete(r)}
@@ -167,6 +204,7 @@ function ResultTable({ results, category, onToggleItem, excludedItems, onResultD
 }
 
 export default function AnalysisPane({
+  stage,
   resultChunks,
   visible,
   excludedItems,
@@ -183,6 +221,7 @@ export default function AnalysisPane({
           key={cat}
           results={allResults}
           category={cat}
+          stage={stage}
           onToggleItem={onToggleItem}
           excludedItems={excludedItems}
           onResultDelete={onResultDelete}

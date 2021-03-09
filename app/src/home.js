@@ -149,6 +149,7 @@ export default function Home() {
   const [transcripts, setTranscripts] = useState(false);
   const [excludedItems, setExcludedItems] = useState([]);
   const [transcribeCredential, setTranscribeCredential] = useState(null);
+  const [comprehendCustomEntities, setComprehendCustomEntities] = useState([]);
 
   const [timeStampStart, setTimeStampStart] = useState(0);
   const [timeStampEnd, setTimeStampEnd] = useState(0);
@@ -261,6 +262,7 @@ export default function Home() {
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
+    setComprehendCustomEntities([]);
   }, []);
 
   const toHome = useCallback(() => {
@@ -272,6 +274,7 @@ export default function Home() {
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
+    setComprehendCustomEntities([]);
     history.push('/home');
   }, [history]);
 
@@ -575,7 +578,7 @@ export default function Home() {
 
   if (!transcripts) {
     stage = STAGE_HOME;
-  } else if (audioStream && !showAnalysis) {
+  } else if (audioStream) {
     stage = STAGE_TRANSCRIBING;
   } else if (showAnalysis) {
     stage = STAGE_TRANSCRIBED;
@@ -595,16 +598,28 @@ export default function Home() {
         return [...prevResult.slice(0, a), ...prevResult.slice(a + 1)];
       }),
     );
+    setComprehendCustomEntities((prevEntities) =>
+      prevEntities.map((prevEntity) => {
+        const a = prevEntity.findIndex((entity) => entity.id === r.id);
+
+        if (a === -1) return prevEntity;
+
+        return [...prevEntity.slice(0, a), ...prevEntity.slice(a + 1)];
+      }),
+    );
   };
 
   const onComprehendResultAddition = (val, category) => {
-    setComprehendResults((prevResults) => {
-      const newItem = {
+    setComprehendCustomEntities((prevEntities) => {
+      const newCustomEntity = {
         id: uuidv4(),
         Category: category,
         Text: val,
+        Traits: [],
+        Attributes: [],
+        Type: '',
       };
-      return [...prevResults, [newItem]];
+      return [[newCustomEntity], ...prevEntities];
     });
   };
 
@@ -647,7 +662,8 @@ export default function Home() {
         />
 
         <AnalysisPane
-          resultChunks={comprehendResults}
+          stage={stage}
+          resultChunks={[...comprehendCustomEntities, ...comprehendResults]}
           excludedItems={excludedItems}
           onToggleItem={toggleResultItemVisibility}
           visible={stage === STAGE_SUMMARIZE || stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}

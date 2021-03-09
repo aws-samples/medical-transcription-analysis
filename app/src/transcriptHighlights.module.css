@@ -1,19 +1,19 @@
 .phi {
-  color: red;
+  background: #999999;
 }
 
 .condition {
-  background: #0095ff44;
+  background: #5cceff;
 }
 
 .anatomy {
-  border-bottom: 1px solid blue;
+  background: #d185af;
 }
 
 .medication {
-  background: yellow;
+  background: #f0e442;
 }
 
 .treatment {
-  color: green;
+  background: #44aa99;
 }
