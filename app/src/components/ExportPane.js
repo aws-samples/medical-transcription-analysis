@@ -91,7 +91,7 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
 
           <div className={s.transcript}>
             <p>Below is the transcription for your visit -</p>
-            {(transcriptChunks || []).map((t, i) => (
+            {(transcriptChunks ?? []).map((t, i) => (
               <p key={i}>{t.text}</p>
             ))}
           </div>
