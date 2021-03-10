@@ -8,7 +8,7 @@ import { VStack, Box, Flex, IconButton, Select, Input, FormControl, VisuallyHidd
 import { AddIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from './DeleteIcon/DeleteIcon';
 import highlightClasses from '../transcriptHighlights';
-import { STAGE_TRANSCRIBING } from '../consts';
+import { STAGE_TRANSCRIBING, CONFIDENCE_THRESHOLD } from '../consts';
 
 const CATEGORIES = [
   'MEDICAL_CONDITION',
@@ -17,9 +17,8 @@ const CATEGORIES = [
   'ANATOMY',
   'PROTECTED_HEALTH_INFORMATION',
 ];
-const confidenceThreshold = 0.5;
 
-function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }) {
+function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick, onSelectedConceptChange }) {
   const closeIcon = (
     <IconButton
       aria-label='Delete'
@@ -27,7 +26,7 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }
       onClick={onDeleteClick}
       size='xs'
       isRound
-      isDisabled={stage === STAGE_TRANSCRIBING && true}
+      isDisabled={stage === STAGE_TRANSCRIBING}
       border='1px solid #545b64'
       _hover={{ bg: '#545b64' }}
       sx={{
@@ -57,7 +56,7 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score && result.Score < confidenceThreshold ? '2px solid #B30000' : '1px solid grey'}
+          border={result.Score && result.Score < CONFIDENCE_THRESHOLD ? '2px solid #B30000' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
@@ -76,7 +75,7 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }
           flex='1'
           mr={2}
           height='2.5rem'
-          border={result.Score && result.Score < confidenceThreshold ? '2px solid #B30000' : '1px solid grey'}
+          border={result.Score && result.Score < CONFIDENCE_THRESHOLD ? '2px solid #B30000' : '1px solid grey'}
           bg='white'
           px={4}
           alignItems='center'
@@ -93,18 +92,21 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }
     );
   }
 
-  const concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)].sort(
-    (concept1, concept2) => concept2.Score - concept1.Score,
-  );
-  const borderColor = concepts[0].Score < confidenceThreshold ? '#B30000 ' : 'grey';
+  const concepts = result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts;
+
+  const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
+  const borderColor = selectedConcept.Score < CONFIDENCE_THRESHOLD ? '#B30000 ' : 'grey';
+
   return (
     <Flex width='100%' alignItems='center'>
       <Select
         mr={2}
-        border={concepts[0].Score < confidenceThreshold ? '2px solid' : '1px solid'}
+        border={selectedConcept.Score < CONFIDENCE_THRESHOLD ? '2px solid' : '1px solid'}
         borderColor={borderColor}
         borderRadius='0'
         bg='white'
+        value={result.selectedConceptCode}
+        onChange={(e) => onSelectedConceptChange(result.id, e.target.value)}
         _hover={{ borderColor: borderColor, boxShadow: 'none' }}
       >
         {concepts.map(({ Code, Description, Score }) => (
@@ -120,31 +122,39 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick }
   );
 }
 
-function ResultTable({ results, category, stage, onToggleItem, excludedItems, onResultDelete, onResultAdd }) {
+function ResultTable({
+  results,
+  category,
+  stage,
+  onToggleItem,
+  excludedItems,
+  onResultDelete,
+  onResultAdd,
+  onSelectedConceptChange,
+}) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
   const [inputValue, setInputValue] = useState('');
   const handleInputChange = (event) => setInputValue(event.target.value);
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      handleSubmit(event);
-    }
-  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (inputValue.trim() !== '') {
-      onResultAdd(inputValue.trim(), category);
+    const input = inputValue.trim();
+    if (input !== '') {
+      onResultAdd(input, category);
+      setInputValue('');
     }
-    setInputValue('');
   };
+
+  const addEntityInputId = `add-${displayNames[category]}`;
 
   const addIcon = (
     <IconButton
       aria-label='Add'
+      type='submit'
       icon={<AddIcon />}
-      onClick={handleSubmit}
       size='xs'
       isRound
-      isDisabled={stage === STAGE_TRANSCRIBING && true}
+      isDisabled={stage === STAGE_TRANSCRIBING}
       border='1px solid #545b64'
       _hover={{ bg: '#545b64' }}
       sx={{
@@ -170,19 +180,22 @@ function ResultTable({ results, category, stage, onToggleItem, excludedItems, on
       </Box>
 
       <VStack spacing={2}>
-        <FormControl>
+        <FormControl as='form' onSubmit={handleSubmit}>
           <Flex width='100%' mb={4} alignItems='center'>
-            <VisuallyHidden>`Add ${displayNames[category]}`</VisuallyHidden>
+            <VisuallyHidden as='label' htmlFor={addEntityInputId}>
+              Add displayNames[category]
+            </VisuallyHidden>
             <Input
+              id={addEntityInputId}
               mr={2}
               border='1px solid'
               borderColor='grey'
               borderRadius='0'
               bg='white'
+              isDisabled={stage === STAGE_TRANSCRIBING}
               placeholder={`Add ${displayNames[category]}`}
               value={inputValue}
               onChange={handleInputChange}
-              onKeyPress={handleKeyPress}
             />
             {addIcon}
           </Flex>
@@ -196,6 +209,7 @@ function ResultTable({ results, category, stage, onToggleItem, excludedItems, on
             onToggleItem={onToggleItem}
             excludedItems={excludedItems}
             onDeleteClick={() => onResultDelete(r)}
+            onSelectedConceptChange={onSelectedConceptChange}
           />
         ))}
       </VStack>
@@ -211,6 +225,7 @@ export default function AnalysisPane({
   onToggleItem,
   onResultDelete,
   onResultAdd,
+  onSelectedConceptChange,
 }) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
 
@@ -226,6 +241,7 @@ export default function AnalysisPane({
           excludedItems={excludedItems}
           onResultDelete={onResultDelete}
           onResultAdd={onResultAdd}
+          onSelectedConceptChange={onSelectedConceptChange}
         />
       ))}
     </div>

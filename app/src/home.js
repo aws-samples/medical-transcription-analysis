@@ -278,7 +278,7 @@ export default function Home() {
     setShowForm(false);
     setComprehendResults([]);
     setComprehendCustomEntities([]);
-  }, []);
+  }, [setComprehendResults]);
 
   const toHome = useCallback(() => {
     setTranscripts(false);
@@ -291,7 +291,7 @@ export default function Home() {
     setComprehendResults([]);
     setComprehendCustomEntities([]);
     history.push('/home');
-  }, [history]);
+  }, [history, setComprehendResults]);
 
   const toSearch = useCallback(() => {
     setTranscripts(false);
@@ -604,24 +604,27 @@ export default function Home() {
   }
 
   const onComprehendResultDelete = (r) => {
-    setComprehendResults((prevResults) =>
-      prevResults.map((prevResult) => {
-        const a = prevResult.findIndex((result) => result.id === r.id);
+    !r.isCustomEntity
+      ? setComprehendResults((prevResults) =>
+          prevResults.map((prevResult) => {
+            console.log('calling comprehend');
+            const index = prevResult.findIndex((result) => result.id === r.id);
 
-        if (a === -1) return prevResult;
+            if (index === -1) return prevResult;
 
-        return [...prevResult.slice(0, a), ...prevResult.slice(a + 1)];
-      }),
-    );
-    setComprehendCustomEntities((prevEntities) =>
-      prevEntities.map((prevEntity) => {
-        const a = prevEntity.findIndex((entity) => entity.id === r.id);
+            return [...prevResult.slice(0, index), ...prevResult.slice(index + 1)];
+          }),
+        )
+      : setComprehendCustomEntities((prevEntities) =>
+          prevEntities.map((prevEntity) => {
+            console.log('calling custom');
+            const index = prevEntity.findIndex((entity) => entity.id === r.id);
 
-        if (a === -1) return prevEntity;
+            if (index === -1) return prevEntity;
 
-        return [...prevEntity.slice(0, a), ...prevEntity.slice(a + 1)];
-      }),
-    );
+            return [...prevEntity.slice(0, index), ...prevEntity.slice(index + 1)];
+          }),
+        );
   };
 
   const onComprehendResultAddition = (val, category) => {
@@ -633,9 +636,26 @@ export default function Home() {
         Traits: [],
         Attributes: [],
         Type: '',
+        isCustomEntity: true,
       };
       return [[newCustomEntity], ...prevEntities];
     });
+  };
+
+  const onSelectedConceptChange = (id, selectedConceptCode) => {
+    setComprehendResults((prevResults) =>
+      prevResults.map((prevResult) => {
+        const index = prevResult.findIndex((result) => result.id === id);
+
+        if (index === -1) return prevResult;
+
+        const newEntity = {
+          ...prevResult[index],
+          selectedConceptCode,
+        };
+        return [...prevResult.slice(0, index), newEntity, ...prevResult.slice(index + 1)];
+      }),
+    );
   };
 
   return (
@@ -684,6 +704,7 @@ export default function Home() {
           visible={stage === STAGE_SUMMARIZE || stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           onResultDelete={onComprehendResultDelete}
           onResultAdd={onComprehendResultAddition}
+          onSelectedConceptChange={onSelectedConceptChange}
         />
 
         <ExportPane
