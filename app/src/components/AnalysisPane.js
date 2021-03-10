@@ -183,7 +183,7 @@ function ResultTable({
         <FormControl as='form' onSubmit={handleSubmit}>
           <Flex width='100%' mb={4} alignItems='center'>
             <VisuallyHidden as='label' htmlFor={addEntityInputId}>
-              Add displayNames[category]
+              Add {displayNames[category]}
             </VisuallyHidden>
             <Input
               id={addEntityInputId}
