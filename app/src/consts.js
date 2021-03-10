@@ -4,9 +4,10 @@ export const STAGE_HOME = 0;
 export const STAGE_TRANSCRIBING = 1;
 export const STAGE_TRANSCRIBED = 2;
 export const STAGE_SUMMARIZE = 3;
-export const STAGE_EXPORT = 4;
-export const STAGE_SEARCH = 5;
-export const STAGE_SEARCH_EXPORT = 6;
+export const STAGE_SOAP_REVIEW = 4;
+export const STAGE_EXPORT = 5;
+export const STAGE_SEARCH = 6;
+export const STAGE_SEARCH_EXPORT = 7;
 
 // Confidence threshold for highlighting entities with low confidence on the Analysis Pane
 export const CONFIDENCE_THRESHOLD = 0.5;

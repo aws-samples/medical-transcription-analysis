@@ -88,7 +88,7 @@
     "clsx": "^1.1.0",
     "css-loader": "^3.5.3",
     "dotenv": "^8.0.0",
-    "framer-motion": "^3.7.0",
+    "framer-motion": "^3.10.0",
     "lodash": "^4.17.19",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "node-sass": "^4.14.1",
