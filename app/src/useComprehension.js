@@ -5,6 +5,7 @@ import { v4 as uuid } from 'uuid';
 import detectEntities from './ai/detectEntities';
 import inferICD10CM from './ai/inferICD10CM';
 import inferRxNorm from './ai/inferRxNorm';
+import { sortByScoreDescending } from './utils/sortByScoreDescending';
 
 import md5 from 'tiny-hashes/md5';
 
@@ -71,11 +72,13 @@ export default function useComprehension(transcriptChunks, clientParams) {
           addResult(chunk, entities, cacheKey);
         });
 
-        inferRxNorm(chunk.text, clientParams).then((entities) => {
+        inferRxNorm(chunk.text, clientParams).then((rawEntities) => {
+          const entities = addSelectedConceptCodeAndSortConcepts(rawEntities, 'RxNormConcepts');
           addResult(chunk, entities, cacheKey);
         });
 
-        inferICD10CM(chunk.text, clientParams).then((entities) => {
+        inferICD10CM(chunk.text, clientParams).then((rawEntities) => {
+          const entities = addSelectedConceptCodeAndSortConcepts(rawEntities, 'ICD10CMConcepts');
           addResult(chunk, entities, cacheKey);
         });
       }
@@ -84,3 +87,12 @@ export default function useComprehension(transcriptChunks, clientParams) {
 
   return [result, setResult];
 }
+
+const addSelectedConceptCodeAndSortConcepts = (rawEntities, conceptAttribute) =>
+  rawEntities.map((entity) => {
+    if (entity[conceptAttribute].length === 0) return entity;
+
+    const sortedConcepts = sortByScoreDescending(entity[conceptAttribute]);
+
+    return { ...entity, [conceptAttribute]: sortedConcepts, selectedConceptCode: sortedConcepts[0].Code };
+  });

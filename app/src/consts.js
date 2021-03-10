@@ -7,3 +7,6 @@ export const STAGE_SUMMARIZE = 3;
 export const STAGE_EXPORT = 4;
 export const STAGE_SEARCH = 5;
 export const STAGE_SEARCH_EXPORT = 6;
+
+// Confidence threshold for highlighting entities with low confidence on the Analysis Pane
+export const CONFIDENCE_THRESHOLD = 0.5;
