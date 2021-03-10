@@ -178,9 +178,9 @@ export default function Home() {
 
   useEffect(() => {
     if (!showSOAPReview) {
-      setSOAPSummary(generateSOAPSummary([].concat(...comprehendResults)));
+      setSOAPSummary(generateSOAPSummary([].concat([...comprehendResults, ...comprehendCustomEntities])));
     }
-  }, [comprehendResults, showSOAPReview]);
+  }, [comprehendResults, comprehendCustomEntities, showSOAPReview]);
 
   function updateSOAPSummary(e) {
     setSOAPSummary(e.target.value);
@@ -728,7 +728,7 @@ export default function Home() {
 
         <ExportPane
           transcriptChunks={transcripts}
-          resultChunks={comprehendResults}
+          resultChunks={[...comprehendCustomEntities, ...comprehendResults]}
           excludedItems={excludedItems}
           soapSummary={soapSummary}
           visible={stage === STAGE_EXPORT}
