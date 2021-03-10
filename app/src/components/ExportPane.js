@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import s from './ExportPane.module.css';
 import cs from 'clsx';
 import ExportPaneHeader from './ExportPaneHeader/ExportPaneHeader';
+import { getSelectedConcept } from '../utils/conceptUtils';
 
 const getFormattedResult = (category, filteredResults) => {
   const isMedicalCondition = category === 'MEDICAL_CONDITION';
@@ -18,7 +19,7 @@ const getFormattedResult = (category, filteredResults) => {
         const concepts = result[conceptProperty];
 
         if (!concepts) return text;
-        const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
+        const selectedConcept = getSelectedConcept(result);
         return `${text}|${selectedConcept.Code}|${selectedConcept.Description}`;
       })
       .join('\n');

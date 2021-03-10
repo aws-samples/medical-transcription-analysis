@@ -178,9 +178,9 @@ export default function Home() {
 
   useEffect(() => {
     if (!showSOAPReview) {
-      setSOAPSummary(generateSOAPSummary([].concat([...comprehendResults, ...comprehendCustomEntities])));
+      setSOAPSummary(generateSOAPSummary([].concat(...[...comprehendResults, ...comprehendCustomEntities])));
     }
-  }, [comprehendResults, showSOAPReview]);
+  }, [comprehendResults, comprehendCustomEntities, showSOAPReview]);
 
   function updateSOAPSummary(e) {
     setSOAPSummary(e.target.value);
