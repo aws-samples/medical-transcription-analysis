@@ -23,8 +23,9 @@ export default function createWebsocketUrl(clientParams) {
             'language-code': 'en-US',
             'media-encoding': 'pcm',
             'sample-rate': 16000,
-            specialty: 'PRIMARYCARE',
-            type: 'DICTATION'
+            'specialty': 'PRIMARYCARE',
+            'type': 'CONVERSATION',
+            'show-speaker-label': true
           })
       }
     );

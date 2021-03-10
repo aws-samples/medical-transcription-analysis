@@ -38,9 +38,7 @@ export default function InProgressTranscriptLine({
               exitActive: s.exitActive
             }}
           >
-            <span>
               <TranscriptWord word={w} />
-            </span>
           </CSSTransition>
         ))}
       </TransitionGroup>

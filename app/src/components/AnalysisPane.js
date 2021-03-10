@@ -92,10 +92,9 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick, 
     );
   }
 
-  const concepts = result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts;
-
+  let concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
   const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
-  const borderColor = selectedConcept.Score < CONFIDENCE_THRESHOLD ? '#B30000 ' : 'grey';
+  const borderColor = concepts[0].Score < CONFIDENCE_THRESHOLD ? '#B30000 ' : 'grey';
 
   return (
     <Flex width='100%' alignItems='center'>

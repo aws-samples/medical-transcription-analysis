@@ -2,55 +2,51 @@ import React, { useMemo } from 'react';
 
 import s from './ExportPane.module.css';
 import cs from 'clsx';
+import { conceptScoreSort } from '../utils/concept-sort';
+import ExportPaneHeader from './ExportPaneHeader/ExportPaneHeader';
 
-import displayNames from '../displayNames';
+const getFormattedResult = (category, filteredResults) => {
+  const isMedicalCondition = category === 'MEDICAL_CONDITION';
+  const isMedication = category === 'MEDICATION';
 
-function ResultRow({ result }) {
-  const attrs = useMemo(() => {
-    const a = [];
+  if (isMedicalCondition || isMedication) {
+    const conceptProperty = isMedicalCondition ? 'ICD10CMConcepts' : 'RxNormConcepts';
 
-    (result.Attributes || []).forEach((attr) => {
-      a.push([displayNames[attr.Type], attr.Text]);
-    });
+    return filteredResults
+      .map((result) => {
+        const text = result.Text;
 
-    return a;
-  }, [result]);
+        const concepts = result[conceptProperty];
 
-  return (
-    <div className={s.result}>
-      <h4>{result.Text}</h4>
+        if (!concepts) return text;
 
-      <dl>
-        {attrs.map(([key, value]) => (
-          <React.Fragment key={key}>
-            <dt>{key}</dt>
-            <dd>{value}</dd>
-          </React.Fragment>
-        ))}
-      </dl>
-    </div>
-  );
-}
+        // this should really be based on which concept was picked in the dropdown, but we don't have that state yet
+        const chosenConcept = conceptScoreSort(concepts)[0];
 
-function ResultTable({ results, category }) {
+        return `${text}|${chosenConcept.Code}|${chosenConcept.Description}`;
+      })
+      .join('\n');
+  }
+
+  return filteredResults.length > 0
+    ? filteredResults
+        .map(({ Text, Attributes }) => `${Text}${Attributes?.map((key) => `|${key.Text}`).join('') ?? ''}`)
+        .join('\n')
+    : 'N/A';
+};
+
+function CategorySummary({ results, category }) {
   const filteredResults = useMemo(() => results.filter((r) => r.Category === category), [results, category]);
 
-  return (
-    <div className={s.resultTable}>
-      {filteredResults.map((r, i) => (
-        <ResultRow result={r} key={i} />
-      ))}
-    </div>
-  );
+  return <p>{getFormattedResult(category, filteredResults)}</p>;
 }
 
-export default function ExportPane({ transcriptChunks, resultChunks, visible, excludedItems }) {
+export default function ExportPane({ transcriptChunks, resultChunks, visible, excludedItems, soapSummary }) {
   const allResults = useMemo(() => [].concat(...resultChunks), [resultChunks]);
   const filteredResults = useMemo(() => allResults.filter((x) => !excludedItems.includes(x.id)), [
     allResults,
     excludedItems,
   ]);
-
   return (
     <div className={cs(s.base, visible && s.visible)}>
       <div className={s.page}>
@@ -59,26 +55,33 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
         </header>
 
         <main>
-          <h2>Visit Transcription</h2>
+          <ExportPaneHeader content='Summary' type='SECTION' />
+          <p>
+            Thank you for visiting the clinic today, {new Date().toISOString().slice(0, 10)}. Please take a moment to
+            review the following important information from today's consultation and reach out to us at +12345678910 if
+            you have any questions.
+          </p>
+          <p>{soapSummary}</p>
+
+          <ExportPaneHeader content='Medications' type='SUB_SECTION' />
+
+          <CategorySummary results={filteredResults} category='MEDICATION' />
+
+          <ExportPaneHeader content='Anatomy' type='SUB_SECTION' />
+          <CategorySummary results={filteredResults} category='ANATOMY' />
+
+          <ExportPaneHeader content='Medical Conditions' type='SUB_SECTION' />
+          <CategorySummary results={filteredResults} category='MEDICAL_CONDITION' />
+
+          <ExportPaneHeader content='Tests, Treatments, Procedures' type='SUB_SECTION' />
+          <CategorySummary results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
+
+          <ExportPaneHeader content='Visit Transcription' type='SECTION' />
           <div className={s.transcript}>
-            {(transcriptChunks || []).map((t, i) => (
+            <p>Below is the transcription for your visit -</p>
+            {(transcriptChunks ? transcriptChunks : []).map((t, i) => (
               <p key={i}>{t.text}</p>
             ))}
-          </div>
-
-          <h2>Medications</h2>
-          <div className={s.meds}>
-            <ResultTable results={filteredResults} category='MEDICATION' />
-          </div>
-
-          <h2>Medical Conditions</h2>
-          <div className={s.conds}>
-            <ResultTable results={filteredResults} category='MEDICAL_CONDITION' />
-          </div>
-
-          <h2>Tests, Treatments, Procedures</h2>
-          <div className={s.tests}>
-            <ResultTable results={filteredResults} category='TEST_TREATMENT_PROCEDURE' />
           </div>
         </main>
       </div>
