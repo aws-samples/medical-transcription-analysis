@@ -9,6 +9,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from './DeleteIcon/DeleteIcon';
 import highlightClasses from '../transcriptHighlights';
 import { STAGE_TRANSCRIBING, CONFIDENCE_THRESHOLD } from '../consts';
+import { getSelectedConcept } from '../utils/conceptUtils';
 
 const CATEGORIES = [
   'MEDICAL_CONDITION',
@@ -93,7 +94,7 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick, 
   }
 
   let concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
-  const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
+  const selectedConcept = getSelectedConcept(result);
   const borderColor = concepts[0].Score < CONFIDENCE_THRESHOLD ? '#B30000 ' : 'grey';
 
   return (

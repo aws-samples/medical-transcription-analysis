@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 
 import s from './ExportPane.module.css';
 import cs from 'clsx';
-import { conceptScoreSort } from '../utils/concept-sort';
 import ExportPaneHeader from './ExportPaneHeader/ExportPaneHeader';
+import { getSelectedConcept } from '../utils/conceptUtils';
 
 const getFormattedResult = (category, filteredResults) => {
   const isMedicalCondition = category === 'MEDICAL_CONDITION';
@@ -19,11 +19,8 @@ const getFormattedResult = (category, filteredResults) => {
         const concepts = result[conceptProperty];
 
         if (!concepts) return text;
-
-        // this should really be based on which concept was picked in the dropdown, but we don't have that state yet
-        const chosenConcept = conceptScoreSort(concepts)[0];
-
-        return `${text}|${chosenConcept.Code}|${chosenConcept.Description}`;
+        const selectedConcept = getSelectedConcept(result);
+        return `${text}|${selectedConcept.Code}|${selectedConcept.Description}`;
       })
       .join('\n');
   }
