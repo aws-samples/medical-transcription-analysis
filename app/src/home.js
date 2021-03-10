@@ -205,23 +205,22 @@ export default function Home() {
   };
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-    let addSpeakerLabel = true;
-    let text = '';
-    Alternatives[0].Items.forEach((item) => {
-      if (item.Type === 'speaker-change') {
-        addSpeakerLabel = true;
-      } else if (addSpeakerLabel && 'Speaker' in item) {
-        text += '\nSpeaker ' + (parseInt(item.Speaker) + 1).toString() + ':\n';
-        addSpeakerLabel = false;
-      }
-      if (item.Type === 'pronunciation') {
-        text += item.Content + ' ';
-      }
-      if (item.Type === 'punctuation') {
-        text += item.Content;
-      }
-    });
+    const [text] = Alternatives[0].Items.reduce(
+      ([prevText, prevAddSpeakerLabel], item) => {
+        const isSpeakerChange = item.Type === 'speaker-change';
+        const shouldAddSpeakerLabel = !isSpeakerChange && prevAddSpeakerLabel && 'Speaker' in item;
+        const isPronunciation = item.Type === 'pronunciation';
+        const isPunctuation = item.Type === 'punctuation';
+        const speakerLabel = shouldAddSpeakerLabel ? `Speaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
+        const itemContent = isPronunciation || isPunctuation ? item.Content : '';
+        const spaceAtEnd = isPronunciation ? ' ' : '';
+        const text = `${prevText}${speakerLabel}${itemContent}${spaceAtEnd}`;
+        const addSpeakerLabel = isSpeakerChange || (shouldAddSpeakerLabel ? false : prevAddSpeakerLabel);
 
+        return [text, addSpeakerLabel];
+      },
+      ['', true],
+    );
     if (IsPartial) {
       setPartialTranscript(text);
     } else {
@@ -614,25 +613,23 @@ export default function Home() {
   }
 
   const onComprehendResultDelete = (r) => {
-    !r.isCustomEntity
-      ? setComprehendResults((prevResults) =>
-          prevResults.map((prevResult) => {
-            console.log('calling comprehend');
-            const index = prevResult.findIndex((result) => result.id === r.id);
-
-            if (index === -1) return prevResult;
-
-            return [...prevResult.slice(0, index), ...prevResult.slice(index + 1)];
-          }),
-        )
-      : setComprehendCustomEntities((prevEntities) =>
+    r.isCustomEntity
+      ? setComprehendCustomEntities((prevEntities) =>
           prevEntities.map((prevEntity) => {
-            console.log('calling custom');
             const index = prevEntity.findIndex((entity) => entity.id === r.id);
 
             if (index === -1) return prevEntity;
 
             return [...prevEntity.slice(0, index), ...prevEntity.slice(index + 1)];
+          }),
+        )
+      : setComprehendResults((prevResults) =>
+          prevResults.map((prevResult) => {
+            const index = prevResult.findIndex((result) => result.id === r.id);
+
+            if (index === -1) return prevResult;
+
+            return [...prevResult.slice(0, index), ...prevResult.slice(index + 1)];
           }),
         );
   };
