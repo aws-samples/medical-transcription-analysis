@@ -4,7 +4,6 @@ import s from './home.module.css';
 import Header from './components/Header';
 import DebugMenu from './components/DebugMenu';
 import MicrophoneIcon from './components/MicrophoneIcon';
-
 import getMicAudioStream from './audio-utils/getMicAudioStream';
 import streamAudioToWebSocket from './audio-utils/streamAudioToWebsocket';
 import useComprehension from './useComprehension';
@@ -12,8 +11,10 @@ import TranscriptPane from './components/TranscriptPane';
 import SampleSelector from './components/SampleSelector';
 import AnalysisPane from './components/AnalysisPane';
 import ExportPane from './components/ExportPane';
+import SOAPReviewPane from './components/SOAPReviewPane';
+import generateSOAPSummary from './utils/soapSummary';
 
-import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_SUMMARIZE, STAGE_EXPORT } from './consts';
+import { STAGE_HOME, STAGE_TRANSCRIBED, STAGE_TRANSCRIBING, STAGE_EXPORT, STAGE_SOAP_REVIEW } from './consts';
 
 import sampleAudio from './sampleAudio';
 import getCredentials from './audio-utils/getTranscribeCredentials';
@@ -126,8 +127,8 @@ export default function Home() {
 
   const [activeSample, setActiveSample] = useState(null);
 
-  const [showAnalysis, setShowAnalysis] = useState(false);
   const [showExport, setShowExport] = useState(false);
+  const [showSOAPReview, setShowSOAPReview] = useState(false);
 
   const playSample = useCallback((sample) => {
     setActiveSample(sample);
@@ -150,7 +151,6 @@ export default function Home() {
   const [excludedItems, setExcludedItems] = useState([]);
   const [transcribeCredential, setTranscribeCredential] = useState(null);
   const [comprehendCustomEntities, setComprehendCustomEntities] = useState([]);
-
   const [timeStampStart, setTimeStampStart] = useState(0);
   const [timeStampEnd, setTimeStampEnd] = useState(0);
   const [sessionName, setSessionName] = useState('');
@@ -173,6 +173,18 @@ export default function Home() {
   const [HealthCareProfessionals, setHealthCareProfessionals] = useState([]);
   const [healthCareProfessionalIdDisabled] = useState(false);
   const [patientIdDisabled] = useState(false);
+  const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
+  const [soapSummary, setSOAPSummary] = useState(() => generateSOAPSummary([].concat(...comprehendResults)));
+
+  useEffect(() => {
+    if (!showSOAPReview) {
+      setSOAPSummary(generateSOAPSummary([].concat(...comprehendResults)));
+    }
+  }, [comprehendResults, showSOAPReview]);
+
+  function updateSOAPSummary(e) {
+    setSOAPSummary(e.target.value);
+  }
 
   var sessionId = '';
 
@@ -193,22 +205,23 @@ export default function Home() {
   };
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-    const [text] = Alternatives[0].Items.reduce(
-      ([prevText, prevAddSpeakerLabel], item) => {
-        const isSpeakerChange = item.Type === 'speaker-change';
-        const shouldAddSpeakerLabel = !isSpeakerChange && prevAddSpeakerLabel && 'Speaker' in item;
-        const isPronunciation = item.Type === 'pronunciation';
-        const isPunctuation = item.Type === 'punctuation';
-        const speakerLabel = shouldAddSpeakerLabel ? `Speaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
-        const itemContent = isPronunciation || isPunctuation ? item.Content : '';
-        const spaceAtEnd = isPronunciation ? ' ' : '';
-        const text = `${prevText}${speakerLabel}${itemContent}${spaceAtEnd}`;
-        const addSpeakerLabel = isSpeakerChange || (shouldAddSpeakerLabel ? false : prevAddSpeakerLabel);
+    let addSpeakerLabel = true;
+    let text = '';
+    Alternatives[0].Items.forEach((item) => {
+      if (item.Type === 'speaker-change') {
+        addSpeakerLabel = true;
+      } else if (addSpeakerLabel && 'Speaker' in item) {
+        text += '\nSpeaker ' + (parseInt(item.Speaker) + 1).toString() + ':\n';
+        addSpeakerLabel = false;
+      }
+      if (item.Type === 'pronunciation') {
+        text += item.Content + ' ';
+      }
+      if (item.Type === 'punctuation') {
+        text += item.Content;
+      }
+    });
 
-        return [text, addSpeakerLabel];
-      },
-      ['', true],
-    );
     if (IsPartial) {
       setPartialTranscript(text);
     } else {
@@ -266,14 +279,12 @@ export default function Home() {
     };
   }, [addTranscriptChunk, audioStream, offlineEnabled]);
 
-  const [comprehendResults, setComprehendResults] = useComprehension(transcripts || [], transcribeCredential);
-
   const reset = useCallback(() => {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
@@ -284,8 +295,8 @@ export default function Home() {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     setComprehendResults([]);
@@ -297,8 +308,8 @@ export default function Home() {
     setTranscripts(false);
     setPartialTranscript('');
     setActiveSample(null);
-    setShowAnalysis(false);
     setShowExport(false);
+    setShowSOAPReview(false);
     setExcludedItems([]);
     setShowForm(false);
     history.push('/search');
@@ -590,15 +601,14 @@ export default function Home() {
   );
 
   let stage;
-
   if (!transcripts) {
     stage = STAGE_HOME;
   } else if (audioStream) {
     stage = STAGE_TRANSCRIBING;
-  } else if (showAnalysis) {
+  } else if (!showSOAPReview) {
     stage = STAGE_TRANSCRIBED;
   } else if (!showExport) {
-    stage = STAGE_SUMMARIZE;
+    stage = STAGE_SOAP_REVIEW;
   } else {
     stage = STAGE_EXPORT;
   }
@@ -664,6 +674,8 @@ export default function Home() {
         stage={stage}
         onSearch={toSearch}
         onHome={toHome}
+        onShowSOAPReview={() => setShowSOAPReview(true)}
+        onHideSOAPReview={() => setShowSOAPReview(false)}
         onShowExport={() => setShowExport(true)}
         onHideExport={() => setShowExport(false)}
         onReset={reset}
@@ -692,7 +704,8 @@ export default function Home() {
           resultChunks={comprehendResults}
           partialTranscript={partialTranscript}
           inProgress={audioStream}
-          enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE}
+          enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW}
+          visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           handleTranscriptChange={onTranscriptChange}
         />
 
@@ -701,16 +714,23 @@ export default function Home() {
           resultChunks={[...comprehendCustomEntities, ...comprehendResults]}
           excludedItems={excludedItems}
           onToggleItem={toggleResultItemVisibility}
-          visible={stage === STAGE_SUMMARIZE || stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
+          visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           onResultDelete={onComprehendResultDelete}
           onResultAdd={onComprehendResultAddition}
           onSelectedConceptChange={onSelectedConceptChange}
+        />
+
+        <SOAPReviewPane
+          visible={stage === STAGE_SOAP_REVIEW}
+          onInputChange={updateSOAPSummary}
+          inputText={soapSummary}
         />
 
         <ExportPane
           transcriptChunks={transcripts}
           resultChunks={comprehendResults}
           excludedItems={excludedItems}
+          soapSummary={soapSummary}
           visible={stage === STAGE_EXPORT}
         />
 
@@ -809,9 +829,7 @@ export default function Home() {
                       disabled={healthCareProfessionalIdDisabled}
                       value={healthCareProfessionalId}
                       onChange={(e) => {
-                        console.log(e.target.value);
                         setHealthCareProfessionalId(e.target.value);
-                        console.log(healthCareProfessionalName);
                       }}
                       onClick={listHealthCareProfessionals}
                     >
@@ -1002,7 +1020,7 @@ export default function Home() {
         )}
       </div>
 
-      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SUMMARIZE) && (
+      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW) && (
         <Button className={s.SaveButton} onClick={handleSave} id={'i' + stage}>
           Save Session
         </Button>

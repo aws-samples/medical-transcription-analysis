@@ -19,7 +19,8 @@
   transition-delay: 0ms;
 }
 
-.left, .right {
+.left,
+.right {
   flex: 1 1 0px;
   display: flex;
   flex-direction: row;
@@ -62,13 +63,12 @@
   opacity: 1;
 }
 
-
 .left button {
   position: relative;
   border-radius: 0.5em;
   padding: 0.5em 1em;
   font-size: medium;
-  margin-left: .5em;
+  margin-left: 0.5em;
   background: #ff9900;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   color: white;
@@ -79,20 +79,21 @@
   border-radius: 0.5em;
   padding: 0.5em 1em;
   font-size: medium;
-  margin-left: .5em;
+  margin-left: 0.5em;
   background: #ff9900;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
   color: white;
 }
 
-.right .search button{
+.right .search button {
   color: white;
 }
 
-.right button:disabled{
+.right button:disabled {
   position: relative;
   background: white;
   color: gray;
+  cursor: text;
 }
 
 @media print {
