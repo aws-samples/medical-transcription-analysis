@@ -5,7 +5,7 @@ import { v4 as uuid } from 'uuid';
 import detectEntities from './ai/detectEntities';
 import inferICD10CM from './ai/inferICD10CM';
 import inferRxNorm from './ai/inferRxNorm';
-import { sortByScoreDescending } from './utils/sortByScoreDescending';
+import { sortByScoreDescending } from './utils/conceptUtils';
 
 import md5 from 'tiny-hashes/md5';
 
