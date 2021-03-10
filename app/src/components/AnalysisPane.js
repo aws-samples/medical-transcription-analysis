@@ -8,12 +8,7 @@ import { VStack, Box, Flex, IconButton, Select, Input, FormControl, VisuallyHidd
 import { AddIcon } from '@chakra-ui/icons';
 import { DeleteIcon } from './DeleteIcon/DeleteIcon';
 import highlightClasses from '../transcriptHighlights';
-<<<<<<< HEAD
 import { STAGE_TRANSCRIBING, CONFIDENCE_THRESHOLD } from '../consts';
-=======
-import { STAGE_TRANSCRIBING } from '../consts';
-import { conceptScoreSort } from '../utils/concept-sort';
->>>>>>> Content grammatical fixes and refactoring
 
 const CATEGORIES = [
   'MEDICAL_CONDITION',
@@ -97,10 +92,9 @@ function ResultRow({ result, stage, onToggleItem, excludedItems, onDeleteClick, 
     );
   }
 
-  const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
   let concepts = [...(result.ICD10CMConcepts ? result.ICD10CMConcepts : result.RxNormConcepts)];
-  conceptScoreSort(concepts);
-  const borderColor = concepts[0].Score < confidenceThreshold ? '#B30000 ' : 'grey';
+  const selectedConcept = concepts.find((concept) => concept.Code === result.selectedConceptCode);
+  const borderColor = concepts[0].Score < CONFIDENCE_THRESHOLD ? '#B30000 ' : 'grey';
 
   return (
     <Flex width='100%' alignItems='center'>

@@ -714,13 +714,10 @@ export default function Home() {
           resultChunks={[...comprehendCustomEntities, ...comprehendResults]}
           excludedItems={excludedItems}
           onToggleItem={toggleResultItemVisibility}
-          visible={stage === STAGE_SUMMARIZE || stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
-          onResultDelete={onComprehendResultDelete}
-          onResultAdd={onComprehendResultAddition}
-          onSelectedConceptChange={onSelectedConceptChange}
           visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           onResultDelete={onComprehendResultDelete}
           onResultAdd={onComprehendResultAddition}
+          onSelectedConceptChange={onSelectedConceptChange}
         />
 
         <SOAPReviewPane
