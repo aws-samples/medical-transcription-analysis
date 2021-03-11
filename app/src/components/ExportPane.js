@@ -7,6 +7,7 @@ import ExportPaneHeader from './ExportPaneHeader/ExportPaneHeader';
 import { getSelectedConcept } from '../utils/conceptUtils';
 import { SupportedLanguagesMenu } from './SupportedLanguagesMenu/SupportedLanguagesMenu';
 import { Flex, Heading, Spinner } from '@chakra-ui/react';
+import displayNames from '../displayNames';
 
 const getFormattedCategorySummary = (category, filteredResults) => {
   const isMedicalCondition = category === 'MEDICAL_CONDITION';
@@ -57,13 +58,6 @@ const getFormattedCategorySummaries = (results) => {
   }));
 };
 
-const SUMMARY_CATEGORY_HEADERS = {
-  MEDICATION: 'Medications',
-  ANATOMY: 'Anatomy',
-  MEDICAL_CONDITION: 'Medical Conditions',
-  TEST_TREATMENT_PROCEDURE: 'Tests, Treatments, Procedures',
-};
-
 const getFilteredResults = (resultChunks, excludedItems) =>
   [].concat(...resultChunks).filter((x) => !excludedItems.includes(x.id));
 
@@ -91,7 +85,7 @@ const getExportSections = ({ resultChunks, excludedItems, soapSummary, transcrip
     ...formattedCategorySummaries.map(({ category, summary }) => ({
       header: {
         type: 'SUB_SECTION',
-        content: SUMMARY_CATEGORY_HEADERS[category],
+        content: displayNames[category],
       },
       content: [summary],
     })),
