@@ -2,7 +2,6 @@ import React from 'react';
 
 import cs from 'clsx';
 import s from './Header.module.css';
-import awsmllogo from '../img/logo_awsml_01.svg';
 import { Link } from '@chakra-ui/react';
 import {
   STAGE_HOME,
@@ -42,10 +41,6 @@ export default function Header({
               Home
             </button>
           )}
-
-          <a href='https://aws.amazon.com/machine-learning/ '>
-            <img className={s.logo} src={awsmllogo} alt='AWS machine learning' />
-          </a>
         </div>
         <div className={s.headings}>
           <h1>Medical Transcription Analysis</h1>
