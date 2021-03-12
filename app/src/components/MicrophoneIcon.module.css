@@ -2,14 +2,13 @@
   --line-weight: 4px;
   font-size: var(--line-weight);
   --mic-size: 4em;
-  position: relative;
   height: calc(3 * var(--mic-size) + 3 * var(--line-weight));
   width: calc(3 * var(--mic-size));
   transition: all 500ms ease-in-out;
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 5%;
-  left: calc(50% - 450px);
+  bottom: 5%;
+  right: 52%;
   opacity: 0;
   pointer-events: none;
 }
@@ -89,9 +88,9 @@
   width: 32px;
   height: 32px;
   background: url(../img/icon_stop_01.svg);
-  top: 5%;
-  left: calc(50% - 520px);
-  transform: translateY(-50%);
+  bottom: 5%;
+  right: 51%;
+  transform: translateY(-80%);
   opacity: 0;
   pointer-events: none;
   transition: all 500ms ease-in-out;
