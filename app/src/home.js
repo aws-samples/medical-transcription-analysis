@@ -211,7 +211,7 @@ export default function Home() {
         const shouldAddSpeakerLabel = !isSpeakerChange && prevAddSpeakerLabel && 'Speaker' in item;
         const isPronunciation = item.Type === 'pronunciation';
         const isPunctuation = item.Type === 'punctuation';
-        const speakerLabel = shouldAddSpeakerLabel ? `Speaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
+        const speakerLabel = shouldAddSpeakerLabel ? `\nSpeaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
         const itemContent = isPronunciation || isPunctuation ? item.Content : '';
         const spaceAtEnd = isPronunciation ? ' ' : '';
         const text = `${prevText}${speakerLabel}${itemContent}${spaceAtEnd}`;
