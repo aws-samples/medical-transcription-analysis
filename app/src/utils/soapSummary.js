@@ -64,6 +64,11 @@ export default function generateSOAPSummary(results) {
 
   summary += '\n\nSubjective:-\n';
 
+  summary += 'Chief Complaint(s):\n';
+  if (presentDiagnosedConditions.length > 0)
+    summary +=
+      'Patient presents with ' + presentDiagnosedConditions[presentDiagnosedConditions.length - 1].Text + '.\n';
+
   summary += 'History of Patient Illness(s):\n';
   if (presentDiagnosedConditions.length > 0)
     summary += 'Patient is here for ' + [...new Set(presentDiagnosedConditions.map((r) => r.Text))].join(', ') + '. ';
