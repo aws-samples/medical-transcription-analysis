@@ -102,21 +102,53 @@ const getExportSections = ({ resultChunks, excludedItems, soapSummary, transcrip
   ];
 };
 
+const SPACE_CHARACTER_CODE = 32;
+
+// https://stackoverflow.com/questions/57068850/how-to-split-a-string-into-chunks-of-a-particular-byte-size
+const chunkByByteLimit = (s, limit) => {
+  const result = [];
+
+  const decoder = new TextDecoder('utf-8');
+  let buf = new TextEncoder('utf-8').encode(s);
+
+  while (buf.length) {
+    let i = buf.lastIndexOf(SPACE_CHARACTER_CODE, limit + 1);
+    // If no space found, try forward search
+    if (i < 0) i = buf.indexOf(SPACE_CHARACTER_CODE, limit);
+    // If there's no space at all, take all
+    if (i < 0) i = buf.length;
+    // This is a safe cut-off point; never half-way a multi-byte
+    result.push(decoder.decode(buf.slice(0, i)));
+    buf = buf.slice(i + 1); // Skip space (if any)
+  }
+
+  return result;
+};
+
+const MAX_TRANSLATION_BYTES = 5000;
+
 const translateSection = (section, lang, jwtToken) => {
-  const translationPromises = [section.header.content, ...section.content].map((text) =>
-    text.trim() === ''
-      ? Promise.resolve(text)
-      : API.get('MTADemoAPI', 'getTranscriptionTranslation', {
-          headers: {
-            Authorization: `Bearer ${jwtToken}`,
-          },
-          response: true,
-          queryStringParameters: {
-            TargetLanguageCode: lang,
-            TranslationSourceText: text,
-          },
-        }).then((response) => response.data.translate.TranslatedText),
-  );
+  const translationPromises = [section.header.content, ...section.content].map((text) => {
+    if (text.trim() === '') return Promise.resolve(text);
+
+    // break into chunks by Amazon Translate byte limit and combine responses
+    const chunks = chunkByByteLimit(text, MAX_TRANSLATION_BYTES);
+
+    const translatedChunkPromises = chunks.map((chunk) =>
+      API.get('MTADemoAPI', 'getTranscriptionTranslation', {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+        response: true,
+        queryStringParameters: {
+          TargetLanguageCode: lang,
+          TranslationSourceText: chunk,
+        },
+      }).then((response) => response.data.translate.TranslatedText),
+    );
+
+    return Promise.all(translatedChunkPromises).then((translatedChunks) => translatedChunks.join(' '));
+  });
 
   return Promise.all(translationPromises).then(([headerContent, ...content]) => ({
     header: {
