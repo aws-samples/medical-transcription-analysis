@@ -225,6 +225,16 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
       </div>
 
       <div className={s.actions}>
+        <button
+          className={s.ehr}
+          onClick={() =>
+            alert(
+              'You can take the transcription, detected entities, and generated summaries and integrate them into your EHR system, where you can continue editing or commit it to the patient record.',
+            )
+          }
+        >
+          Export to EHR system
+        </button>
         <button className={s.pdf} onClick={() => window.print()}>
           Export to PDF
         </button>
