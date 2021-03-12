@@ -192,8 +192,8 @@ export default function ExportPane({ transcriptChunks, resultChunks, visible, ex
   return (
     <div className={cs(s.base, visible && s.visible)}>
       <div className={s.pageContainer}>
-        <Flex justifyContent='space-between' alignItems='center' bg='#ececec' px={4} py={2}>
-          <Heading as='div' size='md'>
+        <Flex alignItems='center' p={4}>
+          <Heading as='div' size='md' mr={4}>
             Translate Summary
           </Heading>
           <SupportedLanguagesMenu currentLang={lang} onLangClick={setLang} disabled={isLoadingTranslation} />
