@@ -2,9 +2,8 @@ import React from 'react';
 
 import cs from 'clsx';
 import s from './Header.module.css';
-import { Link } from '@chakra-ui/react';
+import { Link, Heading } from '@chakra-ui/react';
 import {
-  STAGE_HOME,
   STAGE_TRANSCRIBING,
   STAGE_TRANSCRIBED,
   STAGE_EXPORT,
@@ -35,15 +34,9 @@ export default function Header({
     <>
       <header className={cs(s.base, s.visible)}>
         <div className={s.left}>
-          {stage !== STAGE_HOME && stage !== STAGE_EXPORT && stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH && (
-            <button onClick={onHome}>
-              <span />
-              Home
-            </button>
-          )}
-          <h1>
+          <Heading as='h2' size='md'>
             <Link onClick={onHome}>Medical Transcription Analysis</Link>
-          </h1>
+          </Heading>
         </div>
         <div className={s.right}>
           {stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH && (
