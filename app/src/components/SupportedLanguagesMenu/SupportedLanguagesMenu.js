@@ -1,6 +1,6 @@
 import { Menu, MenuButton, Button, MenuList, MenuItem } from '@chakra-ui/react';
 import { ChevronDownIcon } from '@chakra-ui/icons';
-import { SUPPORTED_TRANSLATION_CODES, LANGUAGE_NAMES } from './supportedTranslationLanguages';
+import { ORDERED_SUPPORTED_TRANSLATION_CODES, LANGUAGE_NAMES } from './supportedTranslationLanguages';
 
 export const SupportedLanguagesMenu = ({ currentLang, onLangClick, disabled }) => {
   const currentLanguageName = LANGUAGE_NAMES[currentLang];
@@ -19,7 +19,7 @@ export const SupportedLanguagesMenu = ({ currentLang, onLangClick, disabled }) =
         {currentLanguageName}
       </MenuButton>
       <MenuList maxHeight='400px' overflow='auto'>
-        {SUPPORTED_TRANSLATION_CODES.map((code) => (
+        {ORDERED_SUPPORTED_TRANSLATION_CODES.map((code) => (
           <MenuItem key={code} onClick={() => onLangClick(code)} fontSize='1rem'>
             {LANGUAGE_NAMES[code]}
           </MenuItem>

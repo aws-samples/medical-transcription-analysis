@@ -1,4 +1,5 @@
-export const SUPPORTED_TRANSLATION_CODES = [
+// alphabetically sorted except for english and spanish (mexico) for emphasis
+export const ORDERED_SUPPORTED_TRANSLATION_CODES = [
   'en',
   'es-MX',
   'af',
