@@ -11,7 +11,7 @@ export const SupportedLanguagesMenu = ({ currentLang, onLangClick, disabled }) =
         as={Button}
         rightIcon={<ChevronDownIcon />}
         disabled={disabled}
-        ariaLabel={`Translate summary from ${currentLanguageName}`}
+        aria-label={`Translate summary from ${currentLanguageName}`}
         border='1px solid black'
         borderRadius='0'
         bg='#fff'

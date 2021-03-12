@@ -48,7 +48,6 @@ export const ORDERED_SUPPORTED_TRANSLATION_CODES = [
   'mt',
   'mn',
   'no',
-  'fa',
   'ps',
   'pl',
   'pt',
