@@ -41,9 +41,9 @@ export default function Header({
               Home
             </button>
           )}
-        </div>
-        <div className={s.headings}>
-          <h1>Medical Transcription Analysis</h1>
+          <h1>
+            <Link onClick={onHome}>Medical Transcription Analysis</Link>
+          </h1>
         </div>
         <div className={s.right}>
           {stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH && (
