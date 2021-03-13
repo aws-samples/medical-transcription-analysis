@@ -96,7 +96,9 @@ const getExportSections = ({ resultChunks, excludedItems, soapSummary, transcrip
       },
       content: [
         'Below is the transcription for your visit',
-        ...(transcriptChunks ? transcriptChunks : []).map((chunk) => chunk.text),
+        ...(transcriptChunks ? transcriptChunks : []).map(({ speaker, text }) =>
+          speaker ? `${speaker}\n${text}` : text,
+        ),
       ],
     },
   ];

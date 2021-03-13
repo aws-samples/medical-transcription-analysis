@@ -3,7 +3,7 @@ import s from './TranscriptLine.module.css';
 import cs from 'clsx';
 
 import classMap from '../transcriptHighlights';
-import { Editable, EditableInput } from '@chakra-ui/react';
+import { Editable, EditableInput, Box } from '@chakra-ui/react';
 
 // Reduces results down to a single set of non-overlapping ranges, each with a list of applicable results
 function combineSegments(results) {
@@ -106,9 +106,12 @@ export default function TranscriptLine({
           onSubmit={(nextValue) => {
             handleTranscriptChange(nextValue.trim());
           }}
+          mb={8}
         >
           {({ isEditing, onEdit }) => (
             <>
+              {chunk.speaker && <div>{chunk.speaker}</div>}
+
               <EditableInput />
               {!isEditing && (
                 <p className={s.base} onClick={onEdit}>
@@ -125,13 +128,15 @@ export default function TranscriptLine({
       )}
 
       {!enableEditing && (
-        <p className={s.base}>
+        <Box as='p' className={s.base} mb={8}>
+          {chunk.speaker && <div>{chunk.speaker}</div>}
+
           {ranges.map((r, i) => (
             <span key={i} className={cs(r.matches.map((x) => classMap[x.Category]))}>
               {r.text}
             </span>
           ))}
-        </p>
+        </Box>
       )}
     </React.Fragment>
   );
