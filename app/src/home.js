@@ -205,27 +205,49 @@ export default function Home() {
   };
 
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
-    const [text] = Alternatives[0].Items.reduce(
-      ([prevText, prevAddSpeakerLabel], item) => {
-        const isSpeakerChange = item.Type === 'speaker-change';
-        const shouldAddSpeakerLabel = !isSpeakerChange && prevAddSpeakerLabel && 'Speaker' in item;
-        const isPronunciation = item.Type === 'pronunciation';
-        const isPunctuation = item.Type === 'punctuation';
-        const speakerLabel = shouldAddSpeakerLabel ? `\nSpeaker ${(parseInt(item.Speaker) + 1).toString()}\n` : '';
-        const itemContent = isPronunciation || isPunctuation ? item.Content : '';
-        const spaceAtEnd = isPronunciation ? ' ' : '';
-        const text = `${prevText}${speakerLabel}${itemContent}${spaceAtEnd}`;
-        const addSpeakerLabel = isSpeakerChange || (shouldAddSpeakerLabel ? false : prevAddSpeakerLabel);
+    const items = Alternatives[0].Items;
 
-        return [text, addSpeakerLabel];
-      },
-      ['', true],
-    );
+    // create lines from chunk based on when new speaker starts talking
+    const itemsForLines = [];
+    let currentLineItems = [];
+
+    items.forEach((item, i) => {
+      const isNewLine = !item.Type === 'speaker-change' && items[i - 1].Type === 'speakerChange' && 'Speaker' in item;
+
+      if (isNewLine) {
+        itemsForLines.push(currentLineItems);
+        currentLineItems = [];
+      }
+
+      currentLineItems.push(item);
+    });
+
+    itemsForLines.push(currentLineItems);
+
+    const lines = itemsForLines.map((itemsForLine) => {
+      const text = itemsForLine
+        .filter((item) => item.Content)
+        .map((item, i) => `${i !== 0 && item.Type === 'pronunciation' ? ' ' : ''}${item.Content}`)
+        .filter((text) => text.trim !== '')
+        .join('');
+
+      const line = {
+        text,
+        time: StartTime,
+      };
+
+      const itemWithSpeaker = itemsForLine.find((item) => 'Speaker' in item);
+
+      if (itemWithSpeaker) line.speaker = `Speaker ${parseInt(itemWithSpeaker.Speaker) + 1}`;
+
+      return line;
+    });
+
     if (IsPartial) {
-      setPartialTranscript(text);
+      setPartialTranscript(lines.map((line) => `${line.speaker ? `${line.speaker}\n` : ''}${line.text}`).join('\n\n'));
     } else {
       setPartialTranscript(null);
-      setTranscripts((t) => [...t, { text, time: StartTime }]);
+      setTranscripts((t) => [...t, ...lines]);
     }
   }, []);
 
