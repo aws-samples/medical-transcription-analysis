@@ -16,6 +16,8 @@ const getFormattedCategorySummary = (category, filteredResults) => {
   if (isMedicalCondition || isMedication) {
     const conceptProperty = isMedicalCondition ? 'ICD10CMConcepts' : 'RxNormConcepts';
 
+    const uniqueSelectedConceptCodes = [];
+
     return filteredResults
       .map((result) => {
         const text = result.Text;
@@ -24,8 +26,16 @@ const getFormattedCategorySummary = (category, filteredResults) => {
 
         if (!concepts) return text;
         const selectedConcept = getSelectedConcept(result);
+
+        if (
+          uniqueSelectedConceptCodes.some((concept) => concept.Code === selectedConcept.Code && concept.text === text)
+        )
+          return null;
+        uniqueSelectedConceptCodes.push({ Code: selectedConcept.Code, text: text });
+
         return `${text}|${selectedConcept.Code}|${selectedConcept.Description}`;
       })
+      .filter((result) => result !== null)
       .join('\n');
   }
 
@@ -36,7 +46,7 @@ const getFormattedCategorySummary = (category, filteredResults) => {
     : 'N/A';
 };
 
-const SUMMARY_CATEGORIES = ['MEDICATION', 'ANATOMY', 'MEDICAL_CONDITION', 'TEST_TREATMENT_PROCEDURE'];
+const SUMMARY_CATEGORIES = ['MEDICATION', 'MEDICAL_CONDITION', 'TEST_TREATMENT_PROCEDURE'];
 const SUMMARY_CATEGORIES_SET = new Set(SUMMARY_CATEGORIES);
 
 const getFormattedCategorySummaries = (results) => {
