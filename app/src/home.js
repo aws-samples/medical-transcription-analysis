@@ -204,6 +204,19 @@ export default function Home() {
     });
   };
 
+  const onSpeakerChange = (i, value) => {
+    setTranscripts((t) => {
+      if (t[i].speaker === value) return t;
+
+      const newChunk = {
+        ...t[i],
+        speaker: value,
+      };
+
+      return [...t.slice(0, i), newChunk, ...t.slice(i + 1)];
+    });
+  };
+
   const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
     const items = Alternatives[0].Items;
 
@@ -726,6 +739,7 @@ export default function Home() {
           enableEditing={stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW}
           visible={stage === STAGE_TRANSCRIBING || stage === STAGE_TRANSCRIBED}
           handleTranscriptChange={onTranscriptChange}
+          onSpeakerChange={onSpeakerChange}
         />
 
         <AnalysisPane
