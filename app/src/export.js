@@ -29,11 +29,11 @@ export default function Export() {
       const result = await API.get(apiName, path, myInit);
       const transcribe = result['data']['transcribe'];
       const comprehend = result['data']['comprehend'];
-      const soap = result['data']['soap'];
+      const soapNotes = result['data']['soapNotes'];
 
       setTranscribeText(transcribe.split('.'));
       setComprehendDict(JSON.parse(comprehend));
-      setSoapNotes(soap.split('\n'));
+      setSoapNotes(soapNotes.split('\n'));
       setUpdated(true);
     }
     loadS3Content(params.sid);

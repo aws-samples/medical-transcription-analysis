@@ -490,7 +490,7 @@ export default function Home() {
     });
     const transcribeAddress = `transcribe-medical-output/${sessionId}/${sessionId}-session-transcribe.txt`;
     const comprehendAddress = `comprehend-medical-output/${sessionId}/${sessionId}-session-comprehend.json`;
-    const soapNotesAddress = `soap-medical-output/${sessionId}/${sessionId}-session-soap.txt`;
+    const soapNotesAddress = `soap-notes-medical-output/${sessionId}/${sessionId}-session-soap.txt`;
 
     var dict = {
       Session: {
