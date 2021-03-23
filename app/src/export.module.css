@@ -4,6 +4,7 @@
   position: relative;
   height: auto;
   min-height: 100% !important;
+  text-align: left;
 }
 
 .container {
