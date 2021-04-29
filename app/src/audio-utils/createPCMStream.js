@@ -19,35 +19,37 @@ export default function createPCMStream(mediaStream, onClose) {
     input.connect(recorder);
   }
 
-  let recording = true, dataCallback, dataQueue = [];
+  let recording = true,
+    dataCallback,
+    dataQueue = [];
 
-  recorder.onaudioprocess = e => {
+  recorder.onaudioprocess = (e) => {
     if (recording) {
       const data = [e.inputBuffer.getChannelData(0), e.inputBuffer.getChannelData(1)];
 
       if (dataCallback) {
         dataCallback(data);
       } else {
-        dataQueue.push(data)
+        dataQueue.push(data);
       }
     }
-  }
+  };
 
   return {
     onData: (fn) => {
       dataCallback = fn;
-      dataQueue.forEach(x => fn(x));
+      dataQueue.forEach((x) => fn(x));
     },
     stop: () => {
       if (ctx.state === 'closed') return;
 
-      mediaStream.getAudioTracks().forEach(t => t.stop());
+      mediaStream.getAudioTracks().forEach((t) => t.stop());
 
       recorder.disconnect();
       input.disconnect();
       ctx.close();
       recording = false;
       onClose();
-    }
-  }
+    },
+  };
 }

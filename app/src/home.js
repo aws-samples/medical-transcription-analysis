@@ -217,9 +217,9 @@ export default function Home() {
     });
   };
 
-  const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime }) => {
+  const addTranscriptChunk = useCallback(({ Alternatives, IsPartial, StartTime, ChannelId }) => {
     const items = Alternatives[0].Items;
-
+    console.log(ChannelId);
     // create lines from chunk based on when new speaker starts talking
     const itemsForLines = [];
     let currentLineItems = [];
@@ -238,11 +238,14 @@ export default function Home() {
     itemsForLines.push(currentLineItems);
 
     const lines = itemsForLines.map((itemsForLine) => {
-      const text = itemsForLine
-        .filter((item) => item.Content)
-        .map((item, i) => `${i !== 0 && item.Type === 'pronunciation' ? ' ' : ''}${item.Content}`)
-        .filter((text) => text.trim !== '')
-        .join('');
+      const text =
+        ChannelId.replace('ch_', 'Channel ') +
+        ': ' +
+        itemsForLine
+          .filter((item) => item.Content)
+          .map((item, i) => `${i !== 0 && item.Type === 'pronunciation' ? ' ' : ''}${item.Content}`)
+          .filter((text) => text.trim !== '')
+          .join('');
 
       const line = {
         text,
@@ -260,6 +263,7 @@ export default function Home() {
       setPartialTranscript(lines.map((line) => `${line.speaker ? `${line.speaker}\n` : ''}${line.text}`).join('\n\n'));
     } else {
       setPartialTranscript(null);
+
       setTranscripts((t) => [...t, ...lines]);
     }
   }, []);
