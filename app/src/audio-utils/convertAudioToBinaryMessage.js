@@ -8,7 +8,7 @@ export default function convertAudioToBinaryMessage(raw) {
         return;
 
     // downsample and convert the raw audio bytes to PCM
-    let downsampledBuffer = downsampleBuffer(raw);
+    let downsampledBuffer = raw.map((channelBuffer) => downsampleBuffer(channelBuffer));
     let pcmEncodedBuffer = pcmEncode(downsampledBuffer);
 
     // add the right JSON headers and structure to the message

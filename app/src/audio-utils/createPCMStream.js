@@ -3,7 +3,7 @@
 
 export default function createPCMStream(mediaStream, onClose) {
   const ctx = new AudioContext();
-  const recorder = ctx.createScriptProcessor(null, 1, 1);
+  const recorder = ctx.createScriptProcessor(null);
   recorder.connect(ctx.destination);
 
   const input = ctx.createMediaStreamSource(mediaStream);
@@ -23,7 +23,8 @@ export default function createPCMStream(mediaStream, onClose) {
 
   recorder.onaudioprocess = e => {
     if (recording) {
-      const data = e.inputBuffer.getChannelData(0);
+      const data = [e.inputBuffer.getChannelData(0), e.inputBuffer.getChannelData(1)];
+
       if (dataCallback) {
         dataCallback(data);
       } else {

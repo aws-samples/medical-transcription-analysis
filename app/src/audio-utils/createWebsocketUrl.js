@@ -25,7 +25,8 @@ export default function createWebsocketUrl(clientParams) {
             'sample-rate': 16000,
             'specialty': 'PRIMARYCARE',
             'type': 'CONVERSATION',
-            'show-speaker-label': true
+            'enable-channel-identification' :  true,
+            'number-of-channels' : 2,
           })
       }
     );

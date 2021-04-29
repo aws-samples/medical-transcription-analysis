@@ -1,5 +1,7 @@
 
-export default function pcmEncode(input) {
+export default function pcmEncode([left, right]) {
+    const input = interleave(left, right)
+
     var offset = 0;
     var buffer = new ArrayBuffer(input.length * 2);
     var view = new DataView(buffer);
@@ -8,4 +10,18 @@ export default function pcmEncode(input) {
         view.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
     }
     return buffer;
+}
+
+function interleave(leftChannel, rightChannel) {
+    var length = leftChannel.length + rightChannel.length;
+    var result = new Float32Array(length);
+
+    var inputIndex = 0;
+
+    for (var index = 0; index < length;) {
+        result[index++] = leftChannel[inputIndex];
+        result[index++] = rightChannel[inputIndex];
+        inputIndex++;
+    }
+    return result;
 }
