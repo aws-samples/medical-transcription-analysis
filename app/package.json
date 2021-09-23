@@ -33,7 +33,9 @@
     "lint": "eslint src --ext .ts,.tsx,.js,.jsx",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write **/*.{ts,tsx,js,json,css,scss,md}",
-    "fix": "yarn lint:fix && yarn format"
+    "fix": "yarn lint:fix && yarn format",
+    "prepare": "cd .. && husky install",
+    "postinstall": "yarn prepare"
   },
   "devDependencies": {
     "@aws-cdk/assert": "1.42.0",
