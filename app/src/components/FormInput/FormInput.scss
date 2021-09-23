@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import '../../styles/shared/index';
 
 $input-border-default: color(black, core);
@@ -18,7 +20,7 @@ $input-background-error: rgba($input-border-error, 0.05);
 .App .Login label {
   display: block;
   font-weight: 500;
-  line-height: (20/16);
+  line-height: math.div(20, 16);
   width: 100%;
   padding: 0px;
 }
@@ -31,7 +33,7 @@ $input-background-error: rgba($input-border-error, 0.05);
   padding: rem(6) 1.25em;
   font-weight: 500;
   width: 100%;
-  line-height: (20/16);
+  line-height: math.div(20, 16);
   margin: 8px 0;
   background-color: $input-background-default;
   border: 1px solid $input-border-default;
