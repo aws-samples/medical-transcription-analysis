@@ -1,5 +1,5 @@
 import * as cdk from '@aws-cdk/core';
-import { CustomResource, Duration } from '@aws-cdk/core';
+import { CustomResource, Duration, RemovalPolicy } from '@aws-cdk/core';
 import * as cr from '@aws-cdk/custom-resources';
 
 import { CloudFrontWebDistribution, OriginAccessIdentity, PriceClass, HttpVersion } from '@aws-cdk/aws-cloudfront';
@@ -57,6 +57,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
       cors: [corsRule],
       // blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, change back
       encryption: BucketEncryption.S3_MANAGED,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     // ### Client ###
@@ -66,6 +67,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
       cors: [corsRule],
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
       encryption: BucketEncryption.S3_MANAGED,
+      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const oai = new OriginAccessIdentity(this, 'mta-oai', {
@@ -263,6 +265,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
     // Dynamodb
     const TableSessions = new ddb.Table(this, 'TableSessions', {
       tableName: 'Sessions',
+      removalPolicy: RemovalPolicy.DESTROY,
       partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
       sortKey: { name: 'SessionId', type: ddb.AttributeType.STRING },
       serverSideEncryption: true,
@@ -276,12 +279,14 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
 
     const TablePatients = new ddb.Table(this, 'TablePatients', {
       tableName: 'Patients',
+      removalPolicy: RemovalPolicy.DESTROY,
       partitionKey: { name: 'PatientId', type: ddb.AttributeType.STRING },
       serverSideEncryption: true,
     });
 
     const TableHealthCareProfessionals = new ddb.Table(this, 'TableHealthCareProfessionals', {
       tableName: 'HealthCareProfessionals',
+      removalPolicy: RemovalPolicy.DESTROY,
       partitionKey: { name: 'HealthCareProfessionalId', type: ddb.AttributeType.STRING },
       serverSideEncryption: true,
     });
@@ -476,6 +481,7 @@ export class MedicalTranscriptionAnalysisStack extends cdk.Stack {
 
     const athenaProvider = new cr.Provider(this, this.resourceName('athenaProvider'), {
       onEventHandler: onEventAthenaLambda,
+
     });
 
     const athenaCustomResource = new CustomResource(this, this.resourceName('athenaCustomResource'), {
