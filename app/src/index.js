@@ -8,8 +8,6 @@ import Amplify from 'aws-amplify';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 
-require('dotenv').config();
-
 const region = process.env.REACT_APP_region;
 const APIGateway = process.env.REACT_APP_APIGateway;
 Amplify.configure({
