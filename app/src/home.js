@@ -1055,11 +1055,12 @@ export default function Home() {
         )}
       </div>
 
-      {(stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW) && (
+      {/* This hides the Save session button that appears after the transcription is complete */}
+      {/* {(stage === STAGE_TRANSCRIBED || stage === STAGE_SOAP_REVIEW) && (
         <Button className={s.SaveButton} onClick={handleSave} id={'i' + stage}>
           Save Session
         </Button>
-      )}
+      )} */}
     </div>
   );
 }

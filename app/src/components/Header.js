@@ -39,11 +39,12 @@ export default function Header({
           </Heading>
         </div>
         <div className={s.right}>
-          {stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH && (
+          {/* This hides the Search button in the header that allows to Search for saved sessions.
+           {stage !== STAGE_SEARCH_EXPORT && stage !== STAGE_SEARCH && (
             <button className={s.search} onClick={onSearch}>
               Search
             </button>
-          )}
+          )} */}
           {stage === STAGE_SEARCH && (
             <button onClick={onHome}>
               <span />
